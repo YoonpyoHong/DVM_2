@@ -11,9 +11,6 @@ public class Main {
 
 	private static void testCardReader() {
 		CardReader cardReader = new CardReader();
-		cardReader.show();
-		System.out.println(cardReader.checkCardValidity("0000-0000-0000-0000"));
-		System.out.println(cardReader.checkCardValidity("1234-4567-3452-1262"));
 	}
 
 	private static void testVerificationManager() {

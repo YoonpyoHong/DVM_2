@@ -21,16 +21,20 @@ public class CardReader {
         Scanner in = new Scanner(inputStream);
         cards = new HashMap<>();
         while (in.hasNext()) {
-            String[] argv = in.nextLine().split(" ", 2);
-            cards.put(argv[0], new Card(argv[0], Long.parseLong(argv[1])));
+            String[] argv = in.nextLine().split(" ", 3);
+            cards.put(argv[0], new Card(argv[0], Integer.parseInt(argv[1]), Long.parseLong(argv[2])));
         }
     }
 
-    public Boolean checkCardValidity(String card_num) {
-        return cards.containsKey(card_num);
+    public boolean checkCardValidity(String cardNum, int cardPwd) {
+        Card card = cards.get(cardNum);
+        if (card == null) {
+            return false;
+        }
+        return card.getCardPwd() == cardPwd;
     }
 
-    public void show() {
-        cards.forEach((key, value) -> System.out.println(value.getCardNum() + " " + value.getMoney()));
+    public Card getCardInfo(String cardNum) {
+        return cards.get(cardNum);
     }
 }
