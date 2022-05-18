@@ -1,9 +1,7 @@
 package domain.payment;
 
-import java.util.*;
-
 public class Card {
-    private String card_num;
+    private final String card_num;
     private long money;
 
     public Card(String card_num, long money) {
@@ -21,5 +19,9 @@ public class Card {
 
     public long getMoney() {
         return money;
+    }
+
+    public void setMoney(long money) {
+        this.money = money;
     }
 }
