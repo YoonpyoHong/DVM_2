@@ -2,7 +2,6 @@
 
 - [ ] Administrator.java
 - [ ] Card.java
-- [ ] CardInfo.java
 - [ ] CardReader.java
 - [ ] Controller.java
 - [ ] Item.java
