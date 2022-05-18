@@ -1,0 +1,16 @@
+# To Do List
+
+- [ ] Administrator.java
+- [ ] Card.java
+- [ ] CardInfo.java
+- [ ] CardReader.java
+- [ ] Controller.java
+- [ ] Item.java
+- [ ] ItemManager.java
+- [ ] Main.java
+- [ ] MessageManager.java
+- [ ] OtherVM.java
+- [ ] PaymentManager.java
+- [ ] README.md
+- [ ] User.java
+- [ ] VerificationManager.java
