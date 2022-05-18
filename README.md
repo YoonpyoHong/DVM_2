@@ -1,8 +1,8 @@
 # To Do List
 
 - [ ] Administrator.java
-- [ ] Card.java
-- [ ] CardReader.java
+- [x] Card.java
+- [x] CardReader.java
 - [ ] Controller.java
 - [ ] Item.java
 - [ ] ItemManager.java
@@ -11,4 +11,5 @@
 - [ ] OtherVM.java
 - [ ] PaymentManager.java
 - [ ] User.java
-- [ ] VerificationManager.java
+- [x] Verification.java
+- [x] VerificationManager.java
