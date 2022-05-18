@@ -1,4 +1,4 @@
-# To Do List
+# to do list
 
 - [x] Card.java
 - [x] CardReader.java
