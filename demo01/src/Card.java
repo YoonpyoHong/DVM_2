@@ -12,4 +12,12 @@ public class Card {
     public Card(String card_num) {
         this(card_num, 0);
     }
+
+    public String getCardNum() {
+        return card_num;
+    }
+
+    public long getMoney() {
+        return money;
+    }
 }
