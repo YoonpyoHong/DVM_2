@@ -7,6 +7,6 @@
 - [ ] ItemManager.java
 - [ ] Main.java
 - [ ] MessageManager.java
-- [ ] PaymentManager.java
+- [x] PaymentManager.java
 - [x] Verification.java
 - [x] VerificationManager.java
