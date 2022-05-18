@@ -1,20 +1,15 @@
-
 import java.util.*;
 
-/**
- * 
- */
 public class Card {
+    private String card_num;
+    private long money;
 
-    /**
-     * Default constructor
-     */
-    public Card() {
+    public Card(String card_num, long money) {
+        this.card_num = card_num;
+        this.money = money;
     }
 
-    /**
-     * 
-     */
-    public Card cardInfo;
-
+    public Card(String card_num) {
+        this(card_num, 0);
+    }
 }
