@@ -11,6 +11,5 @@
 - [ ] MessageManager.java
 - [ ] OtherVM.java
 - [ ] PaymentManager.java
-- [ ] README.md
 - [ ] User.java
 - [ ] VerificationManager.java
