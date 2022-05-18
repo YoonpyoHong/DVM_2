@@ -4,13 +4,13 @@ import java.util.*;
 
 public class VerificationManager {
     static final int CODE_LEN = 10;
-    static final int ALPHA = 26;
-    static final int DIGIT = 10;
+    static final int LETTER = 26 + 10;
     static final String letterSet = "0123456789qwertyuiopasdfghjklzxcvbnm";
     Random rand;
     Map<String, Verification> verifications;
 
     public VerificationManager() {
+//        assert letterSet.length() == LETTER;
         rand = new Random(System.currentTimeMillis());
         verifications = new HashMap<>();
     }
@@ -29,7 +29,7 @@ public class VerificationManager {
         do {
             verificationCode = new StringBuilder();
             for (int i = 0; i < CODE_LEN; i++) {
-                verificationCode.append(letterSet.charAt(rand.nextInt(ALPHA + DIGIT)));
+                verificationCode.append(letterSet.charAt(rand.nextInt(LETTER)));
             }
         } while (!isValidCode(verificationCode.toString()));
         return verificationCode.toString();
