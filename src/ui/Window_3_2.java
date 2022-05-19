@@ -116,7 +116,7 @@ public class Window_3_2 extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand() == "NEXT") {
+		if(e.getActionCommand() == "PAY") {
 			dispose();
 			Window_4 nextWindow = new Window_4("T2 OOPT DVM");
 			

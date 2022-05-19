@@ -146,7 +146,7 @@ public class Window_2 extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand() == "NEXT") {
 			dispose();
-			Window_3_1 nextWindow = new Window_3_1("T2 OOPT DVM");
+			Window_3_2 nextWindow = new Window_3_2("T2 OOPT DVM");
 			
 		}
 		else if(e.getActionCommand() == "BACK") {
