@@ -18,7 +18,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 public class Window_1 extends JFrame implements ActionListener{
-	
+		
 	//20 drink list
 	String[] drinkList = {"콜라", "사이다",
 			"녹차", "홍차",
@@ -41,7 +41,7 @@ public class Window_1 extends JFrame implements ActionListener{
 	
 	//padding for top, left, bottom, right
     EmptyBorder eb = new EmptyBorder(new Insets(20, 10, 0, 10));
-    Border blackline = BorderFactory.createLineBorder(Color.decode("#cfd0d1"), 1);
+    Border grayline = BorderFactory.createLineBorder(Color.decode("#cfd0d1"), 1);
 	
 	int frameWidth = 500;
 	int frameHeight = 500;
@@ -49,7 +49,10 @@ public class Window_1 extends JFrame implements ActionListener{
 	int btnHeight = 30;
 	int drinkPanelWidth = 290;
 	int drinkPanelHeight = 400;
-
+	static int drinkPrice = 0;
+	static String strPrice="";
+	static String drinkName = "";
+	
 	public Window_1() {
 		this("T2 OOPT DVM");
 	}
@@ -74,7 +77,7 @@ public class Window_1 extends JFrame implements ActionListener{
 		itemLayout.setBackground(Color.decode("#ebeced"));
 		
 		//set border + margin
-        itemLayout.setBorder(BorderFactory.createCompoundBorder(blackline, eb));
+        itemLayout.setBorder(BorderFactory.createCompoundBorder(grayline, eb));
 
         //add panel to frame
 		frame.add(panel);
@@ -84,14 +87,11 @@ public class Window_1 extends JFrame implements ActionListener{
 
 		vmID.setOpaque(true);
 		panel.add(vmID, c);
-		
-		c.anchor = GridBagConstraints.FIRST_LINE_END; //top corner right
-		c.gridx = 1;
-		c.gridy = 0;
-		c.weightx = 0.5;
 
 		//padding for top, left, bottom, right
 		c.insets = new Insets(10,2,2,10); 
+		c.anchor = GridBagConstraints.FIRST_LINE_END; //top corner right
+		c.weightx = 0.5;
 		c.gridx = 4;
 		c.gridy = 0;
 		panel.add(btn1, c);
@@ -141,11 +141,26 @@ public class Window_1 extends JFrame implements ActionListener{
 		}
 		for(int i = 0; i < 20 ; i++) {
 			if(e.getActionCommand() == drinkList[i]) {
+				drinkName = drinkList[i];
+				drinkPrice = (i + 1 ) * 100;
 				dispose();
 				Window_2 nextWindow = new Window_2("T2 OOPT DVM");
 			}
 		}
 		
 	}
+	
+	public static String getItemName() {
+		if(drinkName!=null)
+			return drinkName;
+		else return null;
+	}
 
+	public static String getItemPrice() {
+		if(drinkPrice!=0) {
+			strPrice = Integer.toString(drinkPrice);
+			return strPrice;
+		}
+		else return null;
+	}
 }
