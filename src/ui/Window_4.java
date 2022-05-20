@@ -115,11 +115,9 @@ public class Window_4 extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand() == "ENTER") {
+//			show JDialog (successful transaction, drink in dispensed)
 			dispose();
-			
-//			use verCode.getText(); to get the verCode (String) from textField
-			System.out.println(verCode.getText());
-			Window_5 nextWindow = new Window_5("T2 OOPT DVM");
+			Window_1 nextWindow = new Window_1("T2 OOPT DVM");
 			
 		}
 		else if(e.getActionCommand() == "BACK") {

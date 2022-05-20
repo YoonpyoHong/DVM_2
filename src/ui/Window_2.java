@@ -54,7 +54,7 @@ public class Window_2 extends JFrame implements ActionListener {
 	}
 
 	private void init() {
-		j=0;
+		j=1;
 		itemQuantity.setText("1"); 
 		
 		for(int i=0;i<999;i++) {
@@ -146,7 +146,10 @@ public class Window_2 extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand() == "NEXT") {
 			dispose();
-			Window_3_2 nextWindow = new Window_3_2("T2 OOPT DVM");
+			Window_3_1 nextWindow = new Window_3_1("T2 OOPT DVM");
+
+//			if prepay:
+//			Window_3_2 nextWindow = new Window_3_2("T2 OOPT DVM");
 			
 		}
 		else if(e.getActionCommand() == "BACK") {
