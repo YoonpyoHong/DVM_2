@@ -12,53 +12,72 @@ public class ItemManager {
     public ItemManager() {
     }
 
-    /**
-     * @param itemId 
-     * @param itemQuantity 
-     * @return
-     */
     public Boolean checkStock(Integer itemId, Integer itemQuantity) {
-        // TODO implement here
-        return null;
+        Boolean stockValidity = false;
+        int i = 0;
+        while(item[i]==NULL) {
+            if (item[i].itemId == itemId) {
+                stockValidity = item[i].itemQuantity >= itemQuantity;
+                break;
+            }
+            i++;
+        }
+
+        return stockValidity;
     }
 
-    /**
-     * @param itemId 
-     * @param itemQuantity 
-     * @return
-     */
     public void updateStockInfo(Integer itemId, Integer itemQuantity) {
-        // TODO implement here
-        return;
-    }
-
-    /**
-     * @param itemId 
-     * @return
-     */
-    public Boolean checkProduct(Integer itemId) {
-        // TODO implement here
+        int i = 0;
+        while(item[i]==null){
+            if(item[i].itemId == itemId) {
+                item[i].itemQuantity -= itemQuantity;
+                break;
+            }
+            i++;
+        }
         return null;
     }
 
-    /**
-     * @param itemId 
-     * @param itemQuantity 
-     * @return
-     */
-    public void synchronize(Integer itemId, Integer itemQuantity) {
-        // TODO implement here
-        return;
+    public Boolean checkProduct(Integer itemId) {
+        Boolean itemValidity = false;
+        int i = 0;
+        while(item[i]==null){
+            if(item[i].itemId == itemId) {
+                itemValidity = item[i].itemQuantity >= itemQuantity;
+                break;
+            }
+            i++;
+        }
+        return itemValidity;
     }
 
-    /**
-     * @param itemId 
-     * @param itemQuantity 
-     * @return
-     */
+    public void synchronize(Integer itemId, Integer itemQuantity, String verification) {
+        Boolean verificationvalidity = false;
+        int i = 0;
+        while(item[i]==null){
+            if(item[i].itemId == itemId) {
+                if(item[i].itemQuantity >= itemQuantity){
+                    item[i].itemQuantity -= itemQuantity;
+                    verificationvalidity = true;
+                }
+                break;
+            }
+            i++;
+        }
+        saveVerification(itemId,itemQuantity, verification, verificationvalidity);
+        return null;
+    }
+
     public void updateQuantity(Integer itemId, Integer itemQuantity) {
-        // TODO implement here
-        return;
+
+        while(item[i]==null){
+            if(item[i].itemId == itemId) {
+                item[i].itemQuantity += itemQuantity;
+                break;
+            }
+            i++;
+        }
+        return null;
     }
 
 }

@@ -6,37 +6,17 @@ import java.util.*;
  */
 public class VerificationManager {
 
-    /**
-     * Default constructor
-     */
+
     public VerificationManager() {
     }
 
-    /**
-     * 
-     */
+
     public int itemId;
-
-    /**
-     * 
-     */
     public int itemQuantity;
-
-    /**
-     * 
-     */
     public int verification;
-
-    /**
-     * 
-     */
     public Boolean verificationValidity;
-
-    /**
-     * @return
-     */
     public int requestVerificationCode() {
-        // TODO implement here
+
         return 0;
     }
 
@@ -60,10 +40,7 @@ public class VerificationManager {
         return;
     }
 
-    /**
-     * @param verification 
-     * @return
-     */
+
     public Boolean checkVerification(String verification) {
         // TODO implement here
         return null;
