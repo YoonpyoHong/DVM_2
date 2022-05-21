@@ -6,22 +6,22 @@ public class VerificationManager {
     static final int CODE_LEN = 10;
     static final int LETTER = 26 + 10;
     static final String letterSet = "0123456789qwertyuiopasdfghjklzxcvbnm";
-    Random rand;
-    Map<String, Verification> verifications;
+    static Random rand;
+    static Map<String, Verification> verifications;
 
     public VerificationManager() {
-//        assert letterSet.length() == LETTER;
         rand = new Random(System.currentTimeMillis());
         verifications = new HashMap<>();
     }
 
     private boolean isValidCode(String code) {
+        boolean isAlpha = false;
+        boolean isDigit = false;
         for (char ch : code.toCharArray()) {
-            if (!Character.isLetterOrDigit(ch)) {
-                return false;
-            }
+            isAlpha |= Character.isAlphabetic(ch);
+            isDigit |= Character.isDigit(ch);
         }
-        return true;
+        return isAlpha && isDigit;
     }
 
     public String createVerificationCode() {

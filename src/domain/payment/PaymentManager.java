@@ -18,5 +18,4 @@ public class PaymentManager {
         Card card = cardReader.getCardInfo(cardNum);
         card.setMoney(card.getMoney() + totalPrice);
     }
-
 }
