@@ -1,5 +1,7 @@
 package domain.app;
 
+import domain.admin.AccountManager;
+import domain.item.ItemManager;
 import domain.payment.CardReader;
 import domain.payment.PaymentManager;
 import ui.Window_3_1;
@@ -10,21 +12,37 @@ public class Controller {
     public String errorType;
     private final PaymentManager paymentManager;
     private final CardReader cardReader;
+    private final ItemManager itemManager;
+    private final AccountManager accountManager;
+    private final MessageManager messageManager;
 
     public Controller() {
         cardReader = new CardReader();
         paymentManager = new PaymentManager();
+        itemManager = new ItemManager();
+        messageManager = new MessageManager();
+        accountManager = new AccountManager();
     }
 
     public static void turnMachineOn() {
         return;
     }
 
-    public void selectItem() {
-        return;
-    }
+    public void selectItem(Integer itemId, Integer itemQuantity) {
+        int dvmInfo[] = {0,0,0};
+        if (itemManager.checkStock(itemId, itemQuantity)){
+            displayPayment();
+        }
+        else{
+           dvmInfo =  messageManager.checkStockofOtherVM(itemId, itemQuantity);
+           if(dvmInfo[0] == -1){
+               displayErrorMsg("stock is not available");
+           }
+           else{
+               displayPrepayment();
+           }
+        }
 
-    public void selectQuantity(Integer itemQuantity) {
     }
 
     public void displayItemSelection() {
@@ -48,10 +66,7 @@ public class Controller {
         return "";
     }
 
-    public Boolean checkStock(Integer itemId, Integer itemQuantity) {
-        // TODO implement here
-        return null;
-    }
+
 
     public void cancelPayment() {
         // TODO implement here
@@ -74,8 +89,13 @@ public class Controller {
     }
 
     public void login(String password) {
-        // TODO implement here
-        return;
+        if(accountManager.verifyLoginInfo(password)){
+            displayAdminPage();
+        }
+    }
+
+    public void displayAdminPage(){
+
     }
 
     public void logout() {
@@ -84,17 +104,16 @@ public class Controller {
     }
 
     public void inputItem(Integer itemId, Integer itemQuantity) {
-        // TODO implement here
-        return;
+        itemManager.updateQuantity(itemId, itemQuantity);
     }
 
     public void displayChangeMsg() {
-        // TODO implement here
+
         return;
     }
 
     public void displayPrepayment() {
-        // TODO implement here
+
         return;
     }
 
