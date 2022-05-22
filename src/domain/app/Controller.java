@@ -1,12 +1,11 @@
 package domain.app;
 
 import domain.admin.AccountManager;
-import domain.item.ItemManager;
+import domain.message.MessageManager;
+import domain.product.ItemManager;
 import domain.payment.CardReader;
 import domain.payment.PaymentManager;
-import ui.Window_3_1;
 
-import java.util.*;
 
 public class Controller {
     public String errorType;
@@ -20,19 +19,20 @@ public class Controller {
         cardReader = new CardReader();
         paymentManager = new PaymentManager();
         itemManager = new ItemManager();
-        messageManager = new MessageManager();
+        messageManager = new MessageManager(itemManager);
         accountManager = new AccountManager();
     }
 
-    public static void turnMachineOn() {
-        return;
-    }
+    public MessageManager getMsgManager() { return messageManager; }
+
+    public static void turnMachineOn() { return; }
 
     public void selectItem(Integer itemId, Integer itemQuantity) {
         int dvmInfo[] = {0,0,0};
         if (itemManager.checkStock(itemId, itemQuantity)){
             displayPayment();
         }
+        /*
         else{
            dvmInfo =  messageManager.checkStockofOtherVM(itemId, itemQuantity);
            if(dvmInfo[0] == -1){
@@ -42,7 +42,7 @@ public class Controller {
                displayPrepayment();
            }
         }
-
+        */
     }
 
     public void displayItemSelection() {
@@ -51,6 +51,7 @@ public class Controller {
     }
 
     public void displayPayment() {
+
     }
 
     public boolean inputCardInfo(String cardNum, int cardPwd) {
@@ -65,8 +66,6 @@ public class Controller {
         // TODO implement here
         return "";
     }
-
-
 
     public void cancelPayment() {
         // TODO implement here
@@ -89,13 +88,12 @@ public class Controller {
     }
 
     public void login(String password) {
-        if(accountManager.verifyLoginInfo(password)){
+        if (accountManager.verifyLoginInfo(password)){
             displayAdminPage();
         }
     }
 
-    public void displayAdminPage(){
-
+    public void displayAdminPage() {
     }
 
     public void logout() {
