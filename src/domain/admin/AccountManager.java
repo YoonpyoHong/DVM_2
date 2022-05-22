@@ -1,21 +1,12 @@
 package domain.admin;
 
-import java.util.*;
-
 public class AccountManager {
-
+    private static final String PASSWORD = "abcdefg";
 
     public AccountManager() {
-    
-    }
-    private String password = "abcdefg";
-
-    public Boolean verifyLoginInfo(String password) {
-        Boolean passwordValidity = false;
-        if(password == this.password){
-            passwordValidity =true;
-        }
-        return passwordValidity;
     }
 
+    public boolean verifyLoginInfo(String password) {
+        return password.equals(this.PASSWORD);
+    }
 }
