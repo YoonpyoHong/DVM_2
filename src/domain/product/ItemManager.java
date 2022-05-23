@@ -17,12 +17,7 @@ public class ItemManager {
     }
 
     public boolean checkStock(int itemId, int itemQuantity) {
-        for (int i = 0; i < MAX_ITEM; i++) {
-            if (items[i].getItemId() == itemId) {
-                return items[i].getItemQuantity() >= itemQuantity;
-            }
-        }
-        return false;
+        return items[itemId].getItemQuantity() >= itemQuantity;
     }
 
     public void updateStockInfo(int itemId, int itemQuantity) {
@@ -30,35 +25,20 @@ public class ItemManager {
     }
 
     public void updateQuantity(int itemId, int itemQuantity) {
-        for (int i = 0; i < MAX_ITEM; i++) {
-            if (items[i].getItemId() == itemId) {
-                items[i].setItemQuantity(items[i].getItemQuantity() + itemQuantity);
-                return;
-            }
-        }
+        items[itemId].setItemQuantity(items[itemId].getItemQuantity() + itemQuantity);
     }
 
     public boolean checkProduct(int itemId) {
-        for (int i = 0; i < MAX_ITEM; i++) {
-            if (items[i].getItemId() == itemId) {
-                return true;
-            }
-        }
-        return false;
+        return items[itemId].getOnSale();
     }
 
     /* TODO: has to be modified due to race conditions. */
     public void synchronize(int itemId, int itemQuantity, String verificationCode) {
         boolean verificationValidity = false;
         VerificationManager v = new VerificationManager();
-        for (int i = 0; i < MAX_ITEM; i++) {
-            if (items[i] != null && items[i].getItemId() == itemId) {
-                if (items[i].getItemQuantity() >= itemQuantity) {
-                    items[i].setItemQuantity(items[i].getItemQuantity() - itemQuantity);
-                    verificationValidity = true;
-                }
-                break;
-            }
+        if (items[itemId].getItemQuantity() >= itemQuantity) {
+            items[itemId].setItemQuantity(items[itemId].getItemQuantity() - itemQuantity);
+            verificationValidity = true;
         }
         v.saveVerification(itemId, itemQuantity, verificationCode, verificationValidity);
     }
@@ -80,7 +60,8 @@ public class ItemManager {
         items = new Item[MAX_ITEM];
         while (in.hasNext()) {
             String[] argv = in.nextLine().split(" ", 3);
-            items[i++] = new Item(i, argv[0], Integer.parseInt(argv[1]), Integer.parseInt(argv[2]));
+            items[i] = new Item(i, argv[0], Integer.parseInt(argv[1]), Integer.parseInt(argv[2]));
+            i += 1;
         }
     }
 }

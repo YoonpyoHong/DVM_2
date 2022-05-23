@@ -87,6 +87,8 @@ public class Window_7 extends DvmWindow {
             if (ok) {
                 this.dispose();
                 new Window_8(controller);
+            } else {
+                /* TODO: put smth error message dialog */
             }
         } else if (e.getActionCommand().equals("BACK")) {
             this.dispose();

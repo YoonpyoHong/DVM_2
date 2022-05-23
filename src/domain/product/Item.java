@@ -7,14 +7,16 @@ public class Item {
     private String itemName;
     private int itemPrice;
     private final AtomicInteger itemQuantity = new AtomicInteger();
+    private final boolean onSale;
 
     public Item(int itemId, String itemName, int itemPrice, int itemQuantity){
         this.itemId = itemId;
         this.itemName = itemName;
         this.itemPrice = itemPrice;
         this.itemQuantity.set(itemQuantity);
+        this.onSale = itemQuantity > 0;
     }
-    
+
     public int getItemId() {
         return itemId;
     }
@@ -35,4 +37,5 @@ public class Item {
     public void setItemPrice(int itemPrice){
         this.itemPrice = itemPrice;
     }
+    public boolean getOnSale() { return onSale; }
 }
