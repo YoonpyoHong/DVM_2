@@ -24,6 +24,9 @@ public class Window_2 extends DvmWindow {
     private static final int btnItemPriceWidth = 100;
     private static final int btnItemPriceHeight = 50;
 
+    private static int inputItemNum;
+    private static int selectedItemId;
+
     private static final JButton btn1 = new JButton("NEXT");
     private static final JButton btn2 = new JButton("BACK");
     private static final JButton add = new JButton("+");
@@ -31,22 +34,19 @@ public class Window_2 extends DvmWindow {
 
     private static final JLabel vmID = new JLabel("          VM's ID           ");
 
-    private static final Integer[] num = new Integer[MAX_ITEM_QUANTITY];
     private static final JLabel itemQuantity = new JLabel("1", SwingConstants.CENTER);
-    private static final JLabel itemPrice = new JLabel(Window_1.getItemPrice(), SwingConstants.CENTER);
+    private static final JLabel itemPrice = new JLabel(Integer.toString(items[selectedItemId].getItemPrice()), SwingConstants.CENTER);
 
-    private static int itemNum;
 
-    public Window_2(Controller controller) {
+    public Window_2(Controller controller) { super(controller); }
+    public Window_2(Controller controller, int itemId) {
         super(controller);
+        selectedItemId = itemId;
     }
 
     protected void init() {
-        itemNum = 1;
+        inputItemNum = 1;
         itemQuantity.setText("1");
-        for (int i = 0; i < MAX_ITEM_QUANTITY; i++) {
-            num[i] = i;
-        }
 
         panel = new JPanel(new GridBagLayout());
         c = new GridBagConstraints();
@@ -63,7 +63,7 @@ public class Window_2 extends DvmWindow {
         itemQuantity.setOpaque(true);
         itemQuantity.setBorder(BorderFactory.createLineBorder(Color.decode("#cfd0d1"), 1));
 
-        JLabel itemName = new JLabel(Window_1.getItemName(), SwingConstants.CENTER);
+        JLabel itemName = new JLabel(items[selectedItemId].getItemName(), SwingConstants.CENTER);
         itemName.setPreferredSize(new Dimension(btnItemNameWidth, btnItemNameHeight));
         itemName.setOpaque(true);
         itemName.setBorder(BorderFactory.createLineBorder(Color.decode("#cfd0d1"), 1));
@@ -142,11 +142,11 @@ public class Window_2 extends DvmWindow {
             this.dispose();
             new Window_1(controller);
         } else if (e.getActionCommand().equals("+")) {
-            itemNum = Math.min(itemNum + 1, MAX_ITEM_QUANTITY);
-            itemQuantity.setText(Integer.toString(itemNum));
+            inputItemNum = Math.min(inputItemNum + 1, MAX_ITEM_QUANTITY);
+            itemQuantity.setText(Integer.toString(inputItemNum));
         } else if (e.getActionCommand().equals("-")) {
-            itemNum = Math.max(itemNum - 1, 0);
-            itemQuantity.setText(Integer.toString(itemNum));
+            inputItemNum = Math.max(inputItemNum - 1, 0);
+            itemQuantity.setText(Integer.toString(inputItemNum));
         }
     }
 

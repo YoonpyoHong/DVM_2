@@ -83,12 +83,13 @@ public class Window_7 extends DvmWindow {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("LOGIN")) {
-            boolean ok = controller.getAccountManager().verifyLoginInfo(pwd.getText());
-            if (ok) {
+            boolean authorized = controller.getAccountManager().verifyLoginInfo(pwd.getText());
+            if (authorized) {
                 this.dispose();
                 new Window_8(controller);
             } else {
                 /* TODO: put smth error message dialog */
+                System.err.println("Wrong PassWord");
             }
         } else if (e.getActionCommand().equals("BACK")) {
             this.dispose();

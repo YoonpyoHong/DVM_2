@@ -32,10 +32,6 @@ public class Window_1 extends DvmWindow {
     private static final int drinkPanelWidth = 290;
     private static final int drinkPanelHeight = 400;
 
-    private static int drinkId = 0;
-    private static int drinkPrice = 0;
-    private static String drinkName = "";
-
     public Window_1(Controller controller) {
         super(controller);
     }
@@ -118,27 +114,11 @@ public class Window_1 extends DvmWindow {
         }
         for (int i = 0; i < MAX_ITEM; i++) {
             if (e.getActionCommand().equals(items[i].getItemName())) {
-                drinkId = i;
-                drinkName = items[i].getItemName();
-                drinkPrice = (i + 1) * 100;
                 this.dispose();
-                new Window_2(controller);
+                new Window_2(controller, i);
                 break;
             }
         }
         this.dispose();
-    }
-
-    public static int getItemId() { return drinkId; }
-
-    public static String getItemName() {
-        return drinkName;
-    }
-
-    public static String getItemPrice() {
-        if (drinkPrice != 0) {
-            return Integer.toString(drinkPrice);
-        }
-        return null;
     }
 }

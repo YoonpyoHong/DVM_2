@@ -160,7 +160,7 @@ public class Window_8 extends DvmWindow {
             this.dispose();
             new Window_1(controller);
         } else if (e.getActionCommand().equals("UPDATE")) {
-            boolean ok = true;
+            boolean isValidInput = true;
             int[] inputQuantities = new int[MAX_LOCAL_ITEM];
             for (int i = 0; i < MAX_LOCAL_ITEM; i++) {
                 String inputText = itemQty[i].getText();
@@ -168,15 +168,15 @@ public class Window_8 extends DvmWindow {
                 try {
                     inputNum = Integer.parseInt(inputText);
                 } catch (NumberFormatException nfe) {
-                    ok = false;
+                    isValidInput = false;
                     break;
                 }
                 if (inputNum < 0 || inputNum > MAX_QUANTITY) {
-                    ok = false;
+                    isValidInput = false;
                     break;
                 }
             }
-            if (ok) {
+            if (isValidInput) {
                 for (int i = 0; i < MAX_LOCAL_ITEM; i++) {
                     controller.getItemManager().updateQuantity(localItems[i].getItemId(), inputQuantities[i]);
                     itemQty[i].setText("");
