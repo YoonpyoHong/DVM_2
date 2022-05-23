@@ -1,28 +1,26 @@
 package domain.product;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Item {
     private int itemId;
-    private int itemQuantity;
     private String itemName;
     private int itemPrice;
+    private final AtomicInteger itemQuantity = new AtomicInteger();
 
     public int getItemId() {
         return itemId;
     }
-    public void setItemId(int itemId){
-        this.itemId = itemId;
-    }
+    public void setItemId(int itemId) { this.itemId = itemId; }
 
     public int getItemQuantity(){
-        return itemQuantity;
+        return itemQuantity.get();
     }
     public void setItemQuantity(int itemQuantity){
-        this.itemQuantity = itemQuantity;
+        this.itemQuantity.set(itemQuantity);
     }
 
-    public String getItemName(){
-        return itemName;
-    }
+    public String getItemName(){ return itemName; }
     public void setItemName(String itemName){
         this.itemName = itemName;
     }
@@ -34,10 +32,10 @@ public class Item {
         this.itemPrice = itemPrice;
     }
 
-    public Item(int itemId, int itemQuantity, String itemName, int itemPrice){
+    public Item(int itemId, String itemName, int itemPrice, int itemQuantity){
         this.itemId = itemId;
-        this.itemQuantity = itemQuantity;
         this.itemName = itemName;
         this.itemPrice = itemPrice;
+        this.itemQuantity.set(itemQuantity);
     }
 }
