@@ -2,7 +2,7 @@ package ui;
 
 import domain.app.Controller;
 
-import java.awt.Container;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -28,6 +28,10 @@ public abstract class DvmWindow extends JFrame implements ActionListener {
     protected final Container frame = this.getContentPane();
     protected static final JLabel vmID = new JLabel("          VM's ID           ");
     protected static JPanel panel;
+
+    protected static GridBagConstraints c;
+
+    protected static Integer i = 0;
 
     private static final int frameWidth = 500;
     private static final int frameHeight = 500;

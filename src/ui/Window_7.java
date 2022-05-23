@@ -21,7 +21,6 @@ public class Window_7 extends DvmWindow {
     private static final JTextField pwd = new JTextField(15);
 
     private static final JLabel notice = new JLabel("<html><center>LOGIN PAGE<br>Please enter password<br>in the textfield below:</html>");
-    private static final GridBagConstraints c = new GridBagConstraints();
     private static final EmptyBorder eb = new EmptyBorder(new Insets(10, 10, 10, 10));
 
     public Window_7(Controller controller) {
@@ -29,12 +28,12 @@ public class Window_7 extends DvmWindow {
     }
 
     protected void init() {
-        panel = new JPanel(new GridBagLayout());
         notice.setPreferredSize(new Dimension(150, 70));
         notice.setBorder(eb);
-        //set limit for password
         pwd.setDocument(new JTextFieldLimit(10));
 
+        panel = new JPanel(new GridBagLayout());
+        c = new GridBagConstraints();
         frame.add(panel);
         vmID.setBackground(Color.decode("#cfd0d1"));
         notice.setBackground(Color.decode("#cfd0d1"));
@@ -84,10 +83,10 @@ public class Window_7 extends DvmWindow {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("LOGIN")) {
-            dispose();
+            this.dispose();
             new Window_8(controller);
         } else if (e.getActionCommand().equals("BACK")) {
-            dispose();
+            this.dispose();
             new Window_1(controller);
         }
     }

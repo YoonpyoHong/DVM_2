@@ -18,7 +18,6 @@ import javax.swing.SwingConstants;
 public class Window_3_2 extends DvmWindow {
     private static final JButton btn1 = new JButton("PAY");
     private static final JButton btn2 = new JButton("BACK");
-    private static final GridBagConstraints c = new GridBagConstraints();
 
     private static final JLabel totalPrice = new JLabel("<html>Total price:<br><center>" + Window_2.getTotalPrice() + "</center></html>", SwingConstants.CENTER);
     private static final JLabel loc = new JLabel("Location: (x,y)", SwingConstants.CENTER);
@@ -33,6 +32,7 @@ public class Window_3_2 extends DvmWindow {
 
     protected void init() {
         panel = new JPanel(new GridBagLayout());
+        c = new GridBagConstraints();
         frame.add(panel);
         vmID.setBackground(Color.decode("#cfd0d1"));
         panel.setBackground(Color.decode("#dcebf7"));
@@ -101,10 +101,10 @@ public class Window_3_2 extends DvmWindow {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("PAY")) {
-            dispose();
+            this.dispose();
             new Window_4(controller);
         } else if (e.getActionCommand().equals("BACK")) {
-            dispose();
+            this.dispose();
             new Window_2(controller);
         }
     }

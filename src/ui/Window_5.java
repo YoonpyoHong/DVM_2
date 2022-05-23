@@ -39,10 +39,10 @@ public class Window_5 extends DvmWindow {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("NEXT")) {
-            dispose();
+            this.dispose();
             new Window_6(controller);
         } else if (e.getActionCommand().equals("BACK")) {
-            dispose();
+            this.dispose();
             new Window_4(controller);
         }
     }

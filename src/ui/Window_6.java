@@ -19,17 +19,17 @@ public class Window_6 extends DvmWindow {
     private static final JTextField verCode = new JTextField(15);
 
     private static final JLabel notice = new JLabel("Please insert verification code:");
-    private static final GridBagConstraints c = new GridBagConstraints();
 
     public Window_6(Controller controller) {
         super(controller);
     }
 
     protected void init() {
-        panel = new JPanel(new GridBagLayout());
         //set limit 10 digits for verification code:
         verCode.setDocument(new JTextFieldLimit(10));
 
+        panel = new JPanel(new GridBagLayout());
+        c = new GridBagConstraints();
         frame.add(panel);
         vmID.setBackground(Color.decode("#cfd0d1"));
         notice.setBackground(Color.decode("#cfd0d1"));
@@ -82,10 +82,10 @@ public class Window_6 extends DvmWindow {
             //show JDialog
             //dispose JDialog and this window after 15 second
             //not implemented yet
-            dispose();
+            this.dispose();
             new Window_1(controller);
         } else if (e.getActionCommand().equals("BACK")) {
-            dispose();
+            this.dispose();
             new Window_1(controller);
         }
     }

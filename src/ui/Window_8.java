@@ -32,8 +32,6 @@ public class Window_8 extends DvmWindow {
     private static final JPanel itemLayout3 = new JPanel();
 
     private static final JTextField[] itemQty = new JTextField[MAX_LOCAL_ITEM];
-
-    private static final GridBagConstraints c = new GridBagConstraints();
     //padding for top, left, bottom, right
     private static final EmptyBorder eb = new EmptyBorder(new Insets(20, 10, 0, 10));
     private static final Border grayLine = BorderFactory.createLineBorder(Color.decode("#cfd0d1"), 1);
@@ -53,18 +51,17 @@ public class Window_8 extends DvmWindow {
     }
 
     protected void init() {
-        panel = new JPanel(new GridBagLayout());
         //generate MAX_LOCAL_ITEM item list randomly for every dvm
         for (int i = 0; i < rand.length; i++) {
             itemList[i] = drinkList[rand[i]];
         }
-
         //set drink list layout's size
         itemLayout.setPreferredSize(new Dimension(drinkPanelWidth, drinkPanelHeight));
         itemLayout2.setPreferredSize(new Dimension(drinkPanel2Width, drinkPanel2Height));
         itemLayout3.setPreferredSize(new Dimension(drinkPanel3Width, drinkPanel3Height));
 
-        //set color by hex code
+        panel = new JPanel(new GridBagLayout());
+        c = new GridBagConstraints();
         vmID.setBackground(Color.decode("#cfd0d1"));
         panel.setBackground(Color.decode("#dcebf7"));
 
@@ -165,7 +162,7 @@ public class Window_8 extends DvmWindow {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("LOGOUT")) {
             //do nothing
-            dispose();
+            this.dispose();
             new Window_1(controller);
         } else if (e.getActionCommand().equals("UPDATE")) {
 //			below is unimplemented code:

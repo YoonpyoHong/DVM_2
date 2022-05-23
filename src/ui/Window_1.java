@@ -17,7 +17,6 @@ import javax.swing.border.EmptyBorder;
 
 public class Window_1 extends DvmWindow {
     private static final JPanel itemLayout = new JPanel();
-    private static final GridBagConstraints c = new GridBagConstraints();
 
     private static final JButton btn1 = new JButton("ADMIN LOGIN");
     private static final JButton btn2 = new JButton("VERIFICATION CODE");
@@ -41,10 +40,11 @@ public class Window_1 extends DvmWindow {
 
     @Override
     protected void init() {
-        panel = new JPanel(new GridBagLayout());
         //set drink list layout's size
         itemLayout.setPreferredSize(new Dimension(drinkPanelWidth, drinkPanelHeight));
 
+        panel = new JPanel(new GridBagLayout());
+        c = new GridBagConstraints();
         //set color by hex code
         vmID.setBackground(Color.decode("#cfd0d1"));
         panel.setBackground(Color.decode("#dcebf7"));
@@ -52,7 +52,6 @@ public class Window_1 extends DvmWindow {
 
         //set border + margin
         itemLayout.setBorder(BorderFactory.createCompoundBorder(grayLine, eb));
-
 
         //padding for top, left, bottom, right
         c.insets = new Insets(2, 10, 2, 2);
@@ -82,13 +81,19 @@ public class Window_1 extends DvmWindow {
         btn1.setFocusable(false);
         btn2.setFocusable(false);
 
-        for (int i = 0; i < MAX_ITEM; i++) {
-            JButton[] btn = new JButton[MAX_ITEM];
-            btn[i] = new JButton(drinkList[i]);
-            btn[i].setFocusable(false);
-            btn[i].setPreferredSize(new Dimension(btnWidth, btnHeight));
-            itemLayout.add(btn[i]);
-            btn[i].addActionListener(this);
+//        ====================================================================
+//        If condition to not run the loop if i == 20
+
+        if (DvmWindow.i != MAX_ITEM) {
+            for (int j = 0; j < MAX_ITEM; j++) {
+                JButton[] btn = new JButton[MAX_ITEM];
+                btn[j] = new JButton(drinkList[j]);
+                btn[j].setFocusable(false);
+                btn[j].setPreferredSize(new Dimension(btnWidth, btnHeight));
+                itemLayout.add(btn[j]);
+                btn[j].addActionListener(this);
+                ++i;
+            }
         }
 
         c.anchor = GridBagConstraints.PAGE_START; //center left
@@ -98,16 +103,15 @@ public class Window_1 extends DvmWindow {
         c.gridwidth = 3;
         c.gridheight = 10;
         panel.add(itemLayout, c);
-
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("ADMIN LOGIN")) {
-            dispose();
+            this.dispose();
             new Window_7(controller);
         } else if (e.getActionCommand().equals("VERIFICATION CODE")) {
-            dispose();
+            this.dispose();
             new Window_6(controller);
         }
         for (int i = 0; i < MAX_ITEM; i++) {
@@ -115,10 +119,12 @@ public class Window_1 extends DvmWindow {
                 drinkId = i;
                 drinkName = drinkList[i];
                 drinkPrice = (i + 1) * 100;
-                dispose();
+                this.dispose();
                 new Window_2(controller);
+                break;
             }
         }
+        this.dispose();
     }
 
     public static int getItemId() { return drinkId; }

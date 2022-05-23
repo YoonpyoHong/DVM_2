@@ -20,7 +20,6 @@ import javax.swing.border.Border;
 public class Window_4 extends DvmWindow {
     private static final JButton btn1 = new JButton("ENTER");
     private static final JButton btn2 = new JButton("BACK");
-    private static final GridBagConstraints c = new GridBagConstraints();
 
     private static final JTextField verCode = new JTextField(11);
     private static final JLabel time = new JLabel("<html>Time runout display<br><center>(60 sec)</center></html>", SwingConstants.CENTER);
@@ -33,6 +32,7 @@ public class Window_4 extends DvmWindow {
 
     protected void init() {
         panel = new JPanel(new GridBagLayout());
+        c = new GridBagConstraints();
         frame.add(panel);
         vmID.setBackground(Color.decode("#cfd0d1"));
         panel.setBackground(Color.decode("#dcebf7"));
@@ -97,16 +97,14 @@ public class Window_4 extends DvmWindow {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand() == "ENTER") {
+        if (e.getActionCommand().equals("ENTER")) {
 //			show JDialog (successful transaction, drink in dispensed)
-            dispose();
-            Window_1 nextWindow = new Window_1(controller);
-
-        } else if (e.getActionCommand() == "BACK") {
-            dispose();
-            Window_3_1 backWindow = new Window_3_1(controller);
+            this.dispose();
+            new Window_1(controller);
+        } else if (e.getActionCommand().equals("BACK")) {
+            this.dispose();
+            new Window_3_1(controller);
         }
     }
-
 }
 

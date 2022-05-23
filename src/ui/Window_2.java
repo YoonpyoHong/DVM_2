@@ -30,7 +30,6 @@ public class Window_2 extends DvmWindow {
     private static final JButton minus = new JButton("-");
 
     private static final JLabel vmID = new JLabel("          VM's ID           ");
-    private static final GridBagConstraints c = new GridBagConstraints();
 
     private static final Integer[] num = new Integer[MAX_ITEM_QUANTITY];
     private static final JLabel itemQuantity = new JLabel("1", SwingConstants.CENTER);
@@ -43,13 +42,14 @@ public class Window_2 extends DvmWindow {
     }
 
     protected void init() {
-        panel = new JPanel(new GridBagLayout());
         itemNum = 1;
         itemQuantity.setText("1");
-
         for (int i = 0; i < MAX_ITEM_QUANTITY; i++) {
             num[i] = i;
         }
+
+        panel = new JPanel(new GridBagLayout());
+        c = new GridBagConstraints();
         frame.add(panel);
         vmID.setBackground(Color.decode("#cfd0d1"));
         panel.setBackground(Color.decode("#dcebf7"));
@@ -135,12 +135,11 @@ public class Window_2 extends DvmWindow {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("NEXT")) {
-            dispose();
+            this.dispose();
             new Window_3_1(controller);
-//			if prepay:
-//				Window_3_2 nextWindow = new Window_3_2("T2 OOPT DVM");
+//            new Window_3_2(controller);
         } else if (e.getActionCommand().equals("BACK")) {
-            dispose();
+            this.dispose();
             new Window_1(controller);
         } else if (e.getActionCommand().equals("+")) {
             itemNum = Math.min(itemNum + 1, MAX_ITEM_QUANTITY);
@@ -155,6 +154,5 @@ public class Window_2 extends DvmWindow {
         int totalPrice = Integer.parseInt(itemQuantity.getText()) * Integer.parseInt(itemPrice.getText());
         return Integer.toString(totalPrice);
     }
-
 }
 
