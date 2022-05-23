@@ -9,12 +9,12 @@ public class Item {
     private final AtomicInteger itemQuantity = new AtomicInteger();
     private final boolean onSale;
 
-    public Item(int itemId, String itemName, int itemPrice, int itemQuantity){
+    public Item(int itemId, String itemName, int itemPrice, int itemQuantity, boolean onSale){
         this.itemId = itemId;
         this.itemName = itemName;
         this.itemPrice = itemPrice;
         this.itemQuantity.set(itemQuantity);
-        this.onSale = itemQuantity > 0;
+        this.onSale = onSale;
     }
 
     public int getItemId() {
@@ -38,4 +38,9 @@ public class Item {
         this.itemPrice = itemPrice;
     }
     public boolean getOnSale() { return onSale; }
+
+    @Override
+    public String toString() {
+        return String.format("Item: (%d, %s, %d, %d, %s)", itemId, itemName, itemPrice, itemQuantity.get(), onSale);
+    }
 }

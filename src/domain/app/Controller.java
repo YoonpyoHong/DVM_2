@@ -26,8 +26,6 @@ public class Controller {
         System.err.println(this.getClass() + " created");
     }
 
-    public MessageManager getMsgManager() { return messageManager; }
-
     public static void turnMachineOn() {}
 
     public void selectItem(Integer itemId, Integer itemQuantity) {
@@ -110,11 +108,9 @@ public class Controller {
 
     }
 
-    public Item[] getItemList() {
-        return itemManager.getItemList();
-    }
+    public Item[] getItemList() { return itemManager.getItemList(); }
 
-    public AccountManager getAccountManager() {
-        return accountManager;
-    }
+    public AccountManager getAccountManager() { return accountManager; }
+    public MessageManager getMsgManager() { return messageManager; }
+    public ItemManager getItemManager() { return itemManager; }
 }

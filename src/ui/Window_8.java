@@ -1,6 +1,8 @@
 package ui;
 
 import domain.app.Controller;
+import domain.product.Item;
+import domain.product.ItemManager;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -20,12 +22,11 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
-import static domain.product.ItemManager.MAX_ITEM;
-import static domain.product.ItemManager.MAX_LOCAL_ITEM;
+import static domain.product.ItemManager.*;
 
 public class Window_8 extends DvmWindow {
     //random 7 drink list
-    private static final String[] itemList = new String[MAX_LOCAL_ITEM];
+    private static final Item[] localItems = new Item[MAX_LOCAL_ITEM];
 
     private static final JButton btn1 = new JButton("LOGOUT");
     private static final JButton btn2 = new JButton("UPDATE");
@@ -47,17 +48,14 @@ public class Window_8 extends DvmWindow {
     private static final int drinkPanel2Height = 250;
     private static final int drinkPanel3Width = 200;
     private static final int drinkPanel3Height = 250;
-    private static final int[] rand = genRandom();
 
     public Window_8(Controller controller) {
         super(controller);
     }
 
     protected void init() {
-        //generate MAX_LOCAL_ITEM item list randomly for every dvm
-        for (int i = 0; i < rand.length; i++) {
-            itemList[i] = items[rand[i]].getItemName();
-        }
+        initLocalItems();
+
         //set drink list layout's size
         itemLayout.setPreferredSize(new Dimension(drinkPanelWidth, drinkPanelHeight));
         itemLayout2.setPreferredSize(new Dimension(drinkPanel2Width, drinkPanel2Height));
@@ -110,7 +108,7 @@ public class Window_8 extends DvmWindow {
 
         for (int i = 0; i < MAX_LOCAL_ITEM; i++) {
             JLabel[] btn = new JLabel[MAX_LOCAL_ITEM];
-            btn[i] = new JLabel(itemList[i], SwingConstants.CENTER);
+            btn[i] = new JLabel(localItems[i].getItemName(), SwingConstants.CENTER);
             btn[i].setPreferredSize(new Dimension(btnWidth, btnHeight));
             btn[i].setOpaque(true);
             btn[i].setBackground(Color.WHITE);
@@ -144,21 +142,15 @@ public class Window_8 extends DvmWindow {
 
     }
 
-    private static int[] genRandom() {
-        // generate random number from 0 to 20
-        Random rand = new Random();
-        int[] temp = new int[MAX_LOCAL_ITEM];
-
-        for (int i = 0; i < temp.length; i++) {
-            temp[i] = rand.nextInt(MAX_ITEM); //0~19
-            for (int j = 0; j < i; j++) {
-                if (temp[i] == temp[j]) {
-                    i--; //no repetition of same number
-                    break;
-                }
+    private void initLocalItems() {
+        int cnt = 0;
+        for (int i = 0; i < MAX_ITEM; i++) {
+            if (items[i].getOnSale()) {
+                localItems[cnt] = items[i];
+                cnt += 1;
             }
         }
-        return temp;
+        assert cnt == MAX_LOCAL_ITEM;
     }
 
     @Override
@@ -168,27 +160,36 @@ public class Window_8 extends DvmWindow {
             this.dispose();
             new Window_1(controller);
         } else if (e.getActionCommand().equals("UPDATE")) {
-//			below is unimplemented code:
-//			i don't know if it will work,
-//			but the idea is to get the item's name
-//			every time admin click the button update
-//			and update its quantity in the local storage
-
-            for (int i = 0; i < itemList.length; i++) {
-                itemQty[i].getText();
-
-                System.out.println(itemQty[i].getText());
+            boolean ok = true;
+            int[] inputQuantities = new int[MAX_LOCAL_ITEM];
+            for (int i = 0; i < MAX_LOCAL_ITEM; i++) {
+                String inputText = itemQty[i].getText();
+                int inputNum;
+                try {
+                    inputNum = Integer.parseInt(inputText);
+                } catch (NumberFormatException nfe) {
+                    ok = false;
+                    break;
+                }
+                if (inputNum < 0 || inputNum > MAX_QUANTITY) {
+                    ok = false;
+                    break;
+                }
+            }
+            if (ok) {
+                for (int i = 0; i < MAX_LOCAL_ITEM; i++) {
+                    controller.getItemManager().updateQuantity(localItems[i].getItemId(), inputQuantities[i]);
+                    itemQty[i].setText("");
+                }
+                controller.getItemManager().showItemList();
+                // show JDialog (successful update)
+                // for 15 second
+            } else {
+                /* TODO: put some err dialog */
+                System.err.println("invalid input quantity");
 //				if there is a non-integer character,
 //				show JDialog (Please input only integer);
-
-//				clear text field
-                itemQty[i].setText("");
             }
-//			update data //
-
-//			show JDialog (successful update)
-//			for 15 second
-
         }
     }
 }
