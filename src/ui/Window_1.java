@@ -32,6 +32,8 @@ public class Window_1 extends DvmWindow {
     private static final int drinkPanelWidth = 290;
     private static final int drinkPanelHeight = 400;
 
+    protected static int selectedItemId = -1;
+
     public Window_1(Controller controller) {
         super(controller);
     }
@@ -111,14 +113,16 @@ public class Window_1 extends DvmWindow {
         } else if (e.getActionCommand().equals("VERIFICATION CODE")) {
             this.dispose();
             new Window_6(controller);
-        }
-        for (int i = 0; i < MAX_ITEM; i++) {
-            if (e.getActionCommand().equals(items[i].getItemName())) {
-                this.dispose();
-                new Window_2(controller, i);
-                break;
+        } else {
+            for (int i = 0; i < MAX_ITEM; i++) {
+                if (e.getActionCommand().equals(items[i].getItemName())) {
+                    System.err.println("Selected " + items[i]);
+                    selectedItemId = i;
+                    this.dispose();
+                    new Window_2(controller);
+                    break;
+                }
             }
         }
-        this.dispose();
     }
 }

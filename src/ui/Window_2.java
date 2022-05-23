@@ -39,14 +39,11 @@ public class Window_2 extends DvmWindow {
 
 
     public Window_2(Controller controller) { super(controller); }
-    public Window_2(Controller controller, int itemId) {
-        super(controller);
-        selectedItemId = itemId;
-    }
 
     protected void init() {
         inputItemNum = 1;
         itemQuantity.setText("1");
+        selectedItemId = Window_1.selectedItemId;
 
         panel = new JPanel(new GridBagLayout());
         c = new GridBagConstraints();

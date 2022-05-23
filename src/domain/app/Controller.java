@@ -28,7 +28,7 @@ public class Controller {
 
     public static void turnMachineOn() {}
 
-    public void selectItem(Integer itemId, Integer itemQuantity) {
+    public void selectItem(int itemId, int itemQuantity) {
         int dvmInfo[] = {0,0,0};
         if (itemManager.checkStock(itemId, itemQuantity)){
             displayPayment();
@@ -96,7 +96,7 @@ public class Controller {
         // TODO implement here
     }
 
-    public void inputItem(Integer itemId, Integer itemQuantity) {
+    public void inputItem(int itemId, int itemQuantity) {
         itemManager.updateQuantity(itemId, itemQuantity);
     }
 
