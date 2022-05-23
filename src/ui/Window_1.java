@@ -115,7 +115,6 @@ public class Window_1 extends DvmWindow {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("1)"+e.getActionCommand());
 
         if (e.getActionCommand().equals("ADMIN LOGIN")) {
             this.dispose(); Window_7 win = new Window_7(controller);
@@ -133,10 +132,6 @@ public class Window_1 extends DvmWindow {
             }
         }
         this.dispose();
-        System.out.println("2)"+e.getActionCommand());
-        
-//        e.getActionCommand().replaceAll(drinkName, null);
-//        System.out.println(e.getActionCommand());
     }
 
     public static int getItemId() { return drinkId; }
