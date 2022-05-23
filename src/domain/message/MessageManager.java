@@ -18,6 +18,8 @@ public class MessageManager extends Thread {
     private static final String[] IP_ADDR = {"localhost", "localhost"};
     private static final String NULL_AUTH_CODE = "0000000000";
     private static Deque<Message> msgQueue;
+    private final OtherVM oVM;
+    private final MsgReceiver msgReceiver;
 
     private static class OtherVM extends Thread {
         private static DVMServer server;
@@ -92,7 +94,9 @@ public class MessageManager extends Thread {
     @Override
     public void run() {
         try {
-            System.err.println("msgManager running...");
+            System.err.println("messageManager running...");
+            oVM.start();
+            msgReceiver.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -100,12 +104,8 @@ public class MessageManager extends Thread {
 
     public MessageManager(ItemManager itemManager) {
         msgQueue = new ArrayDeque<>();
-        OtherVM oVM = new OtherVM();
-        oVM.start();
-        System.err.println("OVM is Running");
-        MsgReceiver msgReceiver = new MsgReceiver(itemManager);
-        msgReceiver.start();
-        System.err.println("msgReceiver is Running");
+        oVM = new OtherVM();
+        msgReceiver = new MsgReceiver(itemManager);
     }
 
     public void sendMsg(int dstId, Message msg) {
