@@ -7,6 +7,6 @@ public class AccountManager {
     }
 
     public boolean verifyLoginInfo(String password) {
-        return password.equals(this.PASSWORD);
+        return password.equals(PASSWORD);
     }
 }

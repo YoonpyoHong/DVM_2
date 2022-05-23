@@ -25,7 +25,7 @@ public class Controller {
 
     public MessageManager getMsgManager() { return messageManager; }
 
-    public static void turnMachineOn() { return; }
+    public static void turnMachineOn() {}
 
     public void selectItem(Integer itemId, Integer itemQuantity) {
         int dvmInfo[] = {0,0,0};
@@ -47,7 +47,6 @@ public class Controller {
 
     public void displayItemSelection() {
         // TODO implement here
-        return;
     }
 
     public void displayPayment() {
@@ -69,22 +68,18 @@ public class Controller {
 
     public void cancelPayment() {
         // TODO implement here
-        return;
     }
 
     public void inputVerification(String verification) {
         // TODO implement here
-        return;
     }
 
     public void displayMain() {
         // TODO implement here
-        return;
     }
 
     public void homeButton() {
         // TODO implement here
-        return;
     }
 
     public void login(String password) {
@@ -98,7 +93,6 @@ public class Controller {
 
     public void logout() {
         // TODO implement here
-        return;
     }
 
     public void inputItem(Integer itemId, Integer itemQuantity) {
@@ -107,12 +101,10 @@ public class Controller {
 
     public void displayChangeMsg() {
 
-        return;
     }
 
     public void displayPrepayment() {
 
-        return;
     }
 
 }
