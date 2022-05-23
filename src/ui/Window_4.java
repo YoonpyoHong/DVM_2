@@ -17,6 +17,10 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
+import static domain.payment.Card.CARD_NUM_LENGTH;
+import static ui.Window_1.selectedItemId;
+import static ui.Window_2.selectedItemNum;
+
 public class Window_4 extends DvmWindow {
     private static final JButton btn1 = new JButton("ENTER");
     private static final JButton btn2 = new JButton("BACK");
@@ -84,7 +88,7 @@ public class Window_4 extends DvmWindow {
         c.anchor = GridBagConstraints.CENTER; //center
         c.weighty = 0.5;
 
-        verCode.setDocument(new JTextFieldLimit(10));
+        verCode.setDocument(new JTextFieldLimit(CARD_NUM_LENGTH));
         panel.add(verCode, c);
 
         btn1.addActionListener(this);
@@ -98,6 +102,16 @@ public class Window_4 extends DvmWindow {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("ENTER")) {
 //			show JDialog (successful transaction, drink in dispensed)
+            String inputCardNum = verCode.getText();
+            System.err.println(inputCardNum);
+            /* TODO: also input card password */
+            String resMsg = controller.payment(selectedItemId, selectedItemNum, inputCardNum, 1234);
+            System.err.println("result message: " + resMsg);
+            if (resMsg.equals("payment complete")) {
+                System.out.println(resMsg);
+            } else {
+                /* TODO: some err dialog */
+            }
             this.dispose();
             new Window_1(controller);
         } else if (e.getActionCommand().equals("BACK")) {

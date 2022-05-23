@@ -5,7 +5,7 @@ public class PaymentManager {
     public PaymentManager() {
     }
 
-    public boolean payment(CardReader cardReader, int totalPrice, String cardNum) {
+    public boolean payment(CardReader cardReader, long totalPrice, String cardNum) {
         Card card = cardReader.getCardInfo(cardNum);
         if (card.getMoney() < totalPrice) {
             return false;
@@ -14,7 +14,7 @@ public class PaymentManager {
         return true;
     }
 
-    public void cancelPayment(CardReader cardReader, int totalPrice, String cardNum) {
+    public void cancelPayment(CardReader cardReader, long totalPrice, String cardNum) {
         Card card = cardReader.getCardInfo(cardNum);
         card.setMoney(card.getMoney() + totalPrice);
     }

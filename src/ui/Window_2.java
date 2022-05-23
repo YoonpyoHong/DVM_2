@@ -15,6 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import static ui.Window_1.selectedItemId;
+
 public class Window_2 extends DvmWindow {
     private static final int MAX_ITEM_QUANTITY = 999;
     private static final int btnItemQuantityWidth = 100;
@@ -24,8 +26,8 @@ public class Window_2 extends DvmWindow {
     private static final int btnItemPriceWidth = 100;
     private static final int btnItemPriceHeight = 50;
 
-    private static int inputItemNum;
-    private static int selectedItemId;
+    protected static int selectedItemNum;
+    protected static int[] dvmInfo = new int[4];
 
     private static final JButton btn1 = new JButton("NEXT");
     private static final JButton btn2 = new JButton("BACK");
@@ -41,9 +43,8 @@ public class Window_2 extends DvmWindow {
     public Window_2(Controller controller) { super(controller); }
 
     protected void init() {
-        inputItemNum = 1;
+        selectedItemNum = 1;
         itemQuantity.setText("1");
-        selectedItemId = Window_1.selectedItemId;
 
         panel = new JPanel(new GridBagLayout());
         c = new GridBagConstraints();
@@ -132,18 +133,29 @@ public class Window_2 extends DvmWindow {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("NEXT")) {
-            this.dispose();
-            new Window_3_1(controller);
-//            new Window_3_2(controller);
+            /* TODO: prove controller.selectItem() */
+            String resMsg = controller.selectItem(selectedItemId, selectedItemNum, dvmInfo);
+            System.err.println("result message: " + resMsg);
+            if (resMsg.equals("displayPayment")) {
+                this.dispose();
+                new Window_3_1(controller);
+                return;
+            }
+            if (resMsg.equals("displayPrepayment")) {
+                this.dispose();
+                new Window_3_2(controller);
+                return;
+            }
+            /* TODO: display err dialog */
         } else if (e.getActionCommand().equals("BACK")) {
             this.dispose();
             new Window_1(controller);
         } else if (e.getActionCommand().equals("+")) {
-            inputItemNum = Math.min(inputItemNum + 1, MAX_ITEM_QUANTITY);
-            itemQuantity.setText(Integer.toString(inputItemNum));
+            selectedItemNum = Math.min(selectedItemNum + 1, MAX_ITEM_QUANTITY);
+            itemQuantity.setText(Integer.toString(selectedItemNum));
         } else if (e.getActionCommand().equals("-")) {
-            inputItemNum = Math.max(inputItemNum - 1, 0);
-            itemQuantity.setText(Integer.toString(inputItemNum));
+            selectedItemNum = Math.max(selectedItemNum - 1, 0);
+            itemQuantity.setText(Integer.toString(selectedItemNum));
         }
     }
 

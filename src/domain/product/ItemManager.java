@@ -18,8 +18,8 @@ public class ItemManager {
     }
 
     public boolean checkStock(int itemId, int itemQuantity) {
-        assert 1 <= itemId && itemId <= MAX_ITEM;
-        return items[itemId - 1].getItemQuantity() >= itemQuantity;
+        assert 0 <= itemId && itemId < MAX_ITEM;
+        return items[itemId].getItemQuantity() >= itemQuantity;
     }
 
     public void updateStockInfo(int itemId, int itemQuantity) {
@@ -27,22 +27,22 @@ public class ItemManager {
     }
 
     public void updateQuantity(int itemId, int itemQuantity) {
-        assert 1 <= itemId && itemId <= MAX_ITEM;
-        items[itemId - 1].setItemQuantity(items[itemId - 1].getItemQuantity() + itemQuantity);
+        assert 0 <= itemId && itemId < MAX_ITEM;
+        items[itemId].setItemQuantity(items[itemId].getItemQuantity() + itemQuantity);
     }
 
     public boolean checkProduct(int itemId) {
-        assert 1 <= itemId && itemId <= MAX_ITEM;
-        return items[itemId - 1].getOnSale();
+        assert 0 <= itemId && itemId < MAX_ITEM;
+        return items[itemId].getOnSale();
     }
 
     /* TODO: has to be modified due to race conditions. */
     public void synchronize(int itemId, int itemQuantity, String verificationCode) {
-        assert 1 <= itemId && itemId <= MAX_ITEM;
+        assert 0 <= itemId && itemId < MAX_ITEM;
         boolean verificationValidity = false;
         VerificationManager v = new VerificationManager();
-        if (items[itemId - 1].getItemQuantity() >= itemQuantity) {
-            items[itemId - 1].setItemQuantity(items[itemId - 1].getItemQuantity() - itemQuantity);
+        if (items[itemId].getItemQuantity() >= itemQuantity) {
+            items[itemId].setItemQuantity(items[itemId].getItemQuantity() - itemQuantity);
             verificationValidity = true;
         }
         v.saveVerification(itemId, itemQuantity, verificationCode, verificationValidity);

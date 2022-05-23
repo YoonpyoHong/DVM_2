@@ -20,8 +20,8 @@ public class Window_3_2 extends DvmWindow {
     private static final JButton btn2 = new JButton("BACK");
 
     private static final JLabel totalPrice = new JLabel("<html>Total price:<br><center>" + Window_2.getTotalPrice() + "</center></html>", SwingConstants.CENTER);
-    private static final JLabel loc = new JLabel("Location: (x,y)", SwingConstants.CENTER);
-    private static final JLabel distance = new JLabel("Distance: m", SwingConstants.CENTER);
+    private static final JLabel loc = new JLabel(String.format("Location: (%d, %d)", Window_2.dvmInfo[1], Window_2.dvmInfo[2]), SwingConstants.CENTER);
+    private static final JLabel distance = new JLabel(String.format("Distance: %.1f", Math.sqrt(Window_2.dvmInfo[3])), SwingConstants.CENTER);
 
     private static final int btnWidth = 100;
     private static final int btnHeight = 70;

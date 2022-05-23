@@ -79,7 +79,6 @@ public class MessageManager extends Thread {
                     } else if (msgType.equals("StockCheckResponse")) {
                         msgQueue.addLast(msg);
                     } else if (msgType.equals("PrepaymentCheck")) {
-                        /* TODO */
                         itemManager.synchronize(itemId, itemQuantity, authCode);
                     } else if (msgType.equals("SalesCheckRequest")) {
                         boolean productAvailable = itemManager.checkProduct(itemId);
@@ -135,14 +134,14 @@ public class MessageManager extends Thread {
             e.printStackTrace();
         }
         if (msgQueue.isEmpty()) {
-            return new int[]{-1, -1, -1};
+            return new int[]{-1, -1, -1, -1};
         }
         Message msg = msgQueue.pollLast();
         int[] msgInfo = decodeMsg(msg);
         int dstId = msgInfo[0];
         int dstX = msgInfo[3];
         int dstY = msgInfo[4];
-        int minDist = (DVM_X - dstX) * (DVM_X - dstX) + (DVM_Y - dstY) * (DVM_Y - dstY);
+        int dstDist = (DVM_X - dstX) * (DVM_X - dstX) + (DVM_Y - dstY) * (DVM_Y - dstY);
         while (!msgQueue.isEmpty()) {
             msg = msgQueue.pollLast();
             msgInfo = decodeMsg(msg);
@@ -150,14 +149,14 @@ public class MessageManager extends Thread {
             int otherX = msgInfo[3];
             int otherY = msgInfo[4];
             int otherDist = (DVM_X - otherX) * (DVM_X - otherX) + (DVM_Y - otherY) * (DVM_Y - otherY);
-            if (otherDist < minDist || (otherDist == minDist && otherId < dstId)) {
-                minDist = otherDist;
+            if (otherDist < dstDist || (otherDist == dstDist && otherId < dstId)) {
+                dstDist = otherDist;
                 dstId = otherId;
                 dstX = otherX;
                 dstY = otherY;
             }
         }
-        return new int[]{dstId, dstX, dstY};
+        return new int[]{dstId, dstX, dstY, dstDist};
     }
 
     public void sendPrepaymentInfo(int itemId, int itemQuantity, int dstId, String verificationCode) {
@@ -197,7 +196,7 @@ public class MessageManager extends Thread {
     private int[] decodeMsg(Message msg) {
         String srcName = msg.getSrcId();
         Message.MessageDescription msgDes = msg.getMsgDescription();
-        int srcId = srcName.charAt(srcName.length() - 1) - '0';
+        int srcId = srcName.charAt(srcName.length() - 1) - '0' - 1; // 0-indexed
         int itemId = Integer.parseInt(msgDes.getItemCode());
         int itemQuantity = msgDes.getItemNum();
         int srcX = msgDes.getDvmXCoord();
