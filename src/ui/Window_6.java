@@ -1,6 +1,7 @@
 package ui;
 
 import domain.app.Controller;
+import domain.payment.Verification;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -13,6 +14,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import static domain.payment.VerificationManager.CODE_LEN;
+import static ui.Window_1.selectedItemId;
+import static ui.Window_2.selectedItemNum;
+
 public class Window_6 extends DvmWindow {
     private static final JButton btn1 = new JButton("ENTER");
     private static final JButton btn2 = new JButton("BACK");
@@ -24,8 +29,7 @@ public class Window_6 extends DvmWindow {
     }
 
     protected void init() {
-        //set limit 10 digits for verification code:
-        verCode.setDocument(new JTextFieldLimit(10));
+        verCode.setDocument(new JTextFieldLimit(CODE_LEN));
 
         panel = new JPanel(new GridBagLayout());
         c = new GridBagConstraints();
@@ -78,6 +82,17 @@ public class Window_6 extends DvmWindow {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("ENTER")) {
+            String inputCode = verCode.getText();
+            System.err.println("inputCode = " + inputCode);
+            String resMsg = controller.comfirmVerification(inputCode);
+            System.err.println(resMsg);
+            if (resMsg.equals("valid prepayment")) {
+                /* TODO: some normal get drink dialog */
+            } else if (resMsg.equals("invalid prepayment")) {
+                /* TODO: some cancle payment dialog */
+            } else {
+                /* TODO: some error dialog */
+            }
             //show JDialog
             //dispose JDialog and this window after 15 second
             //not implemented yet

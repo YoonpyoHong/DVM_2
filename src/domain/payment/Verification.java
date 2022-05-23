@@ -12,4 +12,8 @@ public class Verification {
         this.verificationCode = verificationCode;
         this.verificationValidity = verificationValidity;
     }
+
+    public boolean getVerificationValidity() {
+        return verificationValidity;
+    }
 }

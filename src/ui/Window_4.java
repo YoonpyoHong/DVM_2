@@ -25,7 +25,7 @@ public class Window_4 extends DvmWindow {
     private static final JButton btn1 = new JButton("ENTER");
     private static final JButton btn2 = new JButton("BACK");
 
-    private static final JTextField verCode = new JTextField(CARD_NUM_LENGTH + 10);
+    private static final JTextField verCode = new JTextField(15);
     private static final JLabel time = new JLabel("<html>Time runout display<br><center>(60 sec)</center></html>", SwingConstants.CENTER);
     private static final JLabel notice = new JLabel("Please insert card's info", SwingConstants.CENTER);
 

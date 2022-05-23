@@ -2,13 +2,12 @@ package domain.app;
 
 import domain.admin.AccountManager;
 import domain.message.MessageManager;
+import domain.payment.Verification;
+import domain.payment.VerificationManager;
 import domain.product.Item;
 import domain.product.ItemManager;
 import domain.payment.CardReader;
 import domain.payment.PaymentManager;
-
-import java.security.cert.CertPathChecker;
-
 
 public class Controller {
     private final PaymentManager paymentManager;
@@ -16,6 +15,7 @@ public class Controller {
     private final ItemManager itemManager;
     private final AccountManager accountManager;
     private final MessageManager messageManager;
+    private final VerificationManager verificationManager;
     private static Item[] items;
 
     public Controller() {
@@ -23,9 +23,10 @@ public class Controller {
         paymentManager = new PaymentManager();
         itemManager = new ItemManager();
         messageManager = new MessageManager(itemManager);
-        messageManager.run();
         accountManager = new AccountManager();
+        verificationManager = new VerificationManager();
         items = itemManager.getItemList();
+        messageManager.start();
         System.err.println(this.getClass() + " created");
     }
 
@@ -62,6 +63,18 @@ public class Controller {
         }
         itemManager.updateStockInfo(itemId, itemQuantity);
         return "paytment complete";
+    }
+
+    public String comfirmVerification(String authCode) {
+        boolean verificationAvailable = verificationManager.checkVerification(authCode);
+        if (!verificationAvailable) {
+            return "invalid auth Code";
+        }
+        Verification verification = verificationManager.getVerification(authCode);
+        if (verification.getVerificationValidity()) {
+            return "valid prepayment";
+        }
+        return "invalid prepayment";
     }
 
     public Item[] getItemList() { return itemManager.getItemList(); }

@@ -3,7 +3,7 @@ package domain.payment;
 import java.util.*;
 
 public class VerificationManager {
-    private static final int CODE_LEN = 10;
+    public static final int CODE_LEN = 10;
     private static final int LETTER = 26 + 10;
     private static final String letterSet = "0123456789qwertyuiopasdfghjklzxcvbnm";
     private static Random rand;
@@ -41,5 +41,9 @@ public class VerificationManager {
             isDigit |= Character.isDigit(ch);
         }
         return isAlpha && isDigit;
+    }
+
+    public Verification getVerification(String verificationCode) {
+        return verifications.get(verificationCode);
     }
 }
