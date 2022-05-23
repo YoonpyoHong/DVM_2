@@ -31,14 +31,14 @@ public class CardReader {
     }
 
     public String encodeCardNum(String inputCardNum) {
-        String cardNum = "";
+        StringBuilder cardNum = new StringBuilder();
         for (int i = 0; i < CARD_NUM_LENGTH; i++) {
-            cardNum += inputCardNum.charAt(i);
+            cardNum.append(inputCardNum.charAt(i));
             if (i % 4 == 3 && i != 15) {
-                cardNum += '-';
+                cardNum.append('-');
             }
         }
-        return cardNum;
+        return cardNum.toString();
     }
 
     private void loadCardList() {

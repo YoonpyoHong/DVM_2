@@ -2,7 +2,6 @@ package ui;
 
 import domain.app.Controller;
 import domain.product.Item;
-import domain.product.ItemManager;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -11,7 +10,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -167,6 +165,7 @@ public class Window_8 extends DvmWindow {
                 int inputNum;
                 try {
                     inputNum = Integer.parseInt(inputText);
+                    inputQuantities[i] = inputNum;
                 } catch (NumberFormatException nfe) {
                     isValidInput = false;
                     break;

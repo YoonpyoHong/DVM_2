@@ -139,14 +139,12 @@ public class Window_2 extends DvmWindow {
             if (resMsg.equals("displayPayment")) {
                 this.dispose();
                 new Window_3_1(controller);
-                return;
-            }
-            if (resMsg.equals("displayPrepayment")) {
+            } else if (resMsg.equals("displayPrepayment")) {
                 this.dispose();
                 new Window_3_2(controller);
-                return;
+            } else {
+                /* TODO: display err dialog */
             }
-            /* TODO: display err dialog */
         } else if (e.getActionCommand().equals("BACK")) {
             this.dispose();
             new Window_1(controller);

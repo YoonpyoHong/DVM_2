@@ -16,4 +16,7 @@ public class Verification {
     public boolean getVerificationValidity() {
         return verificationValidity;
     }
+    public int getItemId() { return itemId; }
+    public int getItemQuantity() { return itemQuantity; }
+    public String getVerificationCode() { return verificationCode; }
 }

@@ -1,7 +1,6 @@
 package ui;
 
 import domain.app.Controller;
-import domain.payment.Verification;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -15,8 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import static domain.payment.VerificationManager.CODE_LEN;
-import static ui.Window_1.selectedItemId;
-import static ui.Window_2.selectedItemNum;
 
 public class Window_6 extends DvmWindow {
     private static final JButton btn1 = new JButton("ENTER");
