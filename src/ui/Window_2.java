@@ -143,9 +143,11 @@ public class Window_2 extends DvmWindow {
             dispose();
             new Window_1(controller);
         } else if (e.getActionCommand().equals("+")) {
-            itemQuantity.setText(Integer.toString(Math.min(999, num[++itemNum])));
+            itemNum = Math.min(itemNum + 1, MAX_ITEM_QUANTITY);
+            itemQuantity.setText(Integer.toString(itemNum));
         } else if (e.getActionCommand().equals("-")) {
-            itemQuantity.setText(Integer.toString(Math.max(0, num[--itemNum])));
+            itemNum = Math.max(itemNum - 1, 0);
+            itemQuantity.setText(Integer.toString(itemNum));
         }
     }
 

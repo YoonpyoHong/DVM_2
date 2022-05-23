@@ -30,6 +30,8 @@ public class Window_1 extends DvmWindow {
     private static final int btnHeight = 30;
     private static final int drinkPanelWidth = 290;
     private static final int drinkPanelHeight = 400;
+
+    private static int drinkId = 0;
     private static int drinkPrice = 0;
     private static String drinkName = "";
 
@@ -110,6 +112,7 @@ public class Window_1 extends DvmWindow {
         }
         for (int i = 0; i < MAX_ITEM; i++) {
             if (e.getActionCommand().equals(drinkList[i])) {
+                drinkId = i;
                 drinkName = drinkList[i];
                 drinkPrice = (i + 1) * 100;
                 dispose();
@@ -117,6 +120,8 @@ public class Window_1 extends DvmWindow {
             }
         }
     }
+
+    public static int getItemId() { return drinkId; }
 
     public static String getItemName() {
         return drinkName;
