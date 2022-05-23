@@ -19,7 +19,7 @@ public class MessageManager extends Thread {
     private static final String NULL_AUTH_CODE = "0000000000";
     private static Deque<Message> msgQueue;
 
-    public static class OtherVM extends Thread {
+    private static class OtherVM extends Thread {
         private static DVMServer server;
 
         public OtherVM() {
@@ -38,7 +38,7 @@ public class MessageManager extends Thread {
         }
     }
 
-    public class MsgReceiver extends Thread {
+    private class MsgReceiver extends Thread {
         private final ItemManager itemManager;
 
         MsgReceiver(ItemManager itemManager) {
@@ -108,36 +108,6 @@ public class MessageManager extends Thread {
         System.err.println("msgReceiver is Running");
     }
 
-    private int[] decodeMsg(Message msg) {
-        String srcName = msg.getSrcId();
-        Message.MessageDescription msgDes = msg.getMsgDescription();
-        int srcId = srcName.charAt(srcName.length() - 1) - '0';
-        int itemId = Integer.parseInt(msgDes.getItemCode());
-        int itemQuantity = msgDes.getItemNum();
-        int srcX = msgDes.getDvmXCoord();
-        int srcY = msgDes.getDvmYCoord();
-        return new int[]{srcId, itemId, itemQuantity, srcX, srcY};
-    }
-
-    private void setMsgDes(Message.MessageDescription msgDes, int itemId, int itemQuantity, String authCode) {
-        msgDes.setItemCode(Integer.toString(itemId));
-        msgDes.setItemNum(itemQuantity);
-        msgDes.setDvmXCoord(MessageManager.dvmX);
-        msgDes.setDvmYCoord(MessageManager.dvmY);
-        msgDes.setAuthCode(authCode);
-    }
-
-    private Message setMsg(String dstId, int itemId, int itemQuantity, String msgType, String authCode) {
-        Message msg = new Message();
-        Message.MessageDescription msgDes = new Message.MessageDescription();
-        setMsgDes(msgDes, itemId, itemQuantity, authCode);
-        msg.setSrcId(MessageManager.id);
-        msg.setDstID(dstId);
-        msg.setMsgType(msgType);
-        msg.setMsgDescription(msgDes);
-        return msg;
-    }
-
     public void sendMsg(int dstId, Message msg) {
         System.err.println("sends msg to " + dstId + "(" + IP_ADDR[dstId - 1] + ")");
         String jsonMsg = new Serializer().message2Json(msg);
@@ -202,5 +172,35 @@ public class MessageManager extends Thread {
     public void sendProductMsg(int itemId, int itemQuantity, int dstId) {
         Message msg = setMsg("Team" + dstId, itemId, itemQuantity, "SalesCheckResponse", NULL_AUTH_CODE);
         sendMsg(dstId, msg);
+    }
+
+    private Message setMsg(String dstId, int itemId, int itemQuantity, String msgType, String authCode) {
+        Message msg = new Message();
+        Message.MessageDescription msgDes = new Message.MessageDescription();
+        setMsgDes(msgDes, itemId, itemQuantity, authCode);
+        msg.setSrcId(MessageManager.id);
+        msg.setDstID(dstId);
+        msg.setMsgType(msgType);
+        msg.setMsgDescription(msgDes);
+        return msg;
+    }
+
+    private void setMsgDes(Message.MessageDescription msgDes, int itemId, int itemQuantity, String authCode) {
+        msgDes.setItemCode(Integer.toString(itemId));
+        msgDes.setItemNum(itemQuantity);
+        msgDes.setDvmXCoord(MessageManager.dvmX);
+        msgDes.setDvmYCoord(MessageManager.dvmY);
+        msgDes.setAuthCode(authCode);
+    }
+
+    private int[] decodeMsg(Message msg) {
+        String srcName = msg.getSrcId();
+        Message.MessageDescription msgDes = msg.getMsgDescription();
+        int srcId = srcName.charAt(srcName.length() - 1) - '0';
+        int itemId = Integer.parseInt(msgDes.getItemCode());
+        int itemQuantity = msgDes.getItemNum();
+        int srcX = msgDes.getDvmXCoord();
+        int srcY = msgDes.getDvmYCoord();
+        return new int[]{srcId, itemId, itemQuantity, srcX, srcY};
     }
 }

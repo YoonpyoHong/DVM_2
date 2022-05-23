@@ -25,7 +25,6 @@ public class Window_4 extends DvmWindow {
     private static final JLabel time = new JLabel("<html>Time runout display<br><center>(60 sec)</center></html>", SwingConstants.CENTER);
     private static final JLabel notice = new JLabel("Please insert card's info", SwingConstants.CENTER);
 
-
     public Window_4(Controller controller) {
         super(controller);
     }

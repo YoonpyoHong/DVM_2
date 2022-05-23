@@ -2,6 +2,7 @@ package domain.app;
 
 import domain.admin.AccountManager;
 import domain.message.MessageManager;
+import domain.product.Item;
 import domain.product.ItemManager;
 import domain.payment.CardReader;
 import domain.payment.PaymentManager;
@@ -109,4 +110,7 @@ public class Controller {
 
     }
 
+    public Item[] getItemList() {
+        return itemManager.getItemList();
+    }
 }

@@ -1,6 +1,7 @@
 package ui;
 
 import domain.app.Controller;
+import domain.product.Item;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,6 +15,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+
+import static domain.product.ItemManager.MAX_ITEM;
 
 public class Window_1 extends DvmWindow {
     private static final JPanel itemLayout = new JPanel();
@@ -87,7 +90,7 @@ public class Window_1 extends DvmWindow {
         if (DvmWindow.i != MAX_ITEM) {
             for (int j = 0; j < MAX_ITEM; j++) {
                 JButton[] btn = new JButton[MAX_ITEM];
-                btn[j] = new JButton(drinkList[j]);
+                btn[j] = new JButton(items[j].getItemName());
                 btn[j].setFocusable(false);
                 btn[j].setPreferredSize(new Dimension(btnWidth, btnHeight));
                 itemLayout.add(btn[j]);
@@ -115,9 +118,9 @@ public class Window_1 extends DvmWindow {
             new Window_6(controller);
         }
         for (int i = 0; i < MAX_ITEM; i++) {
-            if (e.getActionCommand().equals(drinkList[i])) {
+            if (e.getActionCommand().equals(items[i].getItemName())) {
                 drinkId = i;
-                drinkName = drinkList[i];
+                drinkName = items[i].getItemName();
                 drinkPrice = (i + 1) * 100;
                 this.dispose();
                 new Window_2(controller);

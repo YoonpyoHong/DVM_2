@@ -3,25 +3,15 @@ package domain.payment;
 import java.util.*;
 
 public class VerificationManager {
-    static final int CODE_LEN = 10;
-    static final int LETTER = 26 + 10;
-    static final String letterSet = "0123456789qwertyuiopasdfghjklzxcvbnm";
-    static Random rand;
-    static Map<String, Verification> verifications;
+    private static final int CODE_LEN = 10;
+    private static final int LETTER = 26 + 10;
+    private static final String letterSet = "0123456789qwertyuiopasdfghjklzxcvbnm";
+    private static Random rand;
+    private static Map<String, Verification> verifications;
 
     public VerificationManager() {
         rand = new Random(System.currentTimeMillis());
         verifications = new HashMap<>();
-    }
-
-    private boolean isValidCode(String code) {
-        boolean isAlpha = false;
-        boolean isDigit = false;
-        for (char ch : code.toCharArray()) {
-            isAlpha |= Character.isAlphabetic(ch);
-            isDigit |= Character.isDigit(ch);
-        }
-        return isAlpha && isDigit;
     }
 
     public String createVerificationCode() {
@@ -41,5 +31,15 @@ public class VerificationManager {
 
     public boolean checkVerification(String verificationCode) {
         return verifications.containsKey(verificationCode);
+    }
+
+    private boolean isValidCode(String code) {
+        boolean isAlpha = false;
+        boolean isDigit = false;
+        for (char ch : code.toCharArray()) {
+            isAlpha |= Character.isAlphabetic(ch);
+            isDigit |= Character.isDigit(ch);
+        }
+        return isAlpha && isDigit;
     }
 }

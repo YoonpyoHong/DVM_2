@@ -17,7 +17,6 @@ public class Window_6 extends DvmWindow {
     private static final JButton btn1 = new JButton("ENTER");
     private static final JButton btn2 = new JButton("BACK");
     private static final JTextField verCode = new JTextField(15);
-
     private static final JLabel notice = new JLabel("Please insert verification code:");
 
     public Window_6(Controller controller) {

@@ -20,6 +20,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
+import static domain.product.ItemManager.MAX_ITEM;
+import static domain.product.ItemManager.MAX_LOCAL_ITEM;
+
 public class Window_8 extends DvmWindow {
     //random 7 drink list
     private static final String[] itemList = new String[MAX_LOCAL_ITEM];
@@ -53,7 +56,7 @@ public class Window_8 extends DvmWindow {
     protected void init() {
         //generate MAX_LOCAL_ITEM item list randomly for every dvm
         for (int i = 0; i < rand.length; i++) {
-            itemList[i] = drinkList[rand[i]];
+            itemList[i] = items[rand[i]].getItemName();
         }
         //set drink list layout's size
         itemLayout.setPreferredSize(new Dimension(drinkPanelWidth, drinkPanelHeight));

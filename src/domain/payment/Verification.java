@@ -1,10 +1,10 @@
 package domain.payment;
 
 public class Verification {
-    int itemId;
-    int itemQuantity;
-    String verificationCode;
-    Boolean verificationValidity;
+    private int itemId;
+    private int itemQuantity;
+    private String verificationCode;
+    private boolean verificationValidity;
 
     public Verification(int itemId, int itemQuantity, String verificationCode, boolean verificationValidity) {
         this.itemId = itemId;

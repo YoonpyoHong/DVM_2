@@ -83,6 +83,5 @@ public class Window_3_1 extends DvmWindow {
             new Window_2(controller);
         }
     }
-
 }
 
