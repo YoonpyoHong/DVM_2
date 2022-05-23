@@ -11,7 +11,7 @@ public class MessageManager {
     private final int dvmX = 22;
     private final int dvmY = 22;
     private final int TOTAL_DVM_COUNT = 2;
-    private final String[] IP_ADDR = {"192.168.1.82", "localhost"};
+    private final String[] IP_ADDR = {"localhost", "localhost"};
     private final MsgReceiver msgReceiver;
     private final ItemManager itemManager;
     /*
@@ -72,7 +72,7 @@ public class MessageManager {
     public MessageManager(ItemManager itemManager) {
         this.itemManager = itemManager;
         msgReceiver = new MsgReceiver(itemManager);
-        msgReceiver.start();
+        //msgReceiver.start();
     }
 
     private void setMsgDes(Message.MessageDescription msgDes, int itemId, int itemQuantity, int dvmX, int dvmY, String authCode) {
@@ -90,13 +90,14 @@ public class MessageManager {
         msg.setMsgDescription(msgDes);
     }
 
-    public void sendMsg(int dstId, Message msg) {
-        System.err.println("sends msg to " + dstId);
+    public void sendMsg(int dstId, Message msg) throws InterruptedException {
+        System.err.println("sends msg to " + dstId + "(" + IP_ADDR[dstId - 1] + ")");
         String jsonMsg = new Serializer().message2Json(msg);
-        new DVMClient(IP_ADDR[dstId - 1], jsonMsg);
+        DVMClient client = new DVMClient(IP_ADDR[dstId - 1], jsonMsg);
+        client.run();
     }
 
-    public void checkStockOfOtherVM(int itemId, int itemQuantity) {
+    public void checkStockOfOtherVM(int itemId, int itemQuantity) throws InterruptedException {
         System.err.println("itemId, itemQuantity = " + itemId + ", " + itemQuantity);
         for (int i = 1; i <= TOTAL_DVM_COUNT; i++) {
             String dstId = "Team" + i;
@@ -110,7 +111,7 @@ public class MessageManager {
         }
     }
 
-    public void sendPrepaymentInfo(int itemId, int itemQuantity, int dstId, String verificationCode) {
+    public void sendPrepaymentInfo(int itemId, int itemQuantity, int dstId, String verificationCode) throws InterruptedException {
         Message msg = new Message();
         Message.MessageDescription msgDes = new Message.MessageDescription();
         setMsgDes(msgDes, itemId, itemQuantity, this.dvmX, this.dvmY, verificationCode);
@@ -118,7 +119,7 @@ public class MessageManager {
         sendMsg(dstId, msg);
     }
 
-    public void sendStockMsg(int itemId, int itemQuantity, int dstId) {
+    public void sendStockMsg(int itemId, int itemQuantity, int dstId) throws InterruptedException {
         Message msg = new Message();
         Message.MessageDescription msgDes = new Message.MessageDescription();
         setMsgDes(msgDes, itemId, itemQuantity, this.dvmX, this.dvmY, null);
@@ -126,7 +127,7 @@ public class MessageManager {
         sendMsg(dstId, msg);
     }
 
-    public void sendProductMsg(int itemId, int itemQuantity, int dstId) {
+    public void sendProductMsg(int itemId, int itemQuantity, int dstId) throws InterruptedException {
         Message msg = new Message();
         Message.MessageDescription msgDes = new Message.MessageDescription();
         setMsgDes(msgDes, itemId, itemQuantity, this.dvmX, this.dvmY, null);

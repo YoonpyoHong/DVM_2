@@ -6,13 +6,13 @@ import domain.payment.VerificationManager;
 import ui.Window_1;
 
 public class Main {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		testMessageManager();
 //		testUI();
 //		testVerificationManager();
 	}
 
-	private static void testMessageManager() {
+	private static void testMessageManager() throws InterruptedException {
 		Controller controller = new Controller();
 		MessageManager msgManager = controller.getMsgManager();
 		msgManager.checkStockOfOtherVM(1, 2);
@@ -31,7 +31,7 @@ public class Main {
 	}
 
 	private static void testUI() {
-		new Window_1("T2 00PT DVM");
+		new Window_1(new Controller());
 	}
 
 	private static void testController() {
