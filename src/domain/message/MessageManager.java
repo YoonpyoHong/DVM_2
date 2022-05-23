@@ -2,39 +2,25 @@ package domain.message;
 
 import DVM_Client.DVMClient;
 import DVM_Server.DVMServer;
-import GsonConverter.Deserializer;
 import GsonConverter.Serializer;
 import Model.Message;
 import domain.product.ItemManager;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 public class MessageManager extends Thread {
+    private static final int WAIT_TIME = 1000; // ms
     private static final String id = "Team2";
     private static final int dvmX = 22;
     private static final int dvmY = 22;
     private static final int TOTAL_DVM_COUNT = 2;
     private static final String[] IP_ADDR = {"localhost", "localhost"};
     private static final String NULL_AUTH_CODE = "0000000000";
-    private final OtherVM oVM;
-    private final MsgReceiver msgReceiver;
-    private final ItemManager itemManager;
+    private static Deque<Message> msgQueue;
 
-    /*
-    public static class MsgSender extends Thread {
-        private DVMClient client;
-        @Override
-        public void run() {
-            try {
-                Message msg = new Message();
-                msg.setSrcId(id);
-                client = new DVMClient("localhost", jsonMsg);
-            } catch (Exception e) {
-
-            }
-        }
-    }
-     */
-    public class OtherVM extends Thread {
-        DVMServer server;
+    public static class OtherVM extends Thread {
+        private static DVMServer server;
 
         public OtherVM() {
             server = new DVMServer();
@@ -50,19 +36,13 @@ public class MessageManager extends Thread {
                 e.printStackTrace();
             }
         }
-
-        public DVMServer getServer() {
-            return this.server;
-        }
     }
 
     public class MsgReceiver extends Thread {
         private final ItemManager itemManager;
-        private final DVMServer server;
 
-        MsgReceiver(DVMServer server, ItemManager itemManager) {
+        MsgReceiver(ItemManager itemManager) {
             this.itemManager = itemManager;
-            this.server = server;
         }
 
         @Override
@@ -74,19 +54,19 @@ public class MessageManager extends Thread {
             }
             while (true) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(WAIT_TIME);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.err.println("msgList.size() = " + this.server.msgList.size());
-                if (!this.server.msgList.isEmpty()) {
-                    Message msg = this.server.msgList.remove(this.server.msgList.size() - 1);
+                System.err.println("msgList.size() = " + DVMServer.msgList.size());
+                if (!DVMServer.msgList.isEmpty()) {
+                    Message msg = DVMServer.msgList.remove(DVMServer.msgList.size() - 1);
                     String msgType = msg.getMsgType();
-                    String otherName = msg.getSrcId();
-                    int otherId = otherName.charAt(otherName.length() - 1) - '0';
-                    Message.MessageDescription msgDes = msg.getMsgDescription();
-                    int itemId = Integer.parseInt(msgDes.getItemCode());
-                    int itemQuantity = msgDes.getItemNum();
+                    String authCode= msg.getMsgDescription().getAuthCode();
+                    int[] msgInfo = decodeMsg(msg);
+                    int otherId = msgInfo[0];
+                    int itemId = msgInfo[1];
+                    int itemQuantity = msgInfo[2];
                     System.err.println("(OtherId, itemId, itemQuantity, msgType) = " + otherId + ", " + itemId + ", " + itemQuantity + ", " + msgType);
                     if (msgType.equals("StockCheckRequest")) {
                         boolean stockAvailable = itemManager.checkStock(itemId, itemQuantity);
@@ -94,11 +74,15 @@ public class MessageManager extends Thread {
                             MessageManager.this.sendStockMsg(itemId, itemQuantity, otherId);
                         }
                     } else if (msgType.equals("StockCheckResponse")) {
-
+                        msgQueue.addLast(msg);
                     } else if (msgType.equals("PrepaymentCheck")) {
-
+                        /* TODO */
+                        itemManager.synchronize(itemId, itemQuantity, authCode);
                     } else if (msgType.equals("SalesCheckRequest")) {
-
+                        boolean productAvailable = itemManager.checkProduct(itemId);
+                        if (productAvailable) {
+                            MessageManager.this.sendProductMsg(itemId, 1, otherId);
+                        }
                     }
                 }
             }
@@ -115,14 +99,24 @@ public class MessageManager extends Thread {
     }
 
     public MessageManager(ItemManager itemManager) {
-        this.itemManager = itemManager;
-        this.oVM = new OtherVM();
-        this.oVM.start();
+        msgQueue = new ArrayDeque<>();
+        OtherVM oVM = new OtherVM();
+        oVM.start();
         System.err.println("OVM is Running");
-
-        this.msgReceiver = new MsgReceiver(oVM.getServer(), itemManager);
-        this.msgReceiver.start();
+        MsgReceiver msgReceiver = new MsgReceiver(itemManager);
+        msgReceiver.start();
         System.err.println("msgReceiver is Running");
+    }
+
+    private int[] decodeMsg(Message msg) {
+        String srcName = msg.getSrcId();
+        Message.MessageDescription msgDes = msg.getMsgDescription();
+        int srcId = srcName.charAt(srcName.length() - 1) - '0';
+        int itemId = Integer.parseInt(msgDes.getItemCode());
+        int itemQuantity = msgDes.getItemNum();
+        int srcX = msgDes.getDvmXCoord();
+        int srcY = msgDes.getDvmYCoord();
+        return new int[]{srcId, itemId, itemQuantity, srcX, srcY};
     }
 
     private void setMsgDes(Message.MessageDescription msgDes, int itemId, int itemQuantity, String authCode) {
@@ -155,7 +149,7 @@ public class MessageManager extends Thread {
         }
     }
 
-    public void checkStockOfOtherVM(int itemId, int itemQuantity) {
+    public int[] checkStockOfOtherVM(int itemId, int itemQuantity) {
         System.err.println("itemId, itemQuantity = " + itemId + ", " + itemQuantity);
         for (int i = 1; i <= TOTAL_DVM_COUNT; i++) {
             String dstId = "Team" + i;
@@ -164,6 +158,35 @@ public class MessageManager extends Thread {
                 sendMsg(i, msg);
             }
         }
+        try {
+            Thread.sleep(WAIT_TIME * 2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        if (msgQueue.isEmpty()) {
+            return new int[]{-1, -1, -1};
+        }
+        Message msg = msgQueue.pollLast();
+        int[] msgInfo = decodeMsg(msg);
+        int dstId = msgInfo[0];
+        int dstX = msgInfo[3];
+        int dstY = msgInfo[4];
+        int minDist = (dvmX - dstX) * (dvmX - dstX) + (dvmY - dstY) * (dvmY - dstY);
+        while (!msgQueue.isEmpty()) {
+            msg = msgQueue.pollLast();
+            msgInfo = decodeMsg(msg);
+            int otherId = msgInfo[0];
+            int otherX = msgInfo[3];
+            int otherY = msgInfo[4];
+            int otherDist = (dvmX - otherX) * (dvmX - otherX) + (dvmY - otherY) * (dvmY - otherY);
+            if (otherDist < minDist || (otherDist == minDist && otherId < dstId)) {
+                minDist = otherDist;
+                dstId = otherId;
+                dstX = otherX;
+                dstY = otherY;
+            }
+        }
+        return new int[]{dstId, dstX, dstY};
     }
 
     public void sendPrepaymentInfo(int itemId, int itemQuantity, int dstId, String verificationCode) {
