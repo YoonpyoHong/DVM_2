@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import static domain.payment.Card.CARD_NUM_LENGTH;
+
 public class CardReader {
     private static Map<String, Card> cards;
 
@@ -15,15 +17,28 @@ public class CardReader {
     }
 
     public boolean checkCardValidity(String cardNum, int cardPwd) {
+        System.err.println("cardNum = " + cardNum);
         Card card = cards.get(cardNum);
         if (card == null) {
             return false;
         }
+        System.err.println("matched card = " + card);
         return card.getCardPwd() == cardPwd;
     }
 
     public Card getCardInfo(String cardNum) {
         return cards.get(cardNum);
+    }
+
+    public String encodeCardNum(String inputCardNum) {
+        String cardNum = "";
+        for (int i = 0; i < CARD_NUM_LENGTH; i++) {
+            cardNum += inputCardNum.charAt(i);
+            if (i % 4 == 3 && i != 15) {
+                cardNum += '-';
+            }
+        }
+        return cardNum;
     }
 
     private void loadCardList() {

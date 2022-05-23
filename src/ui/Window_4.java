@@ -25,7 +25,7 @@ public class Window_4 extends DvmWindow {
     private static final JButton btn1 = new JButton("ENTER");
     private static final JButton btn2 = new JButton("BACK");
 
-    private static final JTextField verCode = new JTextField(11);
+    private static final JTextField verCode = new JTextField(CARD_NUM_LENGTH + 10);
     private static final JLabel time = new JLabel("<html>Time runout display<br><center>(60 sec)</center></html>", SwingConstants.CENTER);
     private static final JLabel notice = new JLabel("Please insert card's info", SwingConstants.CENTER);
 
@@ -101,11 +101,11 @@ public class Window_4 extends DvmWindow {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("ENTER")) {
+            /* TODO: also input card password */
 //			show JDialog (successful transaction, drink in dispensed)
             String inputCardNum = verCode.getText();
-            System.err.println(inputCardNum);
-            /* TODO: also input card password */
-            String resMsg = controller.payment(selectedItemId, selectedItemNum, inputCardNum, 1234);
+            String cardNum = controller.getCardReader().encodeCardNum(inputCardNum);
+            String resMsg = controller.payment(selectedItemId, selectedItemNum, cardNum, 1234);
             System.err.println("result message: " + resMsg);
             if (resMsg.equals("payment complete")) {
                 System.out.println(resMsg);

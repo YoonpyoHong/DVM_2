@@ -1,7 +1,7 @@
 package domain.payment;
 
 public class Card {
-    public static final int CARD_NUM_LENGTH = 10;
+    public static final int CARD_NUM_LENGTH = 16;
 
     private final String cardNum;
     private final int cardPwd;
@@ -26,5 +26,10 @@ public class Card {
     }
     public void setMoney(long money) {
         this.money = money;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("item: (%s, %d, %d)", cardNum, cardPwd, money);
     }
 }
