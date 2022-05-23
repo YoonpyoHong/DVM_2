@@ -21,9 +21,9 @@ public class Controller {
         paymentManager = new PaymentManager();
         itemManager = new ItemManager();
         messageManager = new MessageManager(itemManager);
-        messageManager.run();
-        System.err.println("messageManager is Running");
+//        messageManager.run();
         accountManager = new AccountManager();
+        System.err.println(this.getClass() + " created");
     }
 
     public MessageManager getMsgManager() { return messageManager; }
@@ -112,5 +112,9 @@ public class Controller {
 
     public Item[] getItemList() {
         return itemManager.getItemList();
+    }
+
+    public AccountManager getAccountManager() {
+        return accountManager;
     }
 }

@@ -35,6 +35,7 @@ public abstract class DvmWindow extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         init();
         this.setVisible(true);
+        System.err.println(this.getClass() + " created");
     }
 
     public abstract void actionPerformed(ActionEvent e);

@@ -83,8 +83,11 @@ public class Window_7 extends DvmWindow {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("LOGIN")) {
-            this.dispose();
-            new Window_8(controller);
+            boolean ok = controller.getAccountManager().verifyLoginInfo(pwd.getText());
+            if (ok) {
+                this.dispose();
+                new Window_8(controller);
+            }
         } else if (e.getActionCommand().equals("BACK")) {
             this.dispose();
             new Window_1(controller);
