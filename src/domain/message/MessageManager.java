@@ -2,18 +2,22 @@ package domain.message;
 
 import DVM_Client.DVMClient;
 import DVM_Server.DVMServer;
+import GsonConverter.Deserializer;
 import GsonConverter.Serializer;
 import Model.Message;
 import domain.product.ItemManager;
 
-public class MessageManager {
+public class MessageManager extends Thread {
     private static final String id = "Team2";
     private static final int dvmX = 22;
     private static final int dvmY = 22;
     private static final int TOTAL_DVM_COUNT = 2;
     private static final String[] IP_ADDR = {"localhost", "localhost"};
+    private static final String NULL_AUTH_CODE = "0000000000";
+    private final OtherVM oVM;
     private final MsgReceiver msgReceiver;
     private final ItemManager itemManager;
+
     /*
     public static class MsgSender extends Thread {
         private DVMClient client;
@@ -29,32 +33,65 @@ public class MessageManager {
         }
     }
      */
-    public static class MsgReceiver extends Thread {
-        private DVMServer server;
-        private final ItemManager itemManager;
-        MsgReceiver(ItemManager itemManager) {
-            this.itemManager = itemManager;
+    public class OtherVM extends Thread {
+        DVMServer server;
+
+        public OtherVM() {
+            server = new DVMServer();
         }
+
         @Override
         public void run() {
             try {
-                System.out.println("Server running...");
+                System.err.println("DVMServer running...");
                 server.run();
+                System.err.println("DVMServer Stopped...");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        public DVMServer getServer() {
+            return this.server;
+        }
+    }
+
+    public class MsgReceiver extends Thread {
+        private final ItemManager itemManager;
+        private final DVMServer server;
+
+        MsgReceiver(DVMServer server, ItemManager itemManager) {
+            this.itemManager = itemManager;
+            this.server = server;
+        }
+
+        @Override
+        public void run() {
+            try {
+                System.err.println("MsgReceiver running...");
             } catch (Exception e) {
                 e.printStackTrace();
             }
             while (true) {
-                if (!DVMServer.msgList.isEmpty()) {
-                    Message msg = DVMServer.msgList.get(DVMServer.msgList.size() - 1);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.err.println("msgList.size() = " + this.server.msgList.size());
+                if (!this.server.msgList.isEmpty()) {
+                    Message msg = this.server.msgList.remove(this.server.msgList.size() - 1);
                     String msgType = msg.getMsgType();
-                    int dstId = Integer.parseInt(msg.getSrcId());
+                    String otherName = msg.getSrcId();
+                    int otherId = otherName.charAt(otherName.length() - 1) - '0';
                     Message.MessageDescription msgDes = msg.getMsgDescription();
                     int itemId = Integer.parseInt(msgDes.getItemCode());
                     int itemQuantity = msgDes.getItemNum();
+                    System.err.println("(OtherId, itemId, itemQuantity, msgType) = " + otherId + ", " + itemId + ", " + itemQuantity + ", " + msgType);
                     if (msgType.equals("StockCheckRequest")) {
-                        boolean available = itemManager.checkStock(itemId, itemQuantity);
-                        if (available) {
-
+                        boolean stockAvailable = itemManager.checkStock(itemId, itemQuantity);
+                        if (stockAvailable) {
+                            MessageManager.this.sendStockMsg(itemId, itemQuantity, otherId);
                         }
                     } else if (msgType.equals("StockCheckResponse")) {
 
@@ -68,10 +105,24 @@ public class MessageManager {
         }
     }
 
+    @Override
+    public void run() {
+        try {
+            System.err.println("msgManager running...");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public MessageManager(ItemManager itemManager) {
         this.itemManager = itemManager;
-        msgReceiver = new MsgReceiver(itemManager);
-        msgReceiver.start();
+        this.oVM = new OtherVM();
+        this.oVM.start();
+        System.err.println("OVM is Running");
+
+        this.msgReceiver = new MsgReceiver(oVM.getServer(), itemManager);
+        this.msgReceiver.start();
+        System.err.println("msgReceiver is Running");
     }
 
     private void setMsgDes(Message.MessageDescription msgDes, int itemId, int itemQuantity, String authCode) {
@@ -109,7 +160,7 @@ public class MessageManager {
         for (int i = 1; i <= TOTAL_DVM_COUNT; i++) {
             String dstId = "Team" + i;
             if (!dstId.equals(id)) {
-                Message msg = setMsg(dstId, itemId, itemQuantity, "StockCheckRequest", null);
+                Message msg = setMsg(dstId, itemId, itemQuantity, "StockCheckRequest", NULL_AUTH_CODE);
                 sendMsg(i, msg);
             }
         }
@@ -121,12 +172,12 @@ public class MessageManager {
     }
 
     public void sendStockMsg(int itemId, int itemQuantity, int dstId) {
-        Message msg = setMsg("Team" + dstId, itemId, itemQuantity, "StockCheckResponse", null);
+        Message msg = setMsg("Team" + dstId, itemId, itemQuantity, "StockCheckResponse", NULL_AUTH_CODE);
         sendMsg(dstId, msg);
     }
 
     public void sendProductMsg(int itemId, int itemQuantity, int dstId) {
-        Message msg = setMsg("Team" + dstId, itemId, itemQuantity,"SalesCheckResponse", null);
+        Message msg = setMsg("Team" + dstId, itemId, itemQuantity, "SalesCheckResponse", NULL_AUTH_CODE);
         sendMsg(dstId, msg);
     }
 }

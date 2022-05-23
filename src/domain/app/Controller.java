@@ -20,6 +20,8 @@ public class Controller {
         paymentManager = new PaymentManager();
         itemManager = new ItemManager();
         messageManager = new MessageManager(itemManager);
+        messageManager.run();
+        System.err.println("messageManager is Running");
         accountManager = new AccountManager();
     }
 
