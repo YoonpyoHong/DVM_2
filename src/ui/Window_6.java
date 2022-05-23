@@ -1,53 +1,41 @@
-package ui;
+package ui3;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 
-public class Window_6 extends JFrame implements ActionListener {
+import ui.JTextFieldLimit;
 
-	Container frame = this.getContentPane();
-	JButton btn1 = new JButton("ENTER"); 
-	JButton btn2 = new JButton("BACK");
-	JTextField verCode = new JTextField(15);
+public class Window_6 extends DvmWindow {
+    private static final JButton btn1 = new JButton("ENTER");
+    private static final JButton btn2 = new JButton("BACK");
+    private static final JTextField verCode = new JTextField(15);
 
-	JPanel panel = new JPanel(new GridBagLayout());
-	JLabel notice = new JLabel("Please insert verification code:");
-	JLabel vmID = new JLabel("          VM's ID           ");
-	GridBagConstraints c = new GridBagConstraints();
-    Border grayline = BorderFactory.createLineBorder(Color.decode("#cfd0d1"), 1);
+    private static final JLabel notice = new JLabel("Please insert verification code:");
 
-	int width = 500;
-	int height = 500;
+    public Window_6(Controller controller) {
+        super(controller);
+    }
 
-	public Window_6() {
-		this("T2 OOPT DVM");
-	}
-	
-	public Window_6(String title) {
-		super(title);
-		this.setSize(width, height);
-		this.setLocationRelativeTo(null);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		init();
-		this.setVisible(true);	
-	}
+    protected void init() {
+        panel = new JPanel(new GridBagLayout());
 
-	private void init() {
-		//set limit 10 digits for verification code:
-		verCode.setDocument(new JTextFieldLimit(10));
+//      ===============================================================
+//      		c, the layout constraint is initiated here
+        
+        c = new GridBagConstraints();
+        
+//      ===============================================================  
+
+        //set limit 10 digits for verification code:
+        verCode.setDocument(new JTextFieldLimit(10));
 
 		frame.add(panel);	
 		vmID.setBackground(Color.decode("#cfd0d1"));
@@ -93,23 +81,19 @@ public class Window_6 extends JFrame implements ActionListener {
 		
 		btn1.setFocusable(false);
 		btn2.setFocusable(false);
-	}
+    }
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand() == "ENTER") {
-			//show JDialog
-			//dispose JDialog and this window after 15 second
-			//not implemented yet
-			
-			dispose();
-			Window_1 nextWindow = new Window_1("T2 OOPT DVM");
-			
-		}
-		else if(e.getActionCommand() == "BACK") {
-			dispose();
-			Window_1 backWindow = new Window_1("T2 OOPT DVM");
-		}
-	}
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals("ENTER")) {
+        	
+            //show JDialog
+            //dispose JDialog and this window after 15 second
+            //not implemented yet
+        	
+            this.dispose();new Window_1(controller);
+        } else if (e.getActionCommand().equals("BACK")) {
+            this.dispose();new Window_1(controller);
+        }
+    }
 }
-
