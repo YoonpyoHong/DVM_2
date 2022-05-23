@@ -11,12 +11,13 @@ import java.util.Deque;
 
 public class MessageManager extends Thread {
     private static final int WAIT_TIME = 1000; // ms
-    private static final String id = "Team2";
-    private static final int dvmX = 22;
-    private static final int dvmY = 22;
+    private static final String DVM_ID = "Team2";
+    private static final int DVM_X = 22;
+    private static final int DVM_Y = 22;
     private static final int TOTAL_DVM_COUNT = 2;
     private static final String[] IP_ADDR = {"localhost", "localhost"};
     private static final String NULL_AUTH_CODE = "0000000000";
+
     private static Deque<Message> msgQueue;
     private final OtherVM oVM;
     private final MsgReceiver msgReceiver;
@@ -123,7 +124,7 @@ public class MessageManager extends Thread {
         System.err.println("itemId, itemQuantity = " + itemId + ", " + itemQuantity);
         for (int i = 1; i <= TOTAL_DVM_COUNT; i++) {
             String dstId = "Team" + i;
-            if (!dstId.equals(id)) {
+            if (!dstId.equals(DVM_ID)) {
                 Message msg = setMsg(dstId, itemId, itemQuantity, "StockCheckRequest", NULL_AUTH_CODE);
                 sendMsg(i, msg);
             }
@@ -141,14 +142,14 @@ public class MessageManager extends Thread {
         int dstId = msgInfo[0];
         int dstX = msgInfo[3];
         int dstY = msgInfo[4];
-        int minDist = (dvmX - dstX) * (dvmX - dstX) + (dvmY - dstY) * (dvmY - dstY);
+        int minDist = (DVM_X - dstX) * (DVM_X - dstX) + (DVM_Y - dstY) * (DVM_Y - dstY);
         while (!msgQueue.isEmpty()) {
             msg = msgQueue.pollLast();
             msgInfo = decodeMsg(msg);
             int otherId = msgInfo[0];
             int otherX = msgInfo[3];
             int otherY = msgInfo[4];
-            int otherDist = (dvmX - otherX) * (dvmX - otherX) + (dvmY - otherY) * (dvmY - otherY);
+            int otherDist = (DVM_X - otherX) * (DVM_X - otherX) + (DVM_Y - otherY) * (DVM_Y - otherY);
             if (otherDist < minDist || (otherDist == minDist && otherId < dstId)) {
                 minDist = otherDist;
                 dstId = otherId;
@@ -178,7 +179,7 @@ public class MessageManager extends Thread {
         Message msg = new Message();
         Message.MessageDescription msgDes = new Message.MessageDescription();
         setMsgDes(msgDes, itemId, itemQuantity, authCode);
-        msg.setSrcId(MessageManager.id);
+        msg.setSrcId(MessageManager.DVM_ID);
         msg.setDstID(dstId);
         msg.setMsgType(msgType);
         msg.setMsgDescription(msgDes);
@@ -188,8 +189,8 @@ public class MessageManager extends Thread {
     private void setMsgDes(Message.MessageDescription msgDes, int itemId, int itemQuantity, String authCode) {
         msgDes.setItemCode(Integer.toString(itemId));
         msgDes.setItemNum(itemQuantity);
-        msgDes.setDvmXCoord(MessageManager.dvmX);
-        msgDes.setDvmYCoord(MessageManager.dvmY);
+        msgDes.setDvmXCoord(MessageManager.DVM_X);
+        msgDes.setDvmYCoord(MessageManager.DVM_Y);
         msgDes.setAuthCode(authCode);
     }
 
