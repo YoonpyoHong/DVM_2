@@ -77,6 +77,21 @@ public class Controller {
         return "invalid prepayment";
     }
 
+    public String prepayment(int itemId, int itemQuantity, String cardNum, int cardPwd, int dstId) {
+        boolean cardValidity = cardReader.checkCardValidity(cardNum, 1234);
+        if (!cardValidity) {
+            return "invalid card";
+        }
+        long totalPrice = (long) itemId * itemQuantity;
+        boolean paymentSuccess = paymentManager.payment(cardReader, totalPrice, cardNum);
+        if (!paymentSuccess) {
+            return "payment error in prepayment";
+        }
+        String authCode = verificationManager.createVerificationCode();
+        messageManager.sendPrepaymentInfo(itemId, itemQuantity, dstId, authCode);
+        return "prepaytment complete";
+    }
+
     public Item[] getItemList() { return itemManager.getItemList(); }
 
     public AccountManager getAccountManager() { return accountManager; }

@@ -77,7 +77,7 @@ public class Window_3_1 extends DvmWindow {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("PAY")) {
             this.dispose();
-            new Window_4(controller);
+            new Window_4(controller, "payment");
         } else if (e.getActionCommand().equals("BACK")) {
             this.dispose();
             new Window_2(controller);

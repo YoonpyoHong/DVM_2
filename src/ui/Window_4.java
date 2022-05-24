@@ -18,9 +18,11 @@ import javax.swing.SwingConstants;
 
 import static domain.payment.Card.CARD_NUM_LENGTH;
 import static ui.Window_1.selectedItemId;
+import static ui.Window_2.dvmInfo;
 import static ui.Window_2.selectedItemNum;
 
 public class Window_4 extends DvmWindow {
+    private static String paymentType;
     private static final JButton btn1 = new JButton("ENTER");
     private static final JButton btn2 = new JButton("BACK");
 
@@ -30,6 +32,11 @@ public class Window_4 extends DvmWindow {
 
     public Window_4(Controller controller) {
         super(controller);
+    }
+
+    public Window_4(Controller controller, String paymentType) {
+        super(controller);
+        this.paymentType = paymentType;
     }
 
     protected void init() {
@@ -104,8 +111,14 @@ public class Window_4 extends DvmWindow {
 //			show JDialog (successful transaction, drink in dispensed)
             String inputCardNum = verCode.getText();
             String cardNum = controller.getCardReader().encodeCardNum(inputCardNum);
-            String resMsg = controller.payment(selectedItemId, selectedItemNum, cardNum, 1234);
-            System.err.println("result message: " + resMsg);
+            String resMsg = "";
+            if (paymentType.equals("payment")) {
+                resMsg = controller.payment(selectedItemId, selectedItemNum, cardNum, 1234);
+                System.err.println("result message: " + resMsg);
+            } else if (paymentType.equals("prepayment")) {
+                resMsg = controller.prepayment(selectedItemId, selectedItemNum, cardNum, 1234, dvmInfo[0]);
+                System.err.println("result message: " + resMsg);
+            }
             if (resMsg.equals("payment complete")) {
                 System.out.println(resMsg);
             } else {

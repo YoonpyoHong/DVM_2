@@ -57,7 +57,7 @@ public class MessageManager extends Thread {
             }
             while (true) {
                 try {
-                    Thread.sleep(100);
+                    Thread.sleep(WAIT_TIME);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -109,9 +109,9 @@ public class MessageManager extends Thread {
     }
 
     public void sendMsg(int dstId, Message msg) {
-        System.err.println("sends msg to " + dstId + "(" + IP_ADDR[dstId - 1] + ")");
+        System.err.println("sends msg to " + dstId + "(" + IP_ADDR[dstId] + ")");
         String jsonMsg = new Serializer().message2Json(msg);
-        DVMClient client = new DVMClient(IP_ADDR[dstId - 1], jsonMsg);
+        DVMClient client = new DVMClient(IP_ADDR[dstId], jsonMsg);
         try {
             client.run();
         } catch (InterruptedException e) {
@@ -201,7 +201,7 @@ public class MessageManager extends Thread {
     private int[] decodeMsg(Message msg) {
         String srcName = msg.getSrcId();
         Message.MessageDescription msgDes = msg.getMsgDescription();
-        int srcId = srcName.charAt(srcName.length() - 1) - '0' - 1; // 0-indexed
+        int srcId = srcName.charAt(srcName.length() - 1) - '0'; // 0-indexed
         int itemId = Integer.parseInt(msgDes.getItemCode());
         int itemQuantity = msgDes.getItemNum();
         int srcX = msgDes.getDvmXCoord();
