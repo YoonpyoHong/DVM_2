@@ -95,8 +95,8 @@ public class MessageManager extends Thread {
     public void run() {
         try {
             System.err.println("messageManager running...");
-            oVM.start();
-            msgReceiver.start();
+            //oVM.start();
+            //msgReceiver.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -129,7 +129,7 @@ public class MessageManager extends Thread {
             }
         }
         try {
-            Thread.sleep(WAIT_TIME * 2);
+            Thread.sleep(WAIT_TIME * 1);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -175,6 +175,7 @@ public class MessageManager extends Thread {
     }
 
     private Message setMsg(String dstId, int itemId, int itemQuantity, String msgType, String authCode) {
+        System.err.println("dstId, itemId, itemQuantity, msgType, authCode = " + dstId + ", " + itemId + ", " + itemQuantity + ", " + msgType + ", " + authCode);
         Message msg = new Message();
         Message.MessageDescription msgDes = new Message.MessageDescription();
         setMsgDes(msgDes, itemId, itemQuantity, authCode);
@@ -186,7 +187,11 @@ public class MessageManager extends Thread {
     }
 
     private void setMsgDes(Message.MessageDescription msgDes, int itemId, int itemQuantity, String authCode) {
-        msgDes.setItemCode(Integer.toString(itemId));
+        String itemName = Integer.toString(itemId + 1);
+        if (itemName.length() == 1) {
+            itemName = "0" + itemName;
+        }
+        msgDes.setItemCode(itemName);
         msgDes.setItemNum(itemQuantity);
         msgDes.setDvmXCoord(MessageManager.DVM_X);
         msgDes.setDvmYCoord(MessageManager.DVM_Y);
