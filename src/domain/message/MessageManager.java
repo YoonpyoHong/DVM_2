@@ -10,7 +10,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 public class MessageManager extends Thread {
-    private static final int WAIT_TIME = 1000; // ms
+    private static final int WAIT_TIME = 500; // ms
     private static final String DVM_ID = "Team2";
     private static final int DVM_X = 22;
     private static final int DVM_Y = 22;
@@ -57,7 +57,7 @@ public class MessageManager extends Thread {
             }
             while (true) {
                 try {
-                    Thread.sleep(WAIT_TIME);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
