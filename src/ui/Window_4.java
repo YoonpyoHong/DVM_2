@@ -40,6 +40,7 @@ public class Window_4 extends DvmWindow {
     }
 
     protected void init() {
+        verCode.setDocument(new JTextFieldLimit(CARD_NUM_LENGTH));
         panel = new JPanel(new GridBagLayout());
         c = new GridBagConstraints();
         frame.add(panel);
@@ -47,55 +48,17 @@ public class Window_4 extends DvmWindow {
         panel.setBackground(Color.decode("#dcebf7"));
 
         //padding for top, left, bottom, right
-        c.insets = new Insets(10, 10, 2, 2);
         c.anchor = GridBagConstraints.FIRST_LINE_START;
-        vmID.setOpaque(true);
-        panel.add(vmID, c);
+        addJLable(10, 10, 2, 2, true, vmID);
 
-        time.setPreferredSize(new Dimension(200, 50));
-        time.setOpaque(true);
-        time.setBorder(BorderFactory.createLineBorder(Color.decode("#cfd0d1"), 1));
+        setJLable(time, 200, 50, true, Color.decode("#cfd0d1"), 1);
+        setJLable(notice, 200, 50, true, Color.decode("#cfd0d1"), 1);
 
-        notice.setPreferredSize(new Dimension(200, 50));
-        notice.setOpaque(true);
-        notice.setBorder(BorderFactory.createLineBorder(Color.decode("#cfd0d1"), 1));
-
-        c.insets = new Insets(10, 0, 2, 10);
-        c.anchor = GridBagConstraints.FIRST_LINE_END; //top corner right
-        c.weightx = 0.5;
-        c.gridx = 4;
-        c.gridy = 0;
-        panel.add(btn2, c);
-
-        c.insets = new Insets(0, 130, 300, 0);
-        c.gridx = 0;
-        c.gridy = 1;
-        c.anchor = GridBagConstraints.CENTER; //center
-        c.weighty = 0.5;
-        panel.add(notice, c);
-
-        c.insets = new Insets(0, 130, 150, 0);
-        c.gridx = 0;
-        c.gridy = 1;
-        c.anchor = GridBagConstraints.CENTER; //center
-        c.weighty = 0.5;
-        panel.add(time, c);
-
-        c.insets = new Insets(0, 250, 0, 0);
-        c.gridx = 0;
-        c.gridy = 1;
-        c.anchor = GridBagConstraints.CENTER; //center
-        c.weighty = 0.5;
-        panel.add(btn1, c);
-
-        c.insets = new Insets(0, 50, 0, 0);
-        c.gridx = 0;
-        c.gridy = 1;
-        c.anchor = GridBagConstraints.CENTER; //center
-        c.weighty = 0.5;
-
-        verCode.setDocument(new JTextFieldLimit(CARD_NUM_LENGTH));
-        panel.add(verCode, c);
+        addComponent(0, 250, 0, 0, 0, 1, 0.5, GridBagConstraints.CENTER, btn1);
+        addComponent(10, 0, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END, btn2);
+        addComponent(0, 130, 300, 0, 0, 1, 0.5, GridBagConstraints.CENTER, notice);
+        addComponent(0, 130, 150, 0, 0, 1, 0.5, GridBagConstraints.CENTER, time);
+        addComponent(0, 50, 0, 0, 0, 1, 0.5, GridBagConstraints.CENTER, verCode);
 
         btn1.addActionListener(this);
         btn2.addActionListener(this);

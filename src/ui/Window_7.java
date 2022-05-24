@@ -39,39 +39,13 @@ public class Window_7 extends DvmWindow {
         notice.setBackground(Color.decode("#cfd0d1"));
         panel.setBackground(Color.decode("#dcebf7"));
 
-        //padding for top, left, bottom, right
-        c.insets = new Insets(2, 10, 2, 2);
-        vmID.setOpaque(true);
-        panel.add(vmID, c);
+        addJLable(2, 10, 2, 2, true, vmID);
 
-        c.insets = new Insets(10, 2, 2, 10);
-        c.anchor = GridBagConstraints.FIRST_LINE_END; //top corner right
-        c.weightx = 0.5;
-        c.gridx = 4;
-        c.gridy = 0;
-        panel.add(btn2, c);
-
-        c.insets = new Insets(0, 0, 260, 0);
-        c.gridx = 1;
-        c.gridy = 1;
-        c.anchor = GridBagConstraints.CENTER; //center
-        c.weighty = 0.5;
+        addComponent(0, 0, 50, 5, 1, 1, 0.5, GridBagConstraints.CENTER, btn1);
+        addComponent(10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END, btn2);
         notice.setOpaque(true);
-        panel.add(notice, c);
-
-        c.insets = new Insets(0, 20, 130, 20);
-        c.gridx = 1;
-        c.gridy = 1;
-        c.anchor = GridBagConstraints.CENTER; //center
-        c.weighty = 0.5;
-        panel.add(pwd, c);
-
-        c.insets = new Insets(0, 0, 50, 5);
-        c.gridx = 1;
-        c.gridy = 1;
-        c.anchor = GridBagConstraints.CENTER; //center
-        c.weighty = 0.5;
-        panel.add(btn1, c);
+        addComponent(0, 0, 260, 0, 1, 1, 0.5, GridBagConstraints.CENTER, notice);
+        addComponent(0, 20, 130, 20, 1, 1, 0.5, GridBagConstraints.CENTER, pwd);
 
         btn1.addActionListener(this);
         btn2.addActionListener(this);

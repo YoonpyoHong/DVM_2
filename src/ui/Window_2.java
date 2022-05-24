@@ -2,11 +2,7 @@ package ui;
 
 import domain.app.Controller;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 
 import javax.swing.BorderFactory;
@@ -19,6 +15,7 @@ import static ui.Window_1.selectedItemId;
 
 public class Window_2 extends DvmWindow {
     private static final int MAX_ITEM_QUANTITY = 999;
+
     private static final int btnItemQuantityWidth = 100;
     private static final int btnItemQuantityHeight = 50;
     private static final int btnItemNameWidth = 100;
@@ -34,90 +31,46 @@ public class Window_2 extends DvmWindow {
     private static final JButton add = new JButton("+");
     private static final JButton minus = new JButton("-");
 
-    private static final JLabel vmID = new JLabel("          VM's ID           ");
+//    private static final JLabel vmID = new JLabel("          VM's ID           ");
 
-    private static final JLabel itemQuantity = new JLabel("1", SwingConstants.CENTER);
-    private static final JLabel itemPrice = new JLabel(Integer.toString(items[selectedItemId].getItemPrice()), SwingConstants.CENTER);
+    private static JLabel itemQuantity;
+    private static JLabel itemPrice;
+    private static JLabel itemName;
 
-
-    public Window_2(Controller controller) { super(controller); }
+    public Window_2(Controller controller) {
+        super(controller);
+    }
 
     protected void init() {
         selectedItemNum = 1;
-        itemQuantity.setText("1");
 
-        panel = new JPanel(new GridBagLayout());
         c = new GridBagConstraints();
+        panel = new JPanel(new GridBagLayout());
         frame.add(panel);
         vmID.setBackground(Color.decode("#cfd0d1"));
         panel.setBackground(Color.decode("#dcebf7"));
 
-        //padding for top, left, bottom, right
         c.insets = new Insets(2, 10, 2, 2);
         vmID.setOpaque(true);
         panel.add(vmID, c);
 
-        itemQuantity.setPreferredSize(new Dimension(btnItemQuantityWidth, btnItemQuantityHeight));
-        itemQuantity.setOpaque(true);
-        itemQuantity.setBorder(BorderFactory.createLineBorder(Color.decode("#cfd0d1"), 1));
+        itemQuantity = new JLabel("1", SwingConstants.CENTER);
+        itemQuantity.setText("1");
+        setJLable(itemQuantity, btnItemQuantityWidth, btnItemQuantityHeight, true, Color.decode("#cfd0d1"), 1);
 
-        JLabel itemName = new JLabel(items[selectedItemId].getItemName(), SwingConstants.CENTER);
-        itemName.setPreferredSize(new Dimension(btnItemNameWidth, btnItemNameHeight));
-        itemName.setOpaque(true);
-        itemName.setBorder(BorderFactory.createLineBorder(Color.decode("#cfd0d1"), 1));
+        itemName = new JLabel(items[selectedItemId].getItemName(), SwingConstants.CENTER);
+        setJLable(itemName, btnItemNameWidth, btnItemNameHeight, true, Color.decode("#cfd0d1"), 1);
 
-        itemPrice.setPreferredSize(new Dimension(btnItemPriceWidth, btnItemPriceHeight));
-        itemPrice.setOpaque(true);
-        itemPrice.setBorder(BorderFactory.createLineBorder(Color.decode("#cfd0d1"), 1));
+        itemPrice = new JLabel(Integer.toString(items[selectedItemId].getItemPrice()), SwingConstants.CENTER);
+        setJLable(itemPrice, btnItemPriceWidth, btnItemPriceHeight, true, Color.decode("#cfd0d1"), 1);
 
-        c.insets = new Insets(10, 2, 2, 10);
-        c.anchor = GridBagConstraints.FIRST_LINE_END; //top corner right
-        c.weightx = 0.5;
-        c.gridx = 4;
-        c.gridy = 0;
-        panel.add(btn2, c);
-
-        c.insets = new Insets(0, 0, 250, 150);
-        c.gridx = 1;
-        c.gridy = 1;
-        c.anchor = GridBagConstraints.CENTER; //center
-        c.weighty = 0.5;
-        panel.add(itemName, c);
-
-        c.insets = new Insets(0, 120, 250, 0);
-        c.gridx = 1;
-        c.gridy = 1;
-        c.anchor = GridBagConstraints.CENTER; //center
-        c.weighty = 0.5;
-        panel.add(itemPrice, c);
-
-        c.insets = new Insets(0, 0, 120, 180);
-        c.gridx = 1;
-        c.gridy = 1;
-        c.anchor = GridBagConstraints.CENTER; //center
-        c.weighty = 0.5;
-        panel.add(add, c);
-
-        c.insets = new Insets(0, 0, 120, 20);
-        c.gridx = 1;
-        c.gridy = 1;
-        c.anchor = GridBagConstraints.CENTER; //center
-        c.weighty = 0.5;
-        panel.add(itemQuantity, c);
-
-        c.insets = new Insets(0, 137, 120, 0);
-        c.gridx = 1;
-        c.gridy = 1;
-        c.anchor = GridBagConstraints.CENTER; //center
-        c.weighty = 0.5;
-        panel.add(minus, c);
-
-        c.insets = new Insets(0, 0, 0, 15);
-        c.gridx = 1;
-        c.gridy = 1;
-        c.anchor = GridBagConstraints.CENTER; //center
-        c.weighty = 0.5;
-        panel.add(btn1, c);
+        this.addComponent(0, 0, 0, 15, 1, 1, 0.5, GridBagConstraints.CENTER, btn1);
+        this.addComponent(10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END, btn2);
+        this.addComponent(0, 0, 120, 180, 1, 1, 0.5, GridBagConstraints.CENTER, add);
+        this.addComponent(0, 137, 120, 0, 1, 1, 0.5, GridBagConstraints.CENTER, minus);
+        this.addComponent(0, 0, 250, 150, 1, 1, 0.5, GridBagConstraints.CENTER, itemName);
+        this.addComponent(0, 120, 250, 0, 1, 1, 0.5, GridBagConstraints.CENTER, itemPrice);
+        this.addComponent(0, 0, 120, 20, 1, 1, 0.5, GridBagConstraints.CENTER, itemQuantity);
 
         btn1.addActionListener(this);
         btn2.addActionListener(this);
@@ -138,6 +91,7 @@ public class Window_2 extends DvmWindow {
             System.err.println("result message: " + resMsg);
             if (resMsg.equals("displayPayment")) {
                 this.dispose();
+                setVisible(true);
                 new Window_3_1(controller);
             } else if (resMsg.equals("displayPrepayment")) {
                 this.dispose();
@@ -154,7 +108,7 @@ public class Window_2 extends DvmWindow {
             itemQuantity.setText(Integer.toString(selectedItemNum));
         } else if (e.getActionCommand().equals("-")) {
             System.err.println("selectedItemNum = " + selectedItemNum);
-            selectedItemNum = Math.max(selectedItemNum - 1, 0);
+            selectedItemNum = Math.max(selectedItemNum - 1, 1);
             itemQuantity.setText(Integer.toString(selectedItemNum));
         }
     }

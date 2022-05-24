@@ -57,7 +57,7 @@ public class MessageManager extends Thread {
             }
             while (true) {
                 try {
-                    Thread.sleep(WAIT_TIME);
+                    Thread.sleep(WAIT_TIME * 1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

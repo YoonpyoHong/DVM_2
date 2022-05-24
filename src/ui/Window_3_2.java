@@ -38,57 +38,17 @@ public class Window_3_2 extends DvmWindow {
         panel.setBackground(Color.decode("#dcebf7"));
 
         //padding for top, left, bottom, right
-        c.insets = new Insets(2, 10, 2, 2);
-        vmID.setOpaque(true);
-        panel.add(vmID, c);
+        addJLable(2, 10, 2, 2, true, vmID);
 
-        totalPrice.setPreferredSize(new Dimension(btnWidth, btnHeight));
-        totalPrice.setOpaque(true);
-        totalPrice.setBorder(BorderFactory.createLineBorder(Color.decode("#cfd0d1"), 1));
+        setJLable(totalPrice, btnWidth, btnHeight, true, Color.decode("#cfd0d1"), 1);
+        setJLable(loc, btnWidth, btnHeight, true, Color.decode("#cfd0d1"), 1);
+        setJLable(distance, btnWidth, btnHeight, true, Color.decode("#cfd0d1"), 1);
 
-        loc.setPreferredSize(new Dimension(btnWidth, btnHeight));
-        loc.setOpaque(true);
-        loc.setBorder(BorderFactory.createLineBorder(Color.decode("#cfd0d1"), 1));
-
-        distance.setPreferredSize(new Dimension(btnWidth, btnHeight));
-        distance.setOpaque(true);
-        distance.setBorder(BorderFactory.createLineBorder(Color.decode("#cfd0d1"), 1));
-
-        c.insets = new Insets(10, 0, 2, 10);
-        c.anchor = GridBagConstraints.FIRST_LINE_END; //top corner right
-        c.weightx = 0.5;
-        c.gridx = 4;
-        c.gridy = 0;
-        panel.add(btn2, c);
-
-        c.insets = new Insets(0, 0, 300, 150);
-        c.gridx = 1;
-        c.gridy = 1;
-        c.anchor = GridBagConstraints.CENTER; //center
-        c.weighty = 0.5;
-        panel.add(loc, c);
-
-        c.insets = new Insets(0, 150, 300, 0);
-        c.gridx = 1;
-        c.gridy = 1;
-        c.anchor = GridBagConstraints.CENTER; //center
-        c.weighty = 0.5;
-        panel.add(distance, c);
-
-
-        c.insets = new Insets(0, 0, 120, 0);
-        c.gridx = 1;
-        c.gridy = 1;
-        c.anchor = GridBagConstraints.CENTER; //center
-        c.weighty = 0.5;
-        panel.add(totalPrice, c);
-
-        c.insets = new Insets(0, 0, 0, 0);
-        c.gridx = 1;
-        c.gridy = 1;
-        c.anchor = GridBagConstraints.CENTER; //center
-        c.weighty = 0.5;
-        panel.add(btn1, c);
+        addComponent(0, 0, 0, 0, 1, 1, 0.5, GridBagConstraints.CENTER, btn1);
+        addComponent(10, 0, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END, btn2);
+        addComponent(0, 0, 300, 150, 1, 1, 0.5, GridBagConstraints.CENTER, loc);
+        addComponent(0, 150, 300, 0, 1, 1, 0.5, GridBagConstraints.CENTER, distance);
+        addComponent(0, 0, 120, 0, 1, 1, 0.5, GridBagConstraints.CENTER, totalPrice);
 
         btn1.addActionListener(this);
         btn2.addActionListener(this);

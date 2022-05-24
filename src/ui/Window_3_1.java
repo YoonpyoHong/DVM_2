@@ -36,34 +36,13 @@ public class Window_3_1 extends DvmWindow {
         panel.setBackground(Color.decode("#dcebf7"));
 
         //padding for top, left, bottom, right
-        c.insets = new Insets(2, 10, 2, 2);
-        vmID.setOpaque(true);
-        panel.add(vmID, c);
+        addJLable(2, 10, 2, 2, true, vmID);
 
-        totalPrice.setPreferredSize(new Dimension(btnTotalPriceWidth, btnTotalPriceHeight));
-        totalPrice.setOpaque(true);
-        totalPrice.setBorder(BorderFactory.createLineBorder(Color.decode("#cfd0d1"), 1));
+        setJLable(totalPrice, btnTotalPriceWidth, btnTotalPriceHeight, true, Color.decode("#cfd0d1"), 1);
 
-        c.insets = new Insets(10, 2, 2, 10);
-        c.anchor = GridBagConstraints.FIRST_LINE_END; //top corner right
-        c.weightx = 0.5;
-        c.gridx = 4;
-        c.gridy = 0;
-        panel.add(btn2, c);
-
-        c.insets = new Insets(0, 50, 120, 0);
-        c.gridx = 1;
-        c.gridy = 1;
-        c.anchor = GridBagConstraints.CENTER; //center
-        c.weighty = 0.5;
-        panel.add(totalPrice, c);
-
-        c.insets = new Insets(0, 55, 0, 0);
-        c.gridx = 1;
-        c.gridy = 1;
-        c.anchor = GridBagConstraints.CENTER; //center
-        c.weighty = 0.5;
-        panel.add(btn1, c);
+        addComponent(0, 55, 0, 0, 1, 1, 0.5, GridBagConstraints.CENTER, btn1);
+        addComponent(10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END, btn2);
+        addComponent(0, 50, 120, 0, 1, 1, 0.5, GridBagConstraints.CENTER, totalPrice);
 
         btn1.addActionListener(this);
         btn2.addActionListener(this);

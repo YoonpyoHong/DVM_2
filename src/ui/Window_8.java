@@ -70,25 +70,10 @@ public class Window_8 extends DvmWindow {
         //add panel to frame
         frame.add(panel);
 
-        //padding for top, left, bottom, right
-        c.insets = new Insets(2, 10, 2, 2);
+        addJLable(2, 10, 2, 2, true, vmID);
 
-        vmID.setOpaque(true);
-        panel.add(vmID, c);
-
-        //padding for top, left, bottom, right
-        c.insets = new Insets(10, 2, 2, 10);
-        c.anchor = GridBagConstraints.FIRST_LINE_END; //top corner right
-        c.weightx = 0.5;
-        c.gridx = 4;
-        c.gridy = 0;
-        panel.add(btn1, c);
-
-        c.gridx = 4;
-        c.gridy = 4;
-        c.anchor = GridBagConstraints.LINE_END; //center right
-        c.weighty = 0.5;
-        panel.add(btn2, c);
+        addComponent(10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END, btn1);
+        addComponent(10, 2, 2, 10, 4, 4, 0.5, GridBagConstraints.LINE_END, btn2);
 
         btn1.addActionListener(this);
         btn2.addActionListener(this);
@@ -114,30 +99,9 @@ public class Window_8 extends DvmWindow {
             itemLayout2.add(btn[i], BorderLayout.CENTER);
         }
 
-        c.anchor = GridBagConstraints.LINE_START; //right
-        c.gridx = 0;
-        c.gridy = 0;
-        c.insets = new Insets(0, 15, 0, 0);
-        c.gridwidth = 0;
-        c.gridheight = 0;
-        panel.add(itemLayout3, c);
-
-        c.anchor = GridBagConstraints.LINE_END; //right
-        c.gridx = 0;
-        c.gridy = 0;
-        c.insets = new Insets(0, 0, 0, 125);
-        c.gridwidth = 0;
-        c.gridheight = 0;
-        panel.add(itemLayout2, c);
-
-        c.anchor = GridBagConstraints.PAGE_START; //center left
-        c.gridx = 0;
-        c.gridy = 1;
-        c.insets = new Insets(0, 6, 0, 10);
-        c.gridwidth = 3;
-        c.gridheight = 10;
-        panel.add(itemLayout, c);
-
+        addComponent(0, 15, 0, 0, 0, 0, 0, 0, GridBagConstraints.LINE_START, itemLayout3);
+        addComponent(0, 0, 0, 125, 0, 0, 0, 0, GridBagConstraints.LINE_START, itemLayout2);
+        addComponent(0, 6, 0, 10, 0, 1, 3, 10, GridBagConstraints.LINE_START, itemLayout);
     }
 
     private void initLocalItems() {
