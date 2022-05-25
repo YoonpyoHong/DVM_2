@@ -6,7 +6,6 @@ import domain.payment.VerificationManager;
 import ui.Window_1;
 
 public class Main {
-	private static Window_1 window1;
 	public static void main(String[] args) {
 //		testMessageManager();
 		testUI();
@@ -32,7 +31,7 @@ public class Main {
 	}
 
 	private static void testUI() {
-		window1 = new Window_1(new Controller());
+		new Window_1(new Controller());
 	}
 
 	private static void testController() {

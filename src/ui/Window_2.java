@@ -5,7 +5,6 @@ import domain.app.Controller;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -64,13 +63,13 @@ public class Window_2 extends DvmWindow {
         itemPrice = new JLabel(Integer.toString(items[selectedItemId].getItemPrice()), SwingConstants.CENTER);
         setJLable(itemPrice, btnItemPriceWidth, btnItemPriceHeight, true, Color.decode("#cfd0d1"), 1);
 
-        this.addComponent(0, 0, 0, 15, 1, 1, 0.5, GridBagConstraints.CENTER, btn1);
-        this.addComponent(10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END, btn2);
-        this.addComponent(0, 0, 120, 180, 1, 1, 0.5, GridBagConstraints.CENTER, add);
-        this.addComponent(0, 137, 120, 0, 1, 1, 0.5, GridBagConstraints.CENTER, minus);
-        this.addComponent(0, 0, 250, 150, 1, 1, 0.5, GridBagConstraints.CENTER, itemName);
-        this.addComponent(0, 120, 250, 0, 1, 1, 0.5, GridBagConstraints.CENTER, itemPrice);
-        this.addComponent(0, 0, 120, 20, 1, 1, 0.5, GridBagConstraints.CENTER, itemQuantity);
+        this.addComponent(btn1, 0, 0, 0, 15, 1, 1, 0.5, GridBagConstraints.CENTER);
+        this.addComponent(btn2, 10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
+        this.addComponent(add, 0, 0, 120, 180, 1, 1, 0.5, GridBagConstraints.CENTER);
+        this.addComponent(minus, 0, 137, 120, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
+        this.addComponent(itemName, 0, 0, 250, 150, 1, 1, 0.5, GridBagConstraints.CENTER);
+        this.addComponent(itemPrice, 0, 120, 250, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
+        this.addComponent(itemQuantity, 0, 0, 120, 20, 1, 1, 0.5, GridBagConstraints.CENTER);
 
         btn1.addActionListener(this);
         btn2.addActionListener(this);
@@ -88,10 +87,10 @@ public class Window_2 extends DvmWindow {
         if (e.getActionCommand().equals("NEXT")) {
             /* TODO: prove controller.selectItem() */
             String resMsg = controller.selectItem(selectedItemId, selectedItemNum, dvmInfo);
-            System.err.println("result message: " + resMsg);
+            System.out.println("result message: " + resMsg);
+            System.out.println("dvmInfo: " + dvmInfo[0] + ", " + dvmInfo[1] + ", " + dvmInfo[1] + ", " + dvmInfo[2] + ", " + dvmInfo[3]);
             if (resMsg.equals("displayPayment")) {
                 this.dispose();
-                setVisible(true);
                 new Window_3_1(controller);
             } else if (resMsg.equals("displayPrepayment")) {
                 this.dispose();
@@ -103,12 +102,12 @@ public class Window_2 extends DvmWindow {
             this.dispose();
             new Window_1(controller);
         } else if (e.getActionCommand().equals("+")) {
-            System.err.println("selectedItemNum = " + selectedItemNum);
             selectedItemNum = Math.min(selectedItemNum + 1, MAX_ITEM_QUANTITY);
+            System.out.println("selectedItemNum = " + selectedItemNum);
             itemQuantity.setText(Integer.toString(selectedItemNum));
         } else if (e.getActionCommand().equals("-")) {
-            System.err.println("selectedItemNum = " + selectedItemNum);
             selectedItemNum = Math.max(selectedItemNum - 1, 1);
+            System.out.println("selectedItemNum = " + selectedItemNum);
             itemQuantity.setText(Integer.toString(selectedItemNum));
         }
     }

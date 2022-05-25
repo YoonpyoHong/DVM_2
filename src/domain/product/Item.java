@@ -2,6 +2,8 @@ package domain.product;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static domain.product.ItemManager.MAX_ITEM;
+
 public class Item {
     private int itemId;
     private String itemName;
@@ -10,6 +12,7 @@ public class Item {
     private final boolean onSale;
 
     public Item(int itemId, String itemName, int itemPrice, int itemQuantity, boolean onSale){
+        assert 1 <= itemId && itemId <= MAX_ITEM;
         this.itemId = itemId;
         this.itemName = itemName;
         this.itemPrice = itemPrice;
@@ -41,6 +44,6 @@ public class Item {
 
     @Override
     public String toString() {
-        return String.format("item: (%d, %s, %d, %d, %s)", itemId, itemName, itemPrice, itemQuantity.get(), onSale);
+        return String.format("item: (%02d, %s, %d, %d, %s)", itemId, itemName, itemPrice, itemQuantity.get(), onSale);
     }
 }

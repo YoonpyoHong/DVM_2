@@ -1,9 +1,11 @@
 package domain.admin;
 
 public class AccountManager {
-    private static final String PASSWORD = "abcdefg";
+    private static final String PASSWORD = "1";
 
-    public AccountManager() {}
+    public AccountManager() {
+        System.out.println(this.getClass() + " created.");
+    }
 
     public boolean verifyLoginInfo(String password) {
         return password.equals(PASSWORD);

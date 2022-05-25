@@ -1,11 +1,11 @@
 package ui;
 
 import domain.app.Controller;
+import domain.payment.Verification;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
@@ -35,13 +35,13 @@ public class Window_6 extends DvmWindow {
         notice.setBackground(Color.decode("#cfd0d1"));
         panel.setBackground(Color.decode("#dcebf7"));
 
-        addJLable(2, 10, 2, 2, true, vmID);
+        addJLable(vmID, 2, 10, 2, 2, true);
 
-        addComponent(0, 0, 50, 5, 1, 1, 0.5, GridBagConstraints.CENTER, btn1);
-        addComponent(10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END, btn2);
+        addComponent(btn1, 0, 0, 50, 5, 1, 1, 0.5, GridBagConstraints.CENTER);
+        addComponent(btn2, 10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
         notice.setOpaque(true);
-        addComponent(0, 0, 200, 0, 1, 1, 0.5, GridBagConstraints.CENTER, notice);
-        addComponent(0, 20, 130, 20, 1, 1, 0.5, GridBagConstraints.CENTER, verCode);
+        addComponent(notice, 0, 0, 200, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
+        addComponent(verCode, 0, 20, 130, 20, 1, 1, 0.5, GridBagConstraints.CENTER);
 
         btn1.addActionListener(this);
         btn2.addActionListener(this);
@@ -53,22 +53,32 @@ public class Window_6 extends DvmWindow {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("ENTER")) {
-            String inputCode = verCode.getText();
-            System.err.println("inputCode = " + inputCode);
-            String resMsg = controller.comfirmVerification(inputCode);
-            System.err.println(resMsg);
-            if (resMsg.equals("valid prepayment")) {
-                /* TODO: some normal get drink dialog */
-            } else if (resMsg.equals("invalid prepayment")) {
-                /* TODO: some cancle payment dialog */
-            } else {
+            String inputAuthCode = verCode.getText();
+            System.out.println("inputAuthCode = " + inputAuthCode);
+            Verification verification = controller.comfirmVerification(inputAuthCode);
+            String resMsg;
+            if (verification == null) {
                 /* TODO: some error dialog */
+                resMsg = "error: invalid verificationCode";
+                System.out.println(resMsg);
+                this.dispose();
+                new Window_1(controller);
+            } else if (verification.getVerificationValidity()) {
+                /* TODO: some normal get drink dialog */
+                resMsg = "prepayment success";
+                System.out.println(resMsg);
+                this.dispose();
+                new Window_1(controller);
+            } else {
+                /* TODO: some cancel prepayment dialog */
+                System.out.println("before cancel prepayment, " + verification);
+                resMsg = "error: cancel prepayment";
+                this.dispose();
+                new Window_4(controller, "cancelPrepayment", verification);
             }
             //show JDialog
             //dispose JDialog and this window after 15 second
             //not implemented yet
-            this.dispose();
-            new Window_1(controller);
         } else if (e.getActionCommand().equals("BACK")) {
             this.dispose();
             new Window_1(controller);

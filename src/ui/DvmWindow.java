@@ -32,19 +32,26 @@ public abstract class DvmWindow extends JFrame implements ActionListener {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         init();
         this.setVisible(true);
-        System.err.println(this.getClass() + " created");
+        System.out.println(this.getClass() + " created.");
     }
 
     public abstract void actionPerformed(ActionEvent e);
 
     protected abstract void init();
 
-    protected void addJLable(int top, int left, int bottom, int right, boolean isOpaque, JLabel label) {
+    protected void addJLable(JLabel label, int top, int left, int bottom, int right, boolean isOpaque) {
         c.insets = new Insets(top, left, bottom, right);
         label.setOpaque(isOpaque);
         panel.add(label, c);
     }
-    protected void addComponent(int top, int left, int bottom, int right, int gridX, int gridY, double weightX, int anchor, Component comp) {
+
+    protected void setJLable(JLabel label, int width, int height, boolean isOpaque, Color color, int thickness) {
+        label.setPreferredSize(new Dimension(width, height));
+        label.setOpaque(isOpaque);
+        label.setBorder(BorderFactory.createLineBorder(color, thickness));
+    }
+
+    protected void addComponent(Component comp, int top, int left, int bottom, int right, int gridX, int gridY, double weightX, int anchor) {
         c.insets = new Insets(top, left, bottom, right);
         c.gridx = gridX;
         c.gridy = gridY;
@@ -53,7 +60,7 @@ public abstract class DvmWindow extends JFrame implements ActionListener {
         panel.add(comp, c);
     }
 
-    protected void addComponent(int top, int left, int bottom, int right, int gridX, int gridY, int gridWidth, int gridHeight, int anchor, Component comp) {
+    protected void addComponent(Component comp, int top, int left, int bottom, int right, int gridX, int gridY, int gridWidth, int gridHeight, int anchor) {
         c.insets = new Insets(top, left, bottom, right);
         c.gridx = gridX;
         c.gridy = gridY;
@@ -61,11 +68,5 @@ public abstract class DvmWindow extends JFrame implements ActionListener {
         c.gridheight = gridHeight;
         c.anchor = anchor;
         panel.add(comp, c);
-    }
-
-    protected void setJLable(JLabel label, int width, int height, boolean isOpaque, Color color, int thickness) {
-        label.setPreferredSize(new Dimension(width, height));
-        label.setOpaque(isOpaque);
-        label.setBorder(BorderFactory.createLineBorder(color, thickness));
     }
 }

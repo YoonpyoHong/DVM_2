@@ -14,15 +14,16 @@ public class CardReader {
 
     public CardReader() {
         loadCardList();
+        System.out.println(this.getClass() + " created.");
     }
 
     public boolean checkCardValidity(String cardNum, int cardPwd) {
-        System.err.println("cardNum = " + cardNum);
+        System.out.println("cardNum = " + cardNum);
         Card card = cards.get(cardNum);
         if (card == null) {
             return false;
         }
-        System.err.println("matched card = " + card);
+        System.out.println("matched card = " + card);
         return card.getCardPwd() == cardPwd;
     }
 
@@ -53,7 +54,9 @@ public class CardReader {
         cards = new HashMap<>();
         while (in.hasNext()) {
             String[] argv = in.nextLine().split(" ", 3);
-            cards.put(argv[0], new Card(argv[0], Integer.parseInt(argv[1]), Long.parseLong(argv[2])));
+            Card card = new Card(argv[0], Integer.parseInt(argv[1]), Integer.parseInt(argv[2]));
+            cards.put(argv[0], card);
+            System.out.println(card + " has been added.");
         }
     }
 }

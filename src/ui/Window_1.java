@@ -51,10 +51,10 @@ public class Window_1 extends DvmWindow {
         panel.setBackground(Color.decode("#dcebf7"));
         itemLayout.setBackground(Color.decode("#ebeced"));
 
-        addJLable(2, 10, 2, 2, true, vmID);
+        addJLable(vmID, 2, 10, 2, 2, true);
 
-        addComponent(10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END, btn1);
-        addComponent(10, 2, 2, 10, 4, 4, 0.5, GridBagConstraints.LINE_END, btn2);
+        addComponent(btn1, 10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
+        addComponent(btn2, 10, 2, 2, 10, 4, 4, 0.5, GridBagConstraints.LINE_END);
 
         btn1.addActionListener(this);
         btn2.addActionListener(this);
@@ -70,10 +70,10 @@ public class Window_1 extends DvmWindow {
             btn[i].setPreferredSize(new Dimension(btnWidth, btnHeight));
             itemLayout.add(btn[i]);
             btn[i].addActionListener(this);
-//            System.err.println("init btn[" + i + "]");
+//            System.out.println("init btn[" + i + "]");
         }
 
-        addComponent(0, 9, 0, 10, 0, 1,3, 10, GridBagConstraints.PAGE_START, itemLayout);
+        addComponent( itemLayout, 0, 9, 0, 10, 0, 1,3, 10, GridBagConstraints.PAGE_START);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class Window_1 extends DvmWindow {
         } else {
             for (int id = 0; id < MAX_ITEM; id++) {
                 if (e.getActionCommand().equals(items[id].getItemName())) {
-                    System.err.println("selected " + items[id]);
+                    System.out.println("selected " + items[id]);
                     selectedItemId = id;
                     this.dispose();
                     new Window_2(controller);

@@ -15,6 +15,7 @@ public class ItemManager {
 
     public ItemManager() {
         loadItemList();
+        System.out.println(this.getClass() + " created.");
     }
 
     public boolean checkStock(int itemId, int itemQuantity) {
@@ -36,7 +37,6 @@ public class ItemManager {
         return items[itemId].getOnSale();
     }
 
-    /* TODO: has to be modified due to race conditions. */
     public void synchronize(int itemId, int itemQuantity, String verificationCode) {
         assert 0 <= itemId && itemId < MAX_ITEM;
         boolean verificationValidity = false;
@@ -66,6 +66,7 @@ public class ItemManager {
         while (in.hasNext()) {
             String[] argv = in.nextLine().split(" ", 4);
             items[i] = new Item(i + 1, argv[0], Integer.parseInt(argv[1]), Integer.parseInt(argv[2]), Boolean.parseBoolean(argv[3]));
+            System.out.println(items[i] + " has been added.");
             i += 1;
         }
     }

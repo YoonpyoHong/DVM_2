@@ -70,10 +70,10 @@ public class Window_8 extends DvmWindow {
         //add panel to frame
         frame.add(panel);
 
-        addJLable(2, 10, 2, 2, true, vmID);
+        addJLable(vmID, 2, 10, 2, 2, true);
 
-        addComponent(10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END, btn1);
-        addComponent(10, 2, 2, 10, 4, 4, 0.5, GridBagConstraints.LINE_END, btn2);
+        addComponent(btn1, 10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
+        addComponent(btn2, 10, 2, 2, 10, 4, 4, 0.5, GridBagConstraints.LINE_END);
 
         btn1.addActionListener(this);
         btn2.addActionListener(this);
@@ -99,9 +99,9 @@ public class Window_8 extends DvmWindow {
             itemLayout2.add(btn[i], BorderLayout.CENTER);
         }
 
-        addComponent(0, 15, 0, 0, 0, 0, 0, 0, GridBagConstraints.LINE_START, itemLayout3);
-        addComponent(0, 0, 0, 125, 0, 0, 0, 0, GridBagConstraints.LINE_START, itemLayout2);
-        addComponent(0, 6, 0, 10, 0, 1, 3, 10, GridBagConstraints.LINE_START, itemLayout);
+        addComponent(itemLayout3, 0, 15, 0, 0, 0, 0, 0, 0, GridBagConstraints.LINE_START);
+        addComponent(itemLayout2, 0, 0, 0, 125, 0, 0, 0, 0, GridBagConstraints.LINE_START);
+        addComponent(itemLayout, 0, 6, 0, 10, 0, 1, 3, 10, GridBagConstraints.LINE_START);
     }
 
     private void initLocalItems() {
@@ -149,7 +149,7 @@ public class Window_8 extends DvmWindow {
                 // for 15 second
             } else {
                 /* TODO: put some err dialog */
-                System.err.println("invalid input quantity");
+                System.out.println("invalid input quantity");
 //				if there is a non-integer character,
 //				show JDialog (Please input only integer);
             }

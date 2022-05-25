@@ -27,7 +27,7 @@ public class Controller {
         verificationManager = new VerificationManager();
         items = itemManager.getItemList();
         messageManager.start();
-        System.err.println(this.getClass() + " created");
+        System.out.println(this.getClass() + " created.");
     }
 
     public static void turnMachineOn() {}
@@ -37,59 +37,53 @@ public class Controller {
             System.out.println(items[itemId] + " is in local vm");
             return "displayPayment";
         }
-        dvmInfo = messageManager.checkStockOfOtherVM(itemId, itemQuantity);
+        int[] resDvmInfo = messageManager.checkStockOfOtherVM(itemId, itemQuantity);
+        System.arraycopy(resDvmInfo, 0, dvmInfo, 0, dvmInfo.length);
         if (dvmInfo[0] == -1) {
             System.out.println(items[itemId] + " is not in other vm");
-            return "stock not available";
+            return "error: stock not available";
         }
         System.out.println(items[itemId] + " is in other vm");
         return "displayPrepayment";
     }
 
     public String payment(int itemId, int itemQuantity, String cardNum, int cardPwd) {
+        System.out.printf("payment(%d, %d, %s, %d)%n", itemId, itemQuantity, cardNum, cardPwd);
         boolean cardValidity = cardReader.checkCardValidity(cardNum, 1234);
         if (!cardValidity) {
-            return "invalid card";
+            return "error: invalid card";
         }
-        long totalPrice = (long) itemId * itemQuantity;
+        int totalPrice = items[itemId].getItemPrice() * itemQuantity;
         boolean paymentSuccess = paymentManager.payment(cardReader, totalPrice, cardNum);
         if (!paymentSuccess) {
-            return "payment error";
+            return "payment error: insufficient balance.";
         }
         boolean stockAvailable = itemManager.checkStock(itemId, itemQuantity);
         if (!stockAvailable) {
             paymentManager.cancelPayment(cardReader, totalPrice, cardNum);
-            return "no item stock. cancle payment";
+            return "error: no item stock. cancel payment";
         }
         itemManager.updateStockInfo(itemId, itemQuantity);
-        return "paytment complete";
-    }
-
-    public String comfirmVerification(String authCode) {
-        boolean verificationAvailable = verificationManager.checkVerification(authCode);
-        if (!verificationAvailable) {
-            return "invalid auth Code";
-        }
-        Verification verification = verificationManager.getVerification(authCode);
-        if (verification.getVerificationValidity()) {
-            return "valid prepayment";
-        }
-        return "invalid prepayment";
+        return "payment complete";
     }
 
     public String prepayment(int itemId, int itemQuantity, String cardNum, int cardPwd, int dstId) {
         boolean cardValidity = cardReader.checkCardValidity(cardNum, 1234);
         if (!cardValidity) {
-            return "invalid card";
+            return "error: invalid card";
         }
-        long totalPrice = (long) itemId * itemQuantity;
+        int totalPrice = itemId * itemQuantity;
         boolean paymentSuccess = paymentManager.payment(cardReader, totalPrice, cardNum);
         if (!paymentSuccess) {
             return "payment error in prepayment";
         }
         String authCode = verificationManager.createVerificationCode();
         messageManager.sendPrepaymentInfo(itemId, itemQuantity, dstId, authCode);
-        return "prepaytment complete";
+        return "prepayment complete";
+    }
+
+    public Verification comfirmVerification(String authCode) {
+        return verificationManager.checkVerification(authCode);
     }
 
     public Item[] getItemList() { return itemManager.getItemList(); }
@@ -97,6 +91,7 @@ public class Controller {
     public AccountManager getAccountManager() { return accountManager; }
     public MessageManager getMsgManager() { return messageManager; }
     public ItemManager getItemManager() { return itemManager; }
-
     public CardReader getCardReader() { return cardReader; }
+    public PaymentManager getPaymentManager() { return paymentManager; }
+    public VerificationManager getVerificationManager() { return verificationManager; }
 }

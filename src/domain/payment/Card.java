@@ -5,13 +5,13 @@ public class Card {
 
     private final String cardNum;
     private final int cardPwd;
-    private long money;
+    private int money;
 
     public Card(String cardNum, int cardPwd) {
         this(cardNum, cardPwd,0);
     }
 
-    public Card(String cardNum, int cardPwd, long money) {
+    public Card(String cardNum, int cardPwd, int money) {
         this.cardNum = cardNum;
         this.cardPwd = cardPwd;
         this.money = money;
@@ -21,15 +21,13 @@ public class Card {
         return cardNum;
     }
     public int getCardPwd() { return cardPwd; }
-    public long getMoney() {
+    public int getMoney() {
         return money;
     }
-    public void setMoney(long money) {
-        this.money = money;
-    }
+    public void setMoney(int money) { this.money = money; }
 
     @Override
     public String toString() {
-        return String.format("item: (%s, %d, %d)", cardNum, cardPwd, money);
+        return String.format("card: (%s, %d, %d)", cardNum, cardPwd, money);
     }
 }

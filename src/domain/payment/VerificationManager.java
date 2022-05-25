@@ -12,6 +12,13 @@ public class VerificationManager {
     public VerificationManager() {
         rand = new Random(System.currentTimeMillis());
         verifications = new HashMap<>();
+        loadTestVerification();
+        System.out.println(this.getClass() + " created.");
+    }
+
+    private void loadTestVerification() {
+        saveVerification(1, 1, "123456789a", true);
+        saveVerification(1, 1, "123456789b", false);
     }
 
     public String createVerificationCode() {
@@ -26,11 +33,13 @@ public class VerificationManager {
     }
 
     public void saveVerification(int itemId, int itemQuantity, String verificationCode, boolean verificationValidity) {
-        verifications.put(verificationCode, new Verification(itemId, itemQuantity, verificationCode, verificationValidity));
+        Verification verification = new Verification(itemId, itemQuantity, verificationCode, verificationValidity);
+        System.out.println(verification + " has been added.");
+        verifications.put(verificationCode, verification);
     }
 
-    public boolean checkVerification(String verificationCode) {
-        return verifications.containsKey(verificationCode);
+    public Verification checkVerification(String verificationCode) {
+        return verifications.get(verificationCode);
     }
 
     private boolean isValidCode(String code) {
@@ -43,7 +52,7 @@ public class VerificationManager {
         return isAlpha && isDigit;
     }
 
-    public Verification getVerification(String verificationCode) {
-        return verifications.get(verificationCode);
+    public void removeVerification(String verificationCode) {
+        System.out.println(verifications.remove(verificationCode) + " has been removed.");
     }
 }

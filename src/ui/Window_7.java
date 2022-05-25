@@ -39,13 +39,13 @@ public class Window_7 extends DvmWindow {
         notice.setBackground(Color.decode("#cfd0d1"));
         panel.setBackground(Color.decode("#dcebf7"));
 
-        addJLable(2, 10, 2, 2, true, vmID);
+        addJLable(vmID, 2, 10, 2, 2, true);
 
-        addComponent(0, 0, 50, 5, 1, 1, 0.5, GridBagConstraints.CENTER, btn1);
-        addComponent(10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END, btn2);
+        addComponent(btn1, 0, 0, 50, 5, 1, 1, 0.5, GridBagConstraints.CENTER);
+        addComponent(btn2, 10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
         notice.setOpaque(true);
-        addComponent(0, 0, 260, 0, 1, 1, 0.5, GridBagConstraints.CENTER, notice);
-        addComponent(0, 20, 130, 20, 1, 1, 0.5, GridBagConstraints.CENTER, pwd);
+        addComponent(notice, 0, 0, 260, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
+        addComponent(pwd, 0, 20, 130, 20, 1, 1, 0.5, GridBagConstraints.CENTER);
 
         btn1.addActionListener(this);
         btn2.addActionListener(this);
@@ -63,7 +63,7 @@ public class Window_7 extends DvmWindow {
                 new Window_8(controller);
             } else {
                 /* TODO: put smth error message dialog */
-                System.err.println("Wrong PassWord");
+                System.out.println("Wrong PassWord");
             }
         } else if (e.getActionCommand().equals("BACK")) {
             this.dispose();

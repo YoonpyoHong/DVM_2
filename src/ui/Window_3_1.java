@@ -3,13 +3,10 @@ package ui;
 import domain.app.Controller;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -36,13 +33,13 @@ public class Window_3_1 extends DvmWindow {
         panel.setBackground(Color.decode("#dcebf7"));
 
         //padding for top, left, bottom, right
-        addJLable(2, 10, 2, 2, true, vmID);
+        addJLable(vmID, 2, 10, 2, 2, true);
 
         setJLable(totalPrice, btnTotalPriceWidth, btnTotalPriceHeight, true, Color.decode("#cfd0d1"), 1);
 
-        addComponent(0, 55, 0, 0, 1, 1, 0.5, GridBagConstraints.CENTER, btn1);
-        addComponent(10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END, btn2);
-        addComponent(0, 50, 120, 0, 1, 1, 0.5, GridBagConstraints.CENTER, totalPrice);
+        addComponent(btn1, 0, 55, 0, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
+        addComponent(btn2, 10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
+        addComponent(totalPrice, 0, 50, 120, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
 
         btn1.addActionListener(this);
         btn2.addActionListener(this);

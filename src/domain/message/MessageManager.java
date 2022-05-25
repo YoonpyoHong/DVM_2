@@ -27,14 +27,14 @@ public class MessageManager extends Thread {
 
         public OtherVM() {
             server = new DVMServer();
+            System.out.println(this.getClass() + " created.");
         }
 
         @Override
         public void run() {
             try {
-                System.err.println("DVMServer running...");
+                System.out.println("DVMServer.run()");
                 server.run();
-                System.err.println("DVMServer Stopped...");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -46,12 +46,13 @@ public class MessageManager extends Thread {
 
         MsgReceiver(ItemManager itemManager) {
             this.itemManager = itemManager;
+            System.out.println(this.getClass() + " created.");
         }
 
         @Override
         public void run() {
             try {
-                System.err.println("MsgReceiver running...");
+                System.out.println("MsgReceiver.run()");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -61,16 +62,17 @@ public class MessageManager extends Thread {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.err.println("msgList.size() = " + DVMServer.msgList.size());
+                System.out.println("msgList.size() = " + DVMServer.msgList.size());
                 if (!DVMServer.msgList.isEmpty()) {
                     Message msg = DVMServer.msgList.remove(DVMServer.msgList.size() - 1);
+                    System.out.println("received msg = " + msg);
                     String msgType = msg.getMsgType();
                     String authCode= msg.getMsgDescription().getAuthCode();
                     int[] msgInfo = decodeMsg(msg);
                     int otherId = msgInfo[0];
                     int itemId = msgInfo[1];
                     int itemQuantity = msgInfo[2];
-                    System.err.println("(OtherId, itemId, itemQuantity, msgType) = " + otherId + ", " + itemId + ", " + itemQuantity + ", " + msgType);
+                    System.out.println("(OtherId, itemId, itemQuantity, msgType) = " + otherId + ", " + itemId + ", " + itemQuantity + ", " + msgType);
                     if (msgType.equals("StockCheckRequest")) {
                         boolean stockAvailable = itemManager.checkStock(itemId, itemQuantity);
                         if (stockAvailable) {
@@ -91,10 +93,17 @@ public class MessageManager extends Thread {
         }
     }
 
+    public MessageManager(ItemManager itemManager) {
+        msgQueue = new ArrayDeque<>();
+        oVM = new OtherVM();
+        msgReceiver = new MsgReceiver(itemManager);
+        System.out.println(this.getClass() + " created.");
+    }
+
     @Override
     public void run() {
         try {
-            System.err.println("messageManager running...");
+            System.out.println("MessageManager.run()");
             //oVM.start();
             //msgReceiver.start();
         } catch (Exception e) {
@@ -102,25 +111,8 @@ public class MessageManager extends Thread {
         }
     }
 
-    public MessageManager(ItemManager itemManager) {
-        msgQueue = new ArrayDeque<>();
-        oVM = new OtherVM();
-        msgReceiver = new MsgReceiver(itemManager);
-    }
-
-    public void sendMsg(int dstId, Message msg) {
-        System.err.println("sends msg to " + dstId + "(" + IP_ADDR[dstId] + ")");
-        String jsonMsg = new Serializer().message2Json(msg);
-        DVMClient client = new DVMClient(IP_ADDR[dstId], jsonMsg);
-        try {
-            client.run();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
     public int[] checkStockOfOtherVM(int itemId, int itemQuantity) {
-        System.err.println("itemId, itemQuantity = " + itemId + ", " + itemQuantity);
+        System.out.println("itemId, itemQuantity = " + itemId + ", " + itemQuantity);
         for (int i = 1; i <= TOTAL_DVM_COUNT; i++) {
             String dstId = "Team" + i;
             if (!dstId.equals(DVM_ID)) {
@@ -159,6 +151,17 @@ public class MessageManager extends Thread {
         return new int[]{dstId, dstX, dstY, dstDist};
     }
 
+    public void sendMsg(int dstId, Message msg) {
+        String jsonMsg = new Serializer().message2Json(msg);
+        System.out.println("sends msg to " + dstId + "(" + IP_ADDR[dstId] + ") with json = " + jsonMsg);
+        DVMClient client = new DVMClient(IP_ADDR[dstId], jsonMsg);
+        try {
+            client.run();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void sendPrepaymentInfo(int itemId, int itemQuantity, int dstId, String verificationCode) {
         Message msg = setMsg("Team" + dstId, itemId, itemQuantity, "PrepaymentCheck", verificationCode);
         sendMsg(dstId, msg);
@@ -175,7 +178,7 @@ public class MessageManager extends Thread {
     }
 
     private Message setMsg(String dstId, int itemId, int itemQuantity, String msgType, String authCode) {
-        System.err.println("dstId, itemId, itemQuantity, msgType, authCode = " + dstId + ", " + itemId + ", " + itemQuantity + ", " + msgType + ", " + authCode);
+        System.out.println("dstId, itemId, itemQuantity, msgType, authCode = " + dstId + ", " + itemId + ", " + itemQuantity + ", " + msgType + ", " + authCode);
         Message msg = new Message();
         Message.MessageDescription msgDes = new Message.MessageDescription();
         setMsgDes(msgDes, itemId, itemQuantity, authCode);
