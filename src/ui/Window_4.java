@@ -128,6 +128,8 @@ public class Window_4 extends DvmWindow {
             new Window_1(controller);
         } else if (e.getActionCommand().equals("BACK")) {
 //             stop timer
+		timer.stop();
+
             this.dispose();
             new Window_3_1(controller);
         }
