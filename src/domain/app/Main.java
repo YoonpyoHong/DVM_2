@@ -1,5 +1,6 @@
 package domain.app;
 
+import domain.Controller;
 import domain.message.MessageManager;
 import domain.payment.CardReader;
 import domain.payment.VerificationManager;

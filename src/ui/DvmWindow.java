@@ -1,6 +1,6 @@
 package ui;
 
-import domain.app.Controller;
+import domain.Controller;
 import domain.product.Item;
 
 import java.awt.*;

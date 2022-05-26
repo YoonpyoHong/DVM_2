@@ -1,6 +1,6 @@
 package ui;
 
-import domain.app.Controller;
+import domain.Controller;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
