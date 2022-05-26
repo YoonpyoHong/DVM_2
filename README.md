@@ -13,6 +13,7 @@
 - [x] AccountManager.java
 - [ ] UI BUG FIX..
 - [ ] Testing with OVM
+- [ ] add PassWord Type Text Field
 
 ## 2022-05-23 수업
 <제출해야 할 것들> 내일까지. 늦어도 목요일까지
