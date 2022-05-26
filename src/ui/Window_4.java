@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 
 import static domain.payment.Card.CARD_NUM_LENGTH;
 import static ui.Window_1.selectedItemId;
@@ -30,6 +31,9 @@ public class Window_4 extends DvmWindow {
     private static final JLabel time = new JLabel("<html>Time runout display<br><center>(60 sec)</center></html>", SwingConstants.CENTER);
     private static final JLabel notice = new JLabel("Please insert card's info", SwingConstants.CENTER);
 
+    private Timer timer;
+	int count;
+    
     public Window_4(Controller controller) {
         super(controller);
     }
@@ -71,11 +75,31 @@ public class Window_4 extends DvmWindow {
 
         btn1.setFocusable(false);
         btn2.setFocusable(false);
+        
+        count = 60;
+	    timer = new Timer(1000, new ActionListener() {
+		      @Override
+		      public void actionPerformed(ActionEvent e) {
+			        count--;       	
+		        	time.setText("Time runout (sec): " + Integer.toString(count));
+		        	
+		        	if(count==0){
+		        		dispose();
+		        		Window_1 returnHome = new Window_1();
+		        		((Timer) (e.getSource())).stop();
+		        	}
+		      	}
+		    });
+		timer.setInitialDelay(0);
+		timer.start();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("ENTER")) {
+//             stop timer
+            timer.stop();
+
             /* TODO: also input card password */
 //			show JDialog (successful transaction, drink in dispensed)
             String inputCardNum = verCode.getText();
@@ -103,6 +127,9 @@ public class Window_4 extends DvmWindow {
             this.dispose();
             new Window_1(controller);
         } else if (e.getActionCommand().equals("BACK")) {
+//             stop timer
+		timer.stop();
+
             this.dispose();
             new Window_3_1(controller);
         }
