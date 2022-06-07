@@ -45,6 +45,7 @@ public class CardReader {
     private void loadCardList() {
         InputStream inputStream = null;
         try {
+            inputStream = new FileInputStream("src/domain/payment/cardList.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
