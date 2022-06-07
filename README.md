@@ -11,7 +11,7 @@
 - [x] Verification.java
 - [x] VerificationManager.java
 - [x] AccountManager.java
-- [ ] UI BUG FIX..
+- [x] UI BUG FIXED
 - [ ] Testing with OVM
 
 ## 2022-05-23 수업
