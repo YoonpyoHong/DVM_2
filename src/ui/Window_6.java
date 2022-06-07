@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import static domain.payment.VerificationManager.CODE_LEN;
+import static domain.payment.VerificationManager.CODE_LENGTH;
 
 public class Window_6 extends DvmWindow {
     private static final JButton btn1 = new JButton("ENTER");
@@ -26,7 +26,7 @@ public class Window_6 extends DvmWindow {
     }
 
     protected void init() {
-        verCode.setDocument(new JTextFieldLimit(CODE_LEN));
+        verCode.setDocument(new JTextFieldLimit(CODE_LENGTH));
         panel = new JPanel(new GridBagLayout());
         c = new GridBagConstraints();
         frame.add(panel);

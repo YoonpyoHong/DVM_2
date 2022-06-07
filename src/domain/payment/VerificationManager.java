@@ -3,7 +3,7 @@ package domain.payment;
 import java.util.*;
 
 public class VerificationManager {
-    public static final int CODE_LEN = 10;
+    public static final int CODE_LENGTH = 10;
     private static final int LETTER = 26 + 10;
     private static final String letterSet = "0123456789qwertyuiopasdfghjklzxcvbnm";
     private static Random rand;
@@ -25,7 +25,7 @@ public class VerificationManager {
         StringBuilder verificationCode;
         do {
             verificationCode = new StringBuilder();
-            for (int i = 0; i < CODE_LEN; i++) {
+            for (int verificationPosition = 0; verificationPosition < CODE_LENGTH; verificationPosition++) {
                 verificationCode.append(letterSet.charAt(rand.nextInt(LETTER)));
             }
         } while (!isValidCode(verificationCode.toString()));
