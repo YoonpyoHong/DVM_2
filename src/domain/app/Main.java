@@ -3,6 +3,7 @@ package domain.app;
 import domain.message.MessageManager;
 import domain.payment.CardReader;
 import domain.payment.VerificationManager;
+import ui.DvmWindow;
 import ui.Window_1;
 
 public class Main {
@@ -31,7 +32,7 @@ public class Main {
 	}
 
 	private static void testUI() {
-		new Window_1(new Controller());
+		new DvmWindow(new Controller());
 	}
 
 	private static void testController() {

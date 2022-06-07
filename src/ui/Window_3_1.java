@@ -1,45 +1,43 @@
 package ui;
 
-import domain.app.Controller;
-
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public class Window_3_1 extends DvmWindow {
+import static ui.DvmWindow.*;
+
+public class Window_3_1 extends JPanel implements ActionListener {
     private static final JButton btn1 = new JButton("PAY");
     private static final JButton btn2 = new JButton("BACK");
-
     private static final JLabel totalPrice = new JLabel("<html>Total price:<br><center>" + Window_2.getTotalPrice() + "</center></html>", SwingConstants.CENTER);
-
     private static final int btnTotalPriceWidth = 100;
     private static final int btnTotalPriceHeight = 70;
 
-    public Window_3_1(Controller controller) {
-        super(controller);
+    JPanel panel;
+
+    public Window_3_1() {
+        init();
     }
 
     protected void init() {
         panel = new JPanel(new GridBagLayout());
         c = new GridBagConstraints();
-        frame.add(panel);
-        vmID.setBackground(Color.decode("#cfd0d1"));
+        card.add(panel);
         panel.setBackground(Color.decode("#dcebf7"));
 
-        //padding for top, left, bottom, right
-        addJLable(vmID, 2, 10, 2, 2, true);
+        addJLabel(panel);
+        setJLabel(totalPrice, btnTotalPriceWidth, btnTotalPriceHeight, Color.decode("#cfd0d1"));
 
-        setJLable(totalPrice, btnTotalPriceWidth, btnTotalPriceHeight, true, Color.decode("#cfd0d1"), 1);
-
-        addComponent(btn1, 0, 55, 0, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
-        addComponent(btn2, 10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
-        addComponent(totalPrice, 0, 50, 120, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
+        addComponent(panel,btn1, 0, 55, 0, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
+        addComponent(panel,btn2, 10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
+        addComponent(panel,totalPrice, 0, 50, 120, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
 
         btn1.addActionListener(this);
         btn2.addActionListener(this);
@@ -48,15 +46,15 @@ public class Window_3_1 extends DvmWindow {
         btn2.setFocusable(false);
     }
 
-
-    @Override
     public void actionPerformed(ActionEvent e) {
+        card.removeAll();
+        card.revalidate();
+        card.repaint();
+
         if (e.getActionCommand().equals("PAY")) {
-            this.dispose();
-            new Window_4(controller, "payment");
+            card.add(new Window_4("payment"));
         } else if (e.getActionCommand().equals("BACK")) {
-            this.dispose();
-            new Window_2(controller);
+            card.add(new Window_2());
         }
     }
 }

@@ -1,6 +1,5 @@
 package ui;
 
-import domain.app.Controller;
 import domain.product.Item;
 
 import java.awt.BorderLayout;
@@ -10,6 +9,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -21,8 +21,9 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 import static domain.product.ItemManager.*;
+import static ui.DvmWindow.*;
 
-public class Window_8 extends DvmWindow {
+public class Window_8 extends JPanel implements ActionListener {
     //random 7 drink list
     private static final Item[] localItems = new Item[MAX_LOCAL_ITEM];
 
@@ -34,9 +35,9 @@ public class Window_8 extends DvmWindow {
     private static final JPanel itemLayout3 = new JPanel();
 
     private static final JTextField[] itemQty = new JTextField[MAX_LOCAL_ITEM];
-    //padding for top, left, bottom, right
     private static final EmptyBorder eb = new EmptyBorder(new Insets(20, 10, 0, 10));
     private static final Border grayLine = BorderFactory.createLineBorder(Color.decode("#cfd0d1"), 1);
+    JPanel panel;
 
     private static final int btnWidth = 120;
     private static final int btnHeight = 30;
@@ -47,8 +48,8 @@ public class Window_8 extends DvmWindow {
     private static final int drinkPanel3Width = 200;
     private static final int drinkPanel3Height = 250;
 
-    public Window_8(Controller controller) {
-        super(controller);
+    public Window_8() {
+        init();
     }
 
     protected void init() {
@@ -61,19 +62,15 @@ public class Window_8 extends DvmWindow {
 
         panel = new JPanel(new GridBagLayout());
         c = new GridBagConstraints();
-        vmID.setBackground(Color.decode("#cfd0d1"));
         panel.setBackground(Color.decode("#dcebf7"));
 
         //set border + margin
         itemLayout.setBorder(BorderFactory.createCompoundBorder(grayLine, eb));
 
-        //add panel to frame
-        frame.add(panel);
+        addJLabel(panel);
 
-        addJLable(vmID, 2, 10, 2, 2, true);
-
-        addComponent(btn1, 10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
-        addComponent(btn2, 10, 2, 2, 10, 4, 4, 0.5, GridBagConstraints.LINE_END);
+        addComponent(panel,btn1, 10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
+        addComponent(panel,btn2, 10, 2, 2, 10, 4, 4, 0.5, GridBagConstraints.LINE_END);
 
         btn1.addActionListener(this);
         btn2.addActionListener(this);
@@ -99,9 +96,11 @@ public class Window_8 extends DvmWindow {
             itemLayout2.add(btn[i], BorderLayout.CENTER);
         }
 
-        addComponent(itemLayout3, 0, 15, 0, 0, 0, 0, 0, 0, GridBagConstraints.LINE_START);
-        addComponent(itemLayout2, 0, 0, 0, 125, 0, 0, 0, 0, GridBagConstraints.LINE_START);
-        addComponent(itemLayout, 0, 6, 0, 10, 0, 1, 3, 10, GridBagConstraints.LINE_START);
+        addComponent(panel,itemLayout3, 0, 15, 0, 0, 0, 0, 0, 0, GridBagConstraints.LINE_START);
+        addComponent(panel,itemLayout2, 0, 0, 0, 125, 0, 0, 0, 0, GridBagConstraints.LINE_START);
+        addComponent(panel,itemLayout, 0, 6, 0, 10, 0, 1, 3, 10, GridBagConstraints.LINE_START);
+
+        card.add(panel);
     }
 
     private void initLocalItems() {
@@ -115,12 +114,13 @@ public class Window_8 extends DvmWindow {
         assert cnt == MAX_LOCAL_ITEM;
     }
 
-    @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("LOGOUT")) {
             //do nothing
-            this.dispose();
-            new Window_1(controller);
+            card.removeAll();
+            card.revalidate();
+            card.repaint();
+            card.add(new Window_1());
         } else if (e.getActionCommand().equals("UPDATE")) {
             boolean isValidInput = true;
             int[] inputQuantities = new int[MAX_LOCAL_ITEM];

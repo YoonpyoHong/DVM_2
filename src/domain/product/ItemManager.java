@@ -55,7 +55,6 @@ public class ItemManager {
     private void loadItemList() {
         InputStream inputStream = null;
         try {
-            inputStream = new FileInputStream("src/domain/product/itemList.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

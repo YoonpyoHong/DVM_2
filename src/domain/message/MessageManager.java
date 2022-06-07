@@ -160,6 +160,7 @@ public class MessageManager extends Thread {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        client.run();
     }
 
     public void sendPrepaymentInfo(int itemId, int itemQuantity, int dstId, String verificationCode) {
