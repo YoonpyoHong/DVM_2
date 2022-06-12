@@ -36,8 +36,8 @@ public class Controller {
             return "displayPayment";
         }
         else {
-            int[] OtherDvmInfo = messageManager.checkStockOfOtherVM(itemId, itemQuantity);
-            System.arraycopy(OtherDvmInfo, 0, dvmInfo, 0, dvmInfo.length);
+            int[] otherDvmInfo = messageManager.checkStockOfOtherVM(itemId, itemQuantity);
+            System.arraycopy(otherDvmInfo, 0, dvmInfo, 0, dvmInfo.length);
             if (dvmInfo[0] == -1) {
                 System.out.println(items[itemId] + " is not in other vm");
                 return "error: stock not available";

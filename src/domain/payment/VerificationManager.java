@@ -5,7 +5,7 @@ import java.util.*;
 public class VerificationManager {
     public static final int CODE_LENGTH = 10;
     private static final int LETTER = 26 + 10;
-    private static final String letterSet = "0123456789qwertyuiopasdfghjklzxcvbnm";
+    private static final String LETTER_SET = "0123456789qwertyuiopasdfghjklzxcvbnm";
     private static Random rand;
     private static Map<String, Verification> verifications;
 
@@ -26,7 +26,7 @@ public class VerificationManager {
         do {
             verificationCode = new StringBuilder();
             for (int verificationPosition = 0; verificationPosition < CODE_LENGTH; verificationPosition++) {
-                verificationCode.append(letterSet.charAt(rand.nextInt(LETTER)));
+                verificationCode.append(LETTER_SET.charAt(rand.nextInt(LETTER)));
             }
         } while (!isValidCode(verificationCode.toString()));
         return verificationCode.toString();
