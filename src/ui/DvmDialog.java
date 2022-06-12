@@ -6,14 +6,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class DvmDialog implements ActionListener {
-    JButton btn;
-    JDialog dlg;
-    JPanel panel;
-    JPanel panel2;
-    int width = 300;
-    int height = 110;
+    private JButton btn;
+    private JDialog dlg;
+    private JPanel panel;
+    private JPanel panel2;
+    private static final int width = 300;
+    private static final int height = 110;
 
-    DvmDialog() {
+    DvmDialog(String str) {
+        this(str, true);
+    }
+
+    DvmDialog(String str, Boolean flag) {
         panel = new JPanel(); // FlowLayout
         panel2 = new JPanel(); // FlowLayout
 
@@ -26,6 +30,9 @@ public class DvmDialog implements ActionListener {
         dlg.setLocationRelativeTo(null);
         dlg.setSize(width, height);
         dlg.add(outer);
+        setDlg(str);
+        setVisDlg(flag);
+
     }
 
     public void setDlg(String str) {
@@ -54,7 +61,7 @@ public class DvmDialog implements ActionListener {
         }
 
         /*
-         * if(e.getSource()== btn) do something;
+         * if (e.getSource()== btn) do something;
          *
          *
          * */

@@ -7,17 +7,16 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import static domain.product.ItemManager.*;
 import static ui.DvmWindow.*;
 
-public class Window_8 extends JPanel implements ActionListener {
+public class Window_8 extends DvmPanel {
     //random 7 drink list
     private static final Item[] localItems = new Item[MAX_LOCAL_ITEM];
 
-    private static final JButton btn1 = new JButton("LOGOUT");
-    private static final JButton btn2 = new JButton("UPDATE");
+    private JButton btn1;
+    private JButton btn2;
 
     private static final JPanel itemLayout = new JPanel();
     private static final JPanel itemLayout2 = new JPanel();
@@ -37,11 +36,12 @@ public class Window_8 extends JPanel implements ActionListener {
     private static final int drinkPanel3Width = 200;
     private static final int drinkPanel3Height = 250;
 
-    public Window_8() {
-        init();
+    public Window_8(DvmPanel prevPanel) {
+        super(prevPanel);
     }
 
     protected void init() {
+        super.init();
         initLocalItems();
 
         //set drink list layout's size
@@ -58,6 +58,8 @@ public class Window_8 extends JPanel implements ActionListener {
 
         addJLabel(panel);
 
+        btn1 = new JButton("LOGOUT");
+        btn2 = new JButton("UPDATE");
         addComponent(panel,btn1, 10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
         addComponent(panel,btn2, 10, 2, 2, 10, 4, 4, 0.5, GridBagConstraints.LINE_END);
 
@@ -94,6 +96,7 @@ public class Window_8 extends JPanel implements ActionListener {
 
     private void initLocalItems() {
         int cnt = 0;
+        Item[] items = controller.getItemManager().getItemList();
         for (int i = 0; i < MAX_ITEM; i++) {
             if (items[i].getOnSale()) {
                 localItems[cnt] = items[i];
@@ -106,9 +109,7 @@ public class Window_8 extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("LOGOUT")) {
             //do nothing
-            CARD.removeAll();
-            CARD.revalidate();
-            CARD.repaint();
+            resetCard();
             CARD.add(new Window_1());
         } else if (e.getActionCommand().equals("UPDATE")) {
             boolean isValidInput = true;
@@ -123,7 +124,7 @@ public class Window_8 extends JPanel implements ActionListener {
                     isValidInput = false;
                     break;
                 }
-                if (inputNum < 0 || inputNum > MAX_QUANTITY) {
+                if (inputNum < 0 || inputNum > MAX_ITEM_QUANTITY) {
                     isValidInput = false;
                     break;
                 }

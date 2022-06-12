@@ -7,21 +7,18 @@ import java.awt.event.ActionListener;
 
 import static ui.DvmWindow.*;
 
-public class Window_5 extends JPanel implements ActionListener {
+public class Window_5 extends DvmPanel {
 
-    private static final JButton btn1 = new JButton("HOME");
-    private static final JButton btn2 = new JButton("BACK");
+    private JButton btn1;
+    private JButton btn2;
     private static final JLabel verCode = new JLabel("<html><center>Verification code:<br>1234567890</html>", SwingConstants.CENTER);
     JPanel panel;
 
     private static final JLabel loc = new JLabel("Location: (x,y)", SwingConstants.CENTER);
     private static final JLabel distance = new JLabel("Distance: m", SwingConstants.CENTER);
 
-    public Window_5() {
-        init();
-    }
-
     protected void init() {
+        super.init();
         panel = new JPanel(new GridBagLayout());
         c = new GridBagConstraints();
 
@@ -35,6 +32,8 @@ public class Window_5 extends JPanel implements ActionListener {
         setJLabel(loc,100, 70, Color.decode("#cfd0d1"));
         setJLabel(distance,100, 70, Color.decode("#cfd0d1"));
 
+        btn1 = new JButton("HOME");
+        btn2 = new JButton("BACK");
         addComponent(panel,btn2, 10, 0, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
         addComponent(panel,loc, 0, 0, 300, 150, 1, 1, 0.5, GridBagConstraints.CENTER);
         addComponent(panel,distance, 0, 150, 300, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
@@ -49,14 +48,12 @@ public class Window_5 extends JPanel implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        CARD.removeAll();
-        CARD.revalidate();
-        CARD.repaint();
-
+        resetCard();
         if (e.getActionCommand().equals("HOME")) {
             CARD.add(new Window_1());
         } else if (e.getActionCommand().equals("BACK")) {
-            CARD.add(new Window_4());
+            prevPanel.init();
+            CARD.add(prevPanel);
         }
     }
 }

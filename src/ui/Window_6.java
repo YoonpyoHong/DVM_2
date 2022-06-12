@@ -1,27 +1,28 @@
 package ui;
 
+import domain.payment.Card;
 import domain.payment.Verification;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import static domain.payment.VerificationManager.CODE_LENGTH;
 import static ui.DvmWindow.*;
 
-public class Window_6 extends JPanel implements ActionListener {
-    private static final JButton btn1 = new JButton("ENTER");
-    private static final JButton btn2 = new JButton("BACK");
+public class Window_6 extends DvmPanel {
+    private JButton btn1;
+    private JButton btn2;
     private static final JTextField verCode = new JTextField(15);
     private static final JLabel notice = new JLabel("Please insert verification code:");
     JPanel panel;
 
-    public Window_6() {
-        init();
+    public Window_6(DvmPanel prevPanel) {
+        super(prevPanel);
     }
 
     protected void init() {
+        super.init();
         verCode.setDocument(new JTextFieldLimit(CODE_LENGTH));
         panel = new JPanel(new GridBagLayout());
         c = new GridBagConstraints();
@@ -32,6 +33,8 @@ public class Window_6 extends JPanel implements ActionListener {
 
         addJLabel(panel);
 
+        btn1 = new JButton("ENTER");
+        btn2 = new JButton("BACK");
         addComponent(panel,btn1, 0, 0, 50, 5, 1, 1, 0.5, GridBagConstraints.CENTER);
         addComponent(panel,btn2, 10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
         notice.setOpaque(true);
@@ -56,25 +59,31 @@ public class Window_6 extends JPanel implements ActionListener {
                 /* TODO: some error dialog */
                 resMsg = "error: invalid verificationCode";
                 System.out.println(resMsg);
+                new DvmDialog(resMsg);
             } else if (verification.getVerificationValidity()) {
                 /* TODO: some normal get drink dialog */
+                controller.getVerificationManager().removeVerification(inputAuthCode);
                 resMsg = "prepayment success";
                 System.out.println(resMsg);
+                new DvmDialog(resMsg);
+                resetCard();
+                prevPanel.init();
+                CARD.add(prevPanel);
             } else {
                 /* TODO: some cancel prepayment dialog */
                 System.out.println("before cancel prepayment, " + verification);
-                resMsg = "error: cancel prepayment";
-//                this.dispose();
-//                new Window_4(controller, "cancelPrepayment", verification);
+                resMsg = "error: process to cancel prepayment";
+                new DvmDialog(resMsg);
+                resetCard();
+                CARD.add(new Window_4(this, "cancelPrepayment", verification));
             }
             //show JDialog
             //dispose JDialog and this window after 15 second
             //not implemented yet
         } else if (e.getActionCommand().equals("BACK")) {
-            CARD.removeAll();
-            CARD.revalidate();
-            CARD.repaint();
-            CARD.add(new Window_1());
+            resetCard();
+            prevPanel.init();
+            CARD.add(prevPanel);
         }
     }
 }

@@ -9,19 +9,16 @@ import java.awt.event.ActionListener;
 import static ui.DvmWindow.*;
 
 
-public class Window_7 extends JPanel implements ActionListener {
-    private static final JButton btn1 = new JButton("LOGIN");
-    private static final JButton btn2 = new JButton("BACK");
+public class Window_7 extends DvmPanel {
+    private JButton btn1;
+    private JButton btn2;
     private static final JTextField pwd = new JTextField(15);
 
     private static final JLabel notice = new JLabel("<html><center>LOGIN PAGE<br>Please enter password<br>in the textfield below:</html>");
     private static final EmptyBorder eb = new EmptyBorder(new Insets(10, 10, 10, 10));
 
-    public Window_7() {
-        super();
-    }
-
     protected void init() {
+        super.init();
         notice.setPreferredSize(new Dimension(150, 70));
         notice.setBorder(eb);
         pwd.setDocument(new JTextFieldLimit(10));
@@ -35,6 +32,8 @@ public class Window_7 extends JPanel implements ActionListener {
 
         addJLabel(panel);
 
+        btn1 = new JButton("LOGIN");
+        btn2 = new JButton("BACK");
         addComponent(panel,btn1, 0, 0, 50, 5, 1, 1, 0.5, GridBagConstraints.CENTER);
         addComponent(panel,btn2, 10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
         notice.setOpaque(true);
@@ -49,6 +48,7 @@ public class Window_7 extends JPanel implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
+        resetCard();
         if (e.getActionCommand().equals("LOGIN")) {
             boolean authorized = controller.getAccountManager().verifyLoginInfo(pwd.getText());
             if (authorized) {

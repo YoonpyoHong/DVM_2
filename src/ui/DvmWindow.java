@@ -10,10 +10,9 @@ public class DvmWindow extends JFrame {
     private static final String WINDOW_TITLE = "T2 OOPT DVM";
     protected static final JLabel VM_ID = new JLabel("          VM's ID           ");
     protected static Controller controller;
-    protected static Item[] items;
+    protected static GridBagConstraints c;
     public static final JPanel CARD = new JPanel();
     //    Container frame = this.getContentPane();
-    protected static GridBagConstraints c;
 
     private static final int frameWidth = 500;
     private static final int frameHeight = 500;
@@ -23,7 +22,6 @@ public class DvmWindow extends JFrame {
     public DvmWindow(Controller controller, String title) {
         super(title);
         DvmWindow.controller = controller;
-        items = controller.getItemList();
         CARD.setBackground(Color.decode("#dcebf7"));
         CARD.add(new Window_1());
         this.add(CARD, BorderLayout.CENTER);

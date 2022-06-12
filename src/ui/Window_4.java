@@ -1,6 +1,7 @@
 package ui;
 
 import domain.payment.Verification;
+import domain.product.Item;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,16 +11,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static domain.payment.Card.CARD_NUM_LENGTH;
 import static ui.DvmWindow.*;
-import static ui.Window_1.selectedItemId;
 import static ui.Window_2.dvmInfo;
-import static ui.Window_2.selectedItemNum;
 
-public class Window_4 extends JPanel implements ActionListener {
+public class Window_4 extends DvmPanel {
     private String paymentType;
     private Verification verification;
 
-    private static final JButton btn1 = new JButton("ENTER");
-    private static final JButton btn2 = new JButton("BACK");
+    private JButton btn1;
+    private JButton btn2;
 
     private static final JTextField verCode = new JTextField(15);
     private static final JLabel time = new JLabel("<html>Time runout display<br><center>(60 sec)</center></html>", SwingConstants.CENTER);
@@ -27,24 +26,23 @@ public class Window_4 extends JPanel implements ActionListener {
     JPanel panel;
     Timer timer;
 
-    public Window_4() {
-        this(null, null);
-        init();
-    }
-    public Window_4(String paymentType) {
-        this(paymentType, null);
-        init();
+    public Window_4(DvmPanel prevPanel) {
+        this(prevPanel, null, null);
     }
 
-    public Window_4(String paymentType, Verification verification) {
-        super();
-        System.out.println("Window4() with paymentType: " + paymentType + ", " + verification);
+    public Window_4(DvmPanel prevPanel, String paymentType) {
+        this(prevPanel, paymentType, null);
+    }
+
+    public Window_4(DvmPanel prevPanel, String paymentType, Verification verification) {
+        super(prevPanel);
         this.paymentType = paymentType;
         this.verification = verification;
-        init();
+        System.out.println("Window4() with paymentType: " + paymentType + ", " + verification);
     }
 
     protected void init() {
+        super.init();
 
         if(timer!=null){
             timer.stop();
@@ -67,6 +65,8 @@ public class Window_4 extends JPanel implements ActionListener {
         setJLabel(time, 200, 50, Color.decode("#cfd0d1"));
         setJLabel(notice, 200, 50, Color.decode("#cfd0d1"));
 
+        btn1 = new JButton("ENTER");
+        btn2 = new JButton("BACK");
         addComponent(panel,btn1, 0, 250, 0, 0, 0, 1, 0.5, GridBagConstraints.CENTER);
         addComponent(panel,btn2, 10, 0, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
         addComponent(panel,notice, 0, 130, 300, 0, 0, 1, 0.5, GridBagConstraints.CENTER);
@@ -82,11 +82,8 @@ public class Window_4 extends JPanel implements ActionListener {
 	    timer = new Timer(1000, e -> {
               count.getAndDecrement();
               time.setText("Time run out (sec): " + count);
-
-              if(count.get() ==0){
-                  CARD.removeAll();
-                  CARD.revalidate();
-                  CARD.repaint();
+              if (count.get() == 0) {
+                  resetCard();
                   CARD.add(new Window_1());
                   ((Timer) (e.getSource())).stop();
               }
@@ -96,13 +93,9 @@ public class Window_4 extends JPanel implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        CARD.removeAll();
-        CARD.revalidate();
-        CARD.repaint();
-
+        resetCard();
         if (e.getActionCommand().equals("ENTER")) {
             timer.stop();
-
             for (ActionListener listener : timer.getActionListeners()) {
                 timer.removeActionListener(listener);
             }
@@ -111,36 +104,38 @@ public class Window_4 extends JPanel implements ActionListener {
             String inputCardNum = verCode.getText();
             String cardNum = controller.getCardReader().encodeCardNum(inputCardNum);
             String resMsg = "";
-            System.out.println("itemId, itemNum = " + selectedItemId + ", " + selectedItemNum);
-            if (paymentType.equals("payment")) {
-                resMsg = controller.payment(selectedItemId, selectedItemNum, cardNum, 1234);
-                CARD.add(new Window_1());
-            } else if (paymentType.equals("prepayment")) {
-                resMsg = controller.prepayment(selectedItemId, selectedItemNum, cardNum, 1234, dvmInfo[0]);
-                CARD.add(new Window_5());
-            } else if (paymentType.equals("cancelPrepayment")) {
+            if (paymentType.equals("cancelPrepayment")) {
                 int price = controller.getItemManager().getItemList()[this.verification.getItemId() - 1].getItemPrice();
                 int quantity = this.verification.getItemQuantity();
                 controller.getPaymentManager().cancelPayment(controller.getCardReader(), price * quantity, cardNum);
-                resMsg = "payment canceled";
+
+                resMsg = "prepayment canceled";
+                new DvmDialog(resMsg);
                 CARD.add(new Window_1());
+
+                System.out.println("cancel payment: " + this.verification);
+                controller.getVerificationManager().removeVerification(verification.getVerificationCode());
+                return;
+            }
+            int selectedItemNum = ((Window_2) (prevPanel.prevPanel)).selectedItemNum;
+            System.out.println("itemId, itemNum = " + Window_1.selectedItemId + ", " + selectedItemNum);
+            if (paymentType.equals("payment")) {
+                resMsg = controller.payment(Window_1.selectedItemId, selectedItemNum, cardNum, 1234);
+                CARD.add(new Window_1());
+            } else if (paymentType.equals("prepayment")) {
+                resMsg = controller.prepayment(Window_1.selectedItemId, selectedItemNum, cardNum, 1234, dvmInfo[0]);
+                CARD.add(new Window_5());
             }
             if (resMsg.contains("error")) {
                 /* TODO: some err dialog */
                 System.err.println(resMsg);
                 CARD.add(new Window_1());
             }
-            if (this.paymentType.equals("cancelPrepayment")) {
-                System.out.println("cancel payment: " + this.verification);
-                controller.getVerificationManager().removeVerification(verification.getVerificationCode());
-            }
         } else if (e.getActionCommand().equals("BACK")) {
             timer.stop();
-
             for (ActionListener listener : timer.getActionListeners()) {
                 timer.removeActionListener(listener);
             }
-
             CARD.add(new Window_1());
         }
     }
