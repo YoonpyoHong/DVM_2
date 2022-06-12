@@ -1,0 +1,153 @@
+@startuml
+class ui.JTextFieldLimit {
+- int limit
++ void insertString(int,String,AttributeSet)
+}
+class ui.Window_8 {
+- {static} Item[] localItems
+- {static} JButton btn1
+- {static} JButton btn2
+- {static} JPanel itemLayout
+- {static} JPanel itemLayout2
+- {static} JPanel itemLayout3
+- {static} JTextField[] itemQty
+- {static} EmptyBorder eb
+- {static} Border grayLine
+- {static} int btnWidth
+- {static} int btnHeight
+- {static} int drinkPanelWidth
+- {static} int drinkPanelHeight
+- {static} int drinkPanel2Width
+- {static} int drinkPanel2Height
+- {static} int drinkPanel3Width
+- {static} int drinkPanel3Height
+# void init()
+- void initLocalItems()
++ void actionPerformed(ActionEvent)
+}
+class ui.Window_3_2 {
+- {static} JButton btn1
+- {static} JButton btn2
+- {static} JLabel totalPrice
+- {static} JLabel loc
+- {static} JLabel distance
+- {static} int btnWidth
+- {static} int btnHeight
+# void init()
++ void actionPerformed(ActionEvent)
+}
+class ui.Window_5 {
+- {static} JButton btn1
+- {static} JButton btn2
+- {static} JLabel verCode
+- {static} JLabel loc
+- {static} JLabel distance
+# void init()
++ void actionPerformed(ActionEvent)
+}
+class ui.Window_3_1 {
+- {static} JButton btn1
+- {static} JButton btn2
+- {static} JLabel totalPrice
+- {static} int btnTotalPriceWidth
+- {static} int btnTotalPriceHeight
+# void init()
++ void actionPerformed(ActionEvent)
+}
+class ui.Window_1 {
++ {static} int selectedItemId
+- {static} JPanel itemLayout
+- {static} JButton btn1
+- {static} JButton btn2
+- {static} EmptyBorder eb
+- {static} Border grayLine
+- {static} int btnWidth
+- {static} int btnHeight
+- {static} int drinkPanelWidth
+- {static} int drinkPanelHeight
+# void init()
++ void actionPerformed(ActionEvent)
+}
+abstract class ui.DvmWindow {
+# {static} Controller controller
+# {static} Item[] items
+# Container frame
+# JLabel vmID
+# JPanel panel
+# GridBagConstraints c
+- {static} String WINDOW_TITLE
+- {static} int frameWidth
+- {static} int frameHeight
++ {abstract}void actionPerformed(ActionEvent)
+# {abstract}void init()
+# void addJLable(JLabel,int,int,int,int,boolean)
+# void setJLable(JLabel,int,int,boolean,Color,int)
+# void addComponent(Component,int,int,int,int,int,int,double,int)
+# void addComponent(Component,int,int,int,int,int,int,int,int,int)
+}
+class ui.Window_4 {
+- String paymentType
+- Verification verification
+- {static} JButton btn1
+- {static} JButton btn2
+- {static} JTextField verCode
+- {static} JLabel time
+- {static} JLabel notice
+- Timer timer
+~ int count
+# void init()
++ void actionPerformed(ActionEvent)
+}
+class ui.Window_7 {
+- {static} JButton btn1
+- {static} JButton btn2
+- {static} JTextField pwd
+- {static} JLabel notice
+- {static} EmptyBorder eb
+# void init()
++ void actionPerformed(ActionEvent)
+}
+class ui.Window_2 {
+- {static} int MAX_ITEM_QUANTITY
+- {static} int btnItemQuantityWidth
+- {static} int btnItemQuantityHeight
+- {static} int btnItemNameWidth
+- {static} int btnItemNameHeight
+- {static} int btnItemPriceWidth
+- {static} int btnItemPriceHeight
+# {static} int selectedItemNum
+# {static} int[] dvmInfo
+- {static} JButton btn1
+- {static} JButton btn2
+- {static} JButton add
+- {static} JButton minus
+- {static} JLabel itemQuantity
+- {static} JLabel itemPrice
+- {static} JLabel itemName
+# void init()
++ void actionPerformed(ActionEvent)
+# {static} String getTotalPrice()
+}
+class ui.Window_6 {
+- {static} JButton btn1
+- {static} JButton btn2
+- {static} JTextField verCode
+- {static} JLabel notice
+# void init()
++ void actionPerformed(ActionEvent)
+}
+
+
+javax.swing.text.PlainDocument <|-- ui.JTextFieldLimit
+ui.DvmWindow <|-- ui.Window_8
+ui.DvmWindow <|-- ui.Window_3_2
+ui.DvmWindow <|-- ui.Window_5
+ui.DvmWindow <|-- ui.Window_3_1
+ui.DvmWindow <|-- ui.Window_1
+java.awt.event.ActionListener <|.. ui.DvmWindow
+ui.JFrame <|-- ui.DvmWindow
+ui.DvmWindow <|-- ui.Window_4
+ui.DvmWindow <|-- ui.Window_7
+ui.DvmWindow <|-- ui.Window_2
+ui.DvmWindow <|-- ui.Window_6
+@enduml

@@ -10,12 +10,13 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 public class MessageManager extends Thread {
+    private static final int LOOP_TIME = 1000; //ms
     private static final int WAIT_TIME = 500; // ms
     private static final String DVM_ID = "Team2";
     private static final int DVM_X = 22;
     private static final int DVM_Y = 22;
     private static final int TOTAL_DVM_COUNT = 2;
-    private static final String[] IP_ADDR = {"localhost", "localhost"};
+    private static final String[] IP_ADDR = {"localhost", "localhost", "localhost", "", "", "", ""}; // we use 1-indexed array. so we need array length = TOTAL_DVM_COUNT + 1
     private static final String NULL_AUTH_CODE = "0000000000";
 
     private static Deque<Message> msgQueue;
@@ -56,23 +57,27 @@ public class MessageManager extends Thread {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            receiveMsg();
+        }
+
+        private void receiveMsg() {
             while (true) {
                 try {
-                    Thread.sleep(WAIT_TIME * 1);
+                    Thread.sleep(LOOP_TIME * 1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 System.out.println("msgList.size() = " + DVMServer.msgList.size());
                 if (!DVMServer.msgList.isEmpty()) {
                     Message msg = DVMServer.msgList.remove(DVMServer.msgList.size() - 1);
-                    System.out.println("received msg = " + msg);
+                    System.out.println(String.format("%s(): received msg = %s", "receiveMsg", MessageManager.toString(msg)));
                     String msgType = msg.getMsgType();
                     String authCode= msg.getMsgDescription().getAuthCode();
                     int[] msgInfo = decodeMsg(msg);
                     int otherId = msgInfo[0];
                     int itemId = msgInfo[1];
                     int itemQuantity = msgInfo[2];
-                    System.out.println("(OtherId, itemId, itemQuantity, msgType) = " + otherId + ", " + itemId + ", " + itemQuantity + ", " + msgType);
+                    System.out.println(String.format("%s(): otherId = %d, itemId = %d, itemQuantity = %d, msgType = %s", "MsgReceiver.run", otherId, itemId, itemQuantity, msgType));
                     if (msgType.equals("StockCheckRequest")) {
                         boolean stockAvailable = itemManager.checkStock(itemId, itemQuantity);
                         if (stockAvailable) {
@@ -104,15 +109,15 @@ public class MessageManager extends Thread {
     public void run() {
         try {
             System.out.println("MessageManager.run()");
-            //oVM.start();
-            //msgReceiver.start();
+            oVM.start();
+            msgReceiver.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public int[] checkStockOfOtherVM(int itemId, int itemQuantity) {
-        System.out.println("itemId, itemQuantity = " + itemId + ", " + itemQuantity);
+        System.out.println(String.format("%s(): itemId = %d, itemQuantity = %d", "checkStockOfOtherVM", itemId, itemQuantity));
         for (int i = 1; i <= TOTAL_DVM_COUNT; i++) {
             String dstId = "Team" + i;
             if (!dstId.equals(DVM_ID)) {
@@ -153,7 +158,7 @@ public class MessageManager extends Thread {
 
     public void sendMsg(int dstId, Message msg) {
         String jsonMsg = new Serializer().message2Json(msg);
-        System.out.println("sends msg to " + dstId + "(" + IP_ADDR[dstId] + ") with json = " + jsonMsg);
+        System.out.println(String.format("%s(): %s, ip: %s, json: %s", "sendMsg", msg, IP_ADDR[dstId], jsonMsg));
         DVMClient client = new DVMClient(IP_ADDR[dstId], jsonMsg);
         try {
             client.run();
@@ -177,8 +182,22 @@ public class MessageManager extends Thread {
         sendMsg(dstId, msg);
     }
 
+    public static String toString(Model.Message.MessageDescription msgDescription) {
+        return String.format("MessageDescription(%s, %d, %d, %d, %s)",
+                msgDescription.getItemCode(),
+                msgDescription.getItemNum(),
+                msgDescription.getDvmXCoord(),
+                msgDescription.getDvmYCoord(),
+                msgDescription.getAuthCode()
+        );
+    }
+
+    public static String toString(Message msg) {
+        return String.format("Message(%s, %s, %s, %s", msg.getSrcId(), msg.getDstID(), msg.getMsgType(), toString(msg.getMsgDescription()));
+    }
+
     private Message setMsg(String dstId, int itemId, int itemQuantity, String msgType, String authCode) {
-        System.out.println("dstId, itemId, itemQuantity, msgType, authCode = " + dstId + ", " + itemId + ", " + itemQuantity + ", " + msgType + ", " + authCode);
+        System.out.println(String.format("%s(): dstId = %s, itemId = %d, itemQuantity = %d, msgType = %s, authCode = %s", "setMsg", dstId, itemId, itemQuantity , msgType, authCode));
         Message msg = new Message();
         Message.MessageDescription msgDes = new Message.MessageDescription();
         setMsgDes(msgDes, itemId, itemQuantity, authCode);
