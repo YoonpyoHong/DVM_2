@@ -1,7 +1,5 @@
 package ui;
 
-import domain.product.Item;
-import domain.product.ItemManager;
 import static domain.product.ItemManager.MAX_ITEM;
 import static ui.DvmWindow.*;
 import static ui.DvmWindow.items;
@@ -68,25 +66,25 @@ public class Window_1 extends JPanel implements ActionListener {
 
         addComponent(panel, itemLayout, 0, 9, 0, 10, 0, 1,3, 10);
         itemLayout.setMinimumSize(new Dimension(280,390));
-        card.add(panel);
+        CARD.add(panel);
     }
 
     public void actionPerformed(ActionEvent e) {
-        card.removeAll();
-        card.revalidate();
-        card.repaint();
+        CARD.removeAll();
+        CARD.revalidate();
+        CARD.repaint();
 
         if (e.getActionCommand().equals("ADMIN LOGIN")) {
-            card.add(new Window_8());
+            CARD.add(new Window_8());
         } else if (e.getActionCommand().equals("VERIFICATION CODE")) {
-            card.add(new Window_6());
+            CARD.add(new Window_6());
         } else {
             for (int id = 0; id < MAX_ITEM; id++) {
                 if (e.getActionCommand().equals(items[id].getItemName())
                 || e.getActionCommand().equals("TEST")) {
                     System.out.println("selected " + items[id]);
                     selectedItemId = id;
-                    card.add(new Window_2());
+                    CARD.add(new Window_2());
                     break;
                 }
             }

@@ -1,7 +1,5 @@
 package ui;
 
-import domain.app.Controller;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -37,8 +35,8 @@ public class Window_7 extends JPanel implements ActionListener {
 
         JPanel panel = new JPanel(new GridBagLayout());
         c = new GridBagConstraints();
-        card.add(panel);
-        vmID.setBackground(Color.decode("#cfd0d1"));
+        CARD.add(panel);
+        VM_ID.setBackground(Color.decode("#cfd0d1"));
         notice.setBackground(Color.decode("#cfd0d1"));
         panel.setBackground(Color.decode("#dcebf7"));
 

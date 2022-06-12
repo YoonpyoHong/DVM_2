@@ -7,10 +7,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-<<<<<<< Updated upstream
-=======
 import java.util.concurrent.atomic.AtomicInteger;
->>>>>>> Stashed changes
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -70,7 +67,7 @@ public class Window_4 extends JPanel implements ActionListener {
         verCode.setDocument(new JTextFieldLimit(CARD_NUM_LENGTH));
         panel = new JPanel(new GridBagLayout());
         c = new GridBagConstraints();
-        card.add(panel);
+        CARD.add(panel);
         panel.setBackground(Color.decode("#dcebf7"));
 
         c.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -90,45 +87,27 @@ public class Window_4 extends JPanel implements ActionListener {
 
         btn1.setFocusable(false);
         btn2.setFocusable(false);
-<<<<<<< Updated upstream
-        
-        count = 60;
-	    timer = new Timer(1000, new ActionListener() {
-		      @Override
-		      public void actionPerformed(ActionEvent e) {
-			        count--;       	
-		        	time.setText("Time runout (sec): " + Integer.toString(count));
-		        	
-		        	if(count==0){
-		        		dispose();
-		        		Window_1 returnHome = new Window_1(controller);
-		        		((Timer) (e.getSource())).stop();
-		        	}
-		      	}
-		    });
-=======
 
 	    timer = new Timer(1000, e -> {
               count.getAndDecrement();
               time.setText("Time run out (sec): " + count);
 
               if(count.get() ==0){
-                  card.removeAll();
-                  card.revalidate();
-                  card.repaint();
-                  card.add(new Window_1());
+                  CARD.removeAll();
+                  CARD.revalidate();
+                  CARD.repaint();
+                  CARD.add(new Window_1());
                   ((Timer) (e.getSource())).stop();
               }
-            });
->>>>>>> Stashed changes
+        });
 		timer.setInitialDelay(0);
 		timer.start();
     }
 
     public void actionPerformed(ActionEvent e) {
-        card.removeAll();
-        card.revalidate();
-        card.repaint();
+        CARD.removeAll();
+        CARD.revalidate();
+        CARD.repaint();
 
         if (e.getActionCommand().equals("ENTER")) {
             timer.stop();
@@ -144,21 +123,21 @@ public class Window_4 extends JPanel implements ActionListener {
             System.out.println("itemId, itemNum = " + selectedItemId + ", " + selectedItemNum);
             if (paymentType.equals("payment")) {
                 resMsg = controller.payment(selectedItemId, selectedItemNum, cardNum, 1234);
-                card.add(new Window_1());
+                CARD.add(new Window_1());
             } else if (paymentType.equals("prepayment")) {
                 resMsg = controller.prepayment(selectedItemId, selectedItemNum, cardNum, 1234, dvmInfo[0]);
-                card.add(new Window_5());
+                CARD.add(new Window_5());
             } else if (paymentType.equals("cancelPrepayment")) {
                 int price = controller.getItemManager().getItemList()[this.verification.getItemId() - 1].getItemPrice();
                 int quantity = this.verification.getItemQuantity();
                 controller.getPaymentManager().cancelPayment(controller.getCardReader(), price * quantity, cardNum);
                 resMsg = "payment canceled";
-                card.add(new Window_1());
+                CARD.add(new Window_1());
             }
             if (resMsg.contains("error")) {
                 /* TODO: some err dialog */
                 System.err.println(resMsg);
-                card.add(new Window_1());
+                CARD.add(new Window_1());
             }
             if (this.paymentType.equals("cancelPrepayment")) {
                 System.out.println("cancel payment: " + this.verification);
@@ -171,7 +150,7 @@ public class Window_4 extends JPanel implements ActionListener {
                 timer.removeActionListener(listener);
             }
 
-            card.add(new Window_1());
+            CARD.add(new Window_1());
         }
     }
 }

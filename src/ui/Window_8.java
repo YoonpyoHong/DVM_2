@@ -100,7 +100,7 @@ public class Window_8 extends JPanel implements ActionListener {
         addComponent(panel,itemLayout2, 0, 0, 0, 125, 0, 0, 0, 0, GridBagConstraints.LINE_START);
         addComponent(panel,itemLayout, 0, 6, 0, 10, 0, 1, 3, 10, GridBagConstraints.LINE_START);
 
-        card.add(panel);
+        CARD.add(panel);
     }
 
     private void initLocalItems() {
@@ -117,10 +117,10 @@ public class Window_8 extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("LOGOUT")) {
             //do nothing
-            card.removeAll();
-            card.revalidate();
-            card.repaint();
-            card.add(new Window_1());
+            CARD.removeAll();
+            CARD.revalidate();
+            CARD.repaint();
+            CARD.add(new Window_1());
         } else if (e.getActionCommand().equals("UPDATE")) {
             boolean isValidInput = true;
             int[] inputQuantities = new int[MAX_LOCAL_ITEM];

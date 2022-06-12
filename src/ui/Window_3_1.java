@@ -29,7 +29,7 @@ public class Window_3_1 extends JPanel implements ActionListener {
     protected void init() {
         panel = new JPanel(new GridBagLayout());
         c = new GridBagConstraints();
-        card.add(panel);
+        CARD.add(panel);
         panel.setBackground(Color.decode("#dcebf7"));
 
         addJLabel(panel);
@@ -47,14 +47,14 @@ public class Window_3_1 extends JPanel implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        card.removeAll();
-        card.revalidate();
-        card.repaint();
+        CARD.removeAll();
+        CARD.revalidate();
+        CARD.repaint();
 
         if (e.getActionCommand().equals("PAY")) {
-            card.add(new Window_4("payment"));
+            CARD.add(new Window_4("payment"));
         } else if (e.getActionCommand().equals("BACK")) {
-            card.add(new Window_2());
+            CARD.add(new Window_2());
         }
     }
 }

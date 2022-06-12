@@ -31,9 +31,9 @@ public class Window_5 extends JPanel implements ActionListener {
         panel = new JPanel(new GridBagLayout());
         c = new GridBagConstraints();
 
-        card.add(panel);
+        CARD.add(panel);
 
-        vmID.setBackground(Color.decode("#cfd0d1"));
+        VM_ID.setBackground(Color.decode("#cfd0d1"));
         panel.setBackground(Color.decode("#dcebf7"));
 
         addJLabel(panel);
@@ -55,14 +55,14 @@ public class Window_5 extends JPanel implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        card.removeAll();
-        card.revalidate();
-        card.repaint();
+        CARD.removeAll();
+        CARD.revalidate();
+        CARD.repaint();
 
         if (e.getActionCommand().equals("HOME")) {
-            card.add(new Window_1());
+            CARD.add(new Window_1());
         } else if (e.getActionCommand().equals("BACK")) {
-            card.add(new Window_4());
+            CARD.add(new Window_4());
         }
     }
 }

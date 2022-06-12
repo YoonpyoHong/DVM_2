@@ -2,18 +2,17 @@ package ui;
 
 import domain.app.Controller;
 import domain.product.Item;
-import domain.product.ItemManager;
 
 import java.awt.*;
 import javax.swing.*;
 
 public class DvmWindow extends JFrame {
     private static final String WINDOW_TITLE = "T2 OOPT DVM";
-    protected static final JLabel vmID = new JLabel("          VM's ID           ");
+    protected static final JLabel VM_ID = new JLabel("          VM's ID           ");
     protected static Controller controller;
     protected static Item[] items;
-//    Container frame = this.getContentPane();
-    static final JPanel card = new JPanel();
+    public static final JPanel CARD = new JPanel();
+    //    Container frame = this.getContentPane();
     protected static GridBagConstraints c;
 
     private static final int frameWidth = 500;
@@ -25,9 +24,9 @@ public class DvmWindow extends JFrame {
         super(title);
         DvmWindow.controller = controller;
         items = controller.getItemList();
-        card.setBackground(Color.decode("#dcebf7"));
-        card.add(new Window_1());
-        this.add(card, BorderLayout.CENTER);
+        CARD.setBackground(Color.decode("#dcebf7"));
+        CARD.add(new Window_1());
+        this.add(CARD, BorderLayout.CENTER);
         this.setSize(frameWidth,frameHeight);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -38,9 +37,9 @@ public class DvmWindow extends JFrame {
 
     protected static void addJLabel(JPanel panel) {
         c.insets = new Insets(2, 2, 2, 2);
-        DvmWindow.vmID.setBackground(Color.decode("#cfd0d1"));
-        DvmWindow.vmID.setOpaque(true);
-        panel.add(DvmWindow.vmID, c);
+        DvmWindow.VM_ID.setBackground(Color.decode("#cfd0d1"));
+        DvmWindow.VM_ID.setOpaque(true);
+        panel.add(DvmWindow.VM_ID, c);
     }
 
     protected static void setJLabel(JLabel label, int width, int height, Color color) {

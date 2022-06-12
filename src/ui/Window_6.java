@@ -12,13 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-<<<<<<< Updated upstream
 import static domain.payment.VerificationManager.CODE_LENGTH;
-=======
 import static ui.DvmWindow.*;
-import static domain.payment.VerificationManager.CODE_LEN;
->>>>>>> Stashed changes
 
 public class Window_6 extends JPanel implements ActionListener {
     private static final JButton btn1 = new JButton("ENTER");
@@ -35,7 +30,7 @@ public class Window_6 extends JPanel implements ActionListener {
         verCode.setDocument(new JTextFieldLimit(CODE_LENGTH));
         panel = new JPanel(new GridBagLayout());
         c = new GridBagConstraints();
-        card.add(panel);
+        CARD.add(panel);
 
         notice.setBackground(Color.decode("#cfd0d1"));
         panel.setBackground(Color.decode("#dcebf7"));
@@ -81,10 +76,10 @@ public class Window_6 extends JPanel implements ActionListener {
             //dispose JDialog and this window after 15 second
             //not implemented yet
         } else if (e.getActionCommand().equals("BACK")) {
-            card.removeAll();
-            card.revalidate();
-            card.repaint();
-            card.add(new Window_1());
+            CARD.removeAll();
+            CARD.revalidate();
+            CARD.repaint();
+            CARD.add(new Window_1());
         }
     }
 }

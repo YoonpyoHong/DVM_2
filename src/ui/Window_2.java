@@ -74,7 +74,7 @@ public class Window_2 extends JPanel implements ActionListener {
         add.setFocusable(false);
         minus.setFocusable(false);
 
-        card.add(panel);
+        CARD.add(panel);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -85,23 +85,23 @@ public class Window_2 extends JPanel implements ActionListener {
             System.out.println("result message: " + resMsg);
             System.out.println("dvmInfo: " + dvmInfo[0] + ", " + dvmInfo[1] + ", " + dvmInfo[1] + ", " + dvmInfo[2] + ", " + dvmInfo[3]);
             if (resMsg.equals("displayPayment")) {
-                card.removeAll();
-                card.revalidate();
-                card.repaint();
-                card.add(new Window_3_1());
+                CARD.removeAll();
+                CARD.revalidate();
+                CARD.repaint();
+                CARD.add(new Window_3_1());
             } else if (resMsg.equals("displayPrepayment")) {
-                card.removeAll();
-                card.revalidate();
-                card.repaint();
-                card.add(new Window_3_2());
+                CARD.removeAll();
+                CARD.revalidate();
+                CARD.repaint();
+                CARD.add(new Window_3_2());
             } else {
                 /* TODO: display err dialog */
             }
         } else if (e.getActionCommand().equals("BACK")) {
-            card.removeAll();
-            card.revalidate();
-            card.repaint();
-            card.add(new Window_1());
+            CARD.removeAll();
+            CARD.revalidate();
+            CARD.repaint();
+            CARD.add(new Window_1());
         } else if (e.getActionCommand().equals("+")) {
             selectedItemNum = Math.min(selectedItemNum + 1, MAX_ITEM_QUANTITY);
             System.out.println("selectedItemNum = " + selectedItemNum);
