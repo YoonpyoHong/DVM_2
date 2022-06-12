@@ -1,57 +1,54 @@
 package ui;
 
-import domain.Controller;
+import domain.app.Controller;
 import domain.product.Item;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.*;
+import java.awt.*;
 
-public abstract class DvmWindow extends JFrame implements ActionListener {
+public class DvmWindow extends JFrame {
+    private static final String WINDOW_TITLE = "T2 OOPT DVM";
+    protected static final JLabel VM_ID = new JLabel("          VM's ID           ");
     protected static Controller controller;
     protected static Item[] items;
-    protected final Container frame = this.getContentPane();
-    protected final JLabel vmID = new JLabel("          VM's ID           ");
-    protected JPanel panel;
-    protected GridBagConstraints c;
+    public static final JPanel CARD = new JPanel();
+    //    Container frame = this.getContentPane();
+    protected static GridBagConstraints c;
 
-    private static final String WINDOW_TITLE = "T2 OOPT DVM";
     private static final int frameWidth = 500;
     private static final int frameHeight = 500;
 
-    protected DvmWindow(Controller controller) { this(controller, WINDOW_TITLE); }
+    public DvmWindow(Controller controller) { this(controller, WINDOW_TITLE); }
 
-    protected DvmWindow(Controller controller, String title) {
+    public DvmWindow(Controller controller, String title) {
         super(title);
         DvmWindow.controller = controller;
         items = controller.getItemList();
-        this.setSize(frameWidth, frameHeight);
+        CARD.setBackground(Color.decode("#dcebf7"));
+        CARD.add(new Window_1());
+        this.add(CARD, BorderLayout.CENTER);
+        this.setSize(frameWidth,frameHeight);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        init();
+        this.pack();
         this.setVisible(true);
-        System.out.println(this.getClass() + " created.");
+//        System.out.println(this.getClass() + " created.");
     }
 
-    public abstract void actionPerformed(ActionEvent e);
-
-    protected abstract void init();
-
-    protected void addJLable(JLabel label, int top, int left, int bottom, int right, boolean isOpaque) {
-        c.insets = new Insets(top, left, bottom, right);
-        label.setOpaque(isOpaque);
-        panel.add(label, c);
+    protected static void addJLabel(JPanel panel) {
+        c.insets = new Insets(2, 2, 2, 2);
+        DvmWindow.VM_ID.setBackground(Color.decode("#cfd0d1"));
+        DvmWindow.VM_ID.setOpaque(true);
+        panel.add(DvmWindow.VM_ID, c);
     }
 
-    protected void setJLable(JLabel label, int width, int height, boolean isOpaque, Color color, int thickness) {
+    protected static void setJLabel(JLabel label, int width, int height, Color color) {
         label.setPreferredSize(new Dimension(width, height));
-        label.setOpaque(isOpaque);
-        label.setBorder(BorderFactory.createLineBorder(color, thickness));
+        label.setOpaque(true);
+        label.setBorder(BorderFactory.createLineBorder(color, 1));
     }
 
-    protected void addComponent(Component comp, int top, int left, int bottom, int right, int gridX, int gridY, double weightX, int anchor) {
+    protected static void addComponent(JPanel panel, Component comp, int top, int left, int bottom, int right, int gridX, int gridY, double weightX, int anchor) {
         c.insets = new Insets(top, left, bottom, right);
         c.gridx = gridX;
         c.gridy = gridY;
@@ -60,7 +57,7 @@ public abstract class DvmWindow extends JFrame implements ActionListener {
         panel.add(comp, c);
     }
 
-    protected void addComponent(Component comp, int top, int left, int bottom, int right, int gridX, int gridY, int gridWidth, int gridHeight, int anchor) {
+    protected static void addComponent(JPanel panel, Component comp, int top, int left, int bottom, int right, int gridX, int gridY, int gridWidth, int gridHeight, int anchor) {
         c.insets = new Insets(top, left, bottom, right);
         c.gridx = gridX;
         c.gridy = gridY;

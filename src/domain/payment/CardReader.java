@@ -33,9 +33,9 @@ public class CardReader {
 
     public String encodeCardNum(String inputCardNum) {
         StringBuilder cardNum = new StringBuilder();
-        for (int i = 0; i < CARD_NUM_LENGTH; i++) {
-            cardNum.append(inputCardNum.charAt(i));
-            if (i % 4 == 3 && i != 15) {
+        for (int cardNumPosition = 0; cardNumPosition < CARD_NUM_LENGTH; cardNumPosition++) {
+            cardNum.append(inputCardNum.charAt(cardNumPosition));
+            if (cardNumPosition % 4 == 3 && cardNumPosition != 15) {
                 cardNum.append('-');
             }
         }
@@ -50,12 +50,12 @@ public class CardReader {
             e.printStackTrace();
         }
         assert inputStream != null;
-        Scanner in = new Scanner(inputStream);
+        Scanner cardDataInput = new Scanner(inputStream);
         cards = new HashMap<>();
-        while (in.hasNext()) {
-            String[] argv = in.nextLine().split(" ", 3);
-            Card card = new Card(argv[0], Integer.parseInt(argv[1]), Integer.parseInt(argv[2]));
-            cards.put(argv[0], card);
+        while (cardDataInput.hasNext()) {
+            String[] cardList = cardDataInput.nextLine().split(" ", 3);
+            Card card = new Card(cardList[0], Integer.parseInt(cardList[1]), Integer.parseInt(cardList[2]));
+            cards.put(cardList[0], card);
             System.out.println(card + " has been added.");
         }
     }

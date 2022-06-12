@@ -1,10 +1,9 @@
 package domain.app;
 
-import domain.Controller;
 import domain.message.MessageManager;
 import domain.payment.CardReader;
 import domain.payment.VerificationManager;
-import ui.Window_1;
+import ui.DvmWindow;
 
 public class Main {
 	public static void main(String[] args) {
@@ -32,7 +31,7 @@ public class Main {
 	}
 
 	private static void testUI() {
-		new Window_1(new Controller());
+		new DvmWindow(new Controller());
 	}
 
 	private static void testController() {

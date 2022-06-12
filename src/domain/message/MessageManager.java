@@ -10,13 +10,14 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 public class MessageManager extends Thread {
-    private static final int LOOP_TIME = 1000; //ms
+    private static final int LOOP_TIME = 500; // ms
     private static final int WAIT_TIME = 500; // ms
     private static final String DVM_ID = "Team2";
     private static final int DVM_X = 22;
     private static final int DVM_Y = 22;
     private static final int TOTAL_DVM_COUNT = 2;
-    private static final String[] IP_ADDR = {"localhost", "localhost", "localhost", "", "", "", ""}; // we use 1-indexed array. so we need array length = TOTAL_DVM_COUNT + 1
+    // we use 1-indexed array. so we need array length = TOTAL_DVM_COUNT + 1
+    private static final String[] IP_ADDR = {"localhost", "localhost", "localhost", "", "", "", ""};
     private static final String NULL_AUTH_CODE = "0000000000";
 
     private static Deque<Message> msgQueue;
@@ -67,7 +68,7 @@ public class MessageManager extends Thread {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.println("msgList.size() = " + DVMServer.msgList.size());
+                //System.out.println("msgList.size() = " + DVMServer.msgList.size());
                 if (!DVMServer.msgList.isEmpty()) {
                     Message msg = DVMServer.msgList.remove(DVMServer.msgList.size() - 1);
                     System.out.println(String.format("%s(): received msg = %s", "receiveMsg", MessageManager.toString(msg)));
@@ -109,8 +110,8 @@ public class MessageManager extends Thread {
     public void run() {
         try {
             System.out.println("MessageManager.run()");
-            oVM.start();
-            msgReceiver.start();
+//            oVM.start();
+//            msgReceiver.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -182,7 +183,7 @@ public class MessageManager extends Thread {
         sendMsg(dstId, msg);
     }
 
-    public static String toString(Model.Message.MessageDescription msgDescription) {
+    public static String toString(Message.MessageDescription msgDescription) {
         return String.format("MessageDescription(%s, %d, %d, %d, %s)",
                 msgDescription.getItemCode(),
                 msgDescription.getItemNum(),
@@ -197,7 +198,7 @@ public class MessageManager extends Thread {
     }
 
     private Message setMsg(String dstId, int itemId, int itemQuantity, String msgType, String authCode) {
-        System.out.println(String.format("%s(): dstId = %s, itemId = %d, itemQuantity = %d, msgType = %s, authCode = %s", "setMsg", dstId, itemId, itemQuantity , msgType, authCode));
+        System.out.println("dstId, itemId, itemQuantity, msgType, authCode = " + dstId + ", " + itemId + ", " + itemQuantity + ", " + msgType + ", " + authCode);
         Message msg = new Message();
         Message.MessageDescription msgDes = new Message.MessageDescription();
         setMsgDes(msgDes, itemId, itemQuantity, authCode);

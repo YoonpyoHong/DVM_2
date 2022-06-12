@@ -8,6 +8,6 @@ public class AccountManager {
     }
 
     public boolean verifyLoginInfo(String password) {
-        return password.equals(PASSWORD);
+        return PASSWORD.equals(password);
     }
 }

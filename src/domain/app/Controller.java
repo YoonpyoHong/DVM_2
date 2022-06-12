@@ -1,13 +1,13 @@
-package domain;
+package domain.app;
 
 import domain.admin.AccountManager;
 import domain.message.MessageManager;
+import domain.payment.CardReader;
+import domain.payment.PaymentManager;
 import domain.payment.Verification;
 import domain.payment.VerificationManager;
 import domain.product.Item;
 import domain.product.ItemManager;
-import domain.payment.CardReader;
-import domain.payment.PaymentManager;
 
 public class Controller {
     private final PaymentManager paymentManager;
@@ -30,21 +30,21 @@ public class Controller {
         System.out.println(this.getClass() + " created.");
     }
 
-    public static void turnMachineOn() {}
-
     public String selectItem(int itemId, int itemQuantity, int[] dvmInfo) {
         if (itemManager.checkStock(itemId, itemQuantity)){
             System.out.println(items[itemId] + " is in local vm");
             return "displayPayment";
         }
-        int[] resDvmInfo = messageManager.checkStockOfOtherVM(itemId, itemQuantity);
-        System.arraycopy(resDvmInfo, 0, dvmInfo, 0, dvmInfo.length);
-        if (dvmInfo[0] == -1) {
-            System.out.println(items[itemId] + " is not in other vm");
-            return "error: stock not available";
+        else {
+            int[] otherDvmInfo = messageManager.checkStockOfOtherVM(itemId, itemQuantity);
+            System.arraycopy(otherDvmInfo, 0, dvmInfo, 0, dvmInfo.length);
+            if (dvmInfo[0] == -1) {
+                System.out.println(items[itemId] + " is not in other vm");
+                return "error: stock not available";
+            }
+            System.out.println(items[itemId] + " is in other vm");
+            return "displayPrepayment";
         }
-        System.out.println(items[itemId] + " is in other vm");
-        return "displayPrepayment";
     }
 
     public String payment(int itemId, int itemQuantity, String cardNum, int cardPwd) {
@@ -67,7 +67,7 @@ public class Controller {
         return "payment complete";
     }
 
-    public String prepayment(int itemId, int itemQuantity, String cardNum, int cardPwd, int dstId) {
+    public String prepayment(int itemId, int itemQuantity, String cardNum, int cardPwd, int destinationId) {
         boolean cardValidity = cardReader.checkCardValidity(cardNum, 1234);
         if (!cardValidity) {
             return "error: invalid card";
@@ -77,16 +77,14 @@ public class Controller {
         if (!paymentSuccess) {
             return "payment error in prepayment";
         }
-        String authCode = verificationManager.createVerificationCode();
-        messageManager.sendPrepaymentInfo(itemId, itemQuantity, dstId, authCode);
+        String authenticationCode = verificationManager.createVerificationCode();
+        messageManager.sendPrepaymentInfo(itemId, itemQuantity, destinationId, authenticationCode);
         return "prepayment complete";
     }
 
-    public Verification comfirmVerification(String authCode) {
-        return verificationManager.checkVerification(authCode);
+    public Verification comfirmVerification(String authenticationCode) {
+        return verificationManager.checkVerification(authenticationCode);
     }
-
-    public Item[] getItemList() { return itemManager.getItemList(); }
 
     public AccountManager getAccountManager() { return accountManager; }
     public MessageManager getMsgManager() { return messageManager; }

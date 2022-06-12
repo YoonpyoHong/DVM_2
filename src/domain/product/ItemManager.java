@@ -1,5 +1,6 @@
 package domain.product;
-import domain.payment.*;
+
+import domain.payment.VerificationManager;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -7,7 +8,7 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 public class ItemManager {
-    public static final int MAX_QUANTITY = 999;
+    public static final int MAX_ITEM_QUANTITY = 999;
     public static final int MAX_ITEM = 20;
     public static final int MAX_LOCAL_ITEM = 7;
 
@@ -55,7 +56,7 @@ public class ItemManager {
     private void loadItemList() {
         InputStream inputStream = null;
         try {
-            inputStream = new FileInputStream("src/domain/product/itemList.txt");
+             inputStream = new FileInputStream("src/domain/product/itemList.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

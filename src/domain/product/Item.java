@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static domain.product.ItemManager.MAX_ITEM;
 
 public class Item {
-    private int itemId;
+    private int itemId; // 1-indexed
     private String itemName;
     private int itemPrice;
     private final AtomicInteger itemQuantity = new AtomicInteger();
