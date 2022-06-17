@@ -1,5 +1,7 @@
 package ui;
 
+import domain.payment.Order;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,54 +13,56 @@ public class PrepaymentWindow extends DvmPanel {
     private JButton btn1;
     private JButton btn2;
 
-    private static final JLabel totalPrice = new JLabel("<html>Total price:<br><center>" + ItemShowWindow.getTotalPrice() + "</center></html>", SwingConstants.CENTER);
-    private static final JLabel loc = new JLabel(String.format("Location: (%d, %d)", ItemShowWindow.dvmInfo[1], ItemShowWindow.dvmInfo[2]), SwingConstants.CENTER);
-    private static final JLabel distance = new JLabel(String.format("Distance: %.1f", Math.sqrt(ItemShowWindow.dvmInfo[3])), SwingConstants.CENTER);
+    private Order order;
 
-    private static final int btnWidth = 100;
-    private static final int btnHeight = 70;
+    private static final int BUTTON_WIDTH = 100;
+    private static final int BUTTON_HEIGHT = 70;
 
-    JPanel panel;
-
-    public PrepaymentWindow(DvmPanel prevPanel) {
+    public PrepaymentWindow(DvmPanel prevPanel, Order order) {
         super(prevPanel);
+        this.order = order;
+        init();
     }
 
-    protected void init() {
-        super.init();
-        panel = new JPanel(new GridBagLayout());
-        constraints = new GridBagConstraints();
-        CARD.add(panel);
-        panel.setBackground(Color.decode("#dcebf7"));
+    @Override
+    void init() {
+        initLayout();
+    }
 
-        addJLabel(panel);
+    @Override
+    protected void initLayout() {
+        super.initLayout();
 
-        setJLabel(totalPrice, btnWidth, btnHeight, Color.decode("#cfd0d1"));
-        setJLabel(loc, btnWidth, btnHeight, Color.decode("#cfd0d1"));
-        setJLabel(distance, btnWidth, btnHeight, Color.decode("#cfd0d1"));
+        JLabel totalPrice = new JLabel("<html>Total price:<br><center>" + ItemShowWindow.getTotalPrice() + "</center></html>", SwingConstants.CENTER);
+        setJLabel(totalPrice, BUTTON_WIDTH, BUTTON_HEIGHT, Color.decode("#cfd0d1"));
+        addComponent(mainPanel,totalPrice, 0, 0, 120, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
+
+        JLabel loc = new JLabel(String.format("Location: (%d, %d)", ItemShowWindow.dvmInfo[1], ItemShowWindow.dvmInfo[2]), SwingConstants.CENTER);
+        setJLabel(loc, BUTTON_WIDTH, BUTTON_HEIGHT, Color.decode("#cfd0d1"));
+        addComponent(mainPanel,loc, 0, 0, 300, 150, 1, 1, 0.5, GridBagConstraints.CENTER);
+
+        JLabel distance = new JLabel(String.format("Distance: %.1f", Math.sqrt(ItemShowWindow.dvmInfo[3])), SwingConstants.CENTER);
+        setJLabel(distance, BUTTON_WIDTH, BUTTON_HEIGHT, Color.decode("#cfd0d1"));
+        addComponent(mainPanel,distance, 0, 150, 300, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
 
         btn1 = new JButton("PAY");
-        btn2 = new JButton("BACK");
-        addComponent(panel,btn1, 0, 0, 0, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
-        addComponent(panel,btn2, 10, 0, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
-        addComponent(panel,loc, 0, 0, 300, 150, 1, 1, 0.5, GridBagConstraints.CENTER);
-        addComponent(panel,distance, 0, 150, 300, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
-        addComponent(panel,totalPrice, 0, 0, 120, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
-
-        btn1.addActionListener(this);
-        btn2.addActionListener(this);
-
         btn1.setFocusable(false);
+        btn1.addActionListener(this);
+        addComponent(mainPanel,btn1, 0, 0, 0, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
+
+        btn2 = new JButton("BACK");
         btn2.setFocusable(false);
+        btn2.addActionListener(this);
+        addComponent(mainPanel,btn2, 10, 0, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
     }
 
     public void actionPerformed(ActionEvent e) {
         resetCard();
         if (e.getActionCommand().equals("PAY")) {
-            CARD.add(new ReadCardWindow(this, "prepayment"));
+            CARD_PANEL.add(new ProcessPaymentWindow.Builder().setPrevPanel(prevPanel).setpaymentType("prepayment").setOrder(order).build());
         } else if (e.getActionCommand().equals("BACK")) {
             prevPanel.init();
-            CARD.add(prevPanel);
+            CARD_PANEL.add(prevPanel);
         }
     }
 

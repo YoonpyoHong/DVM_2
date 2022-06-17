@@ -85,13 +85,6 @@ public class ProcessPaymentWindow extends DvmPanel {
     protected void initLayout() {
         super.initLayout();
 
-        CARD_PANEL.add(mainPanel);
-
-        mainPanel.setBackground(Color.decode("#dcebf7"));
-        mainPanel = new JPanel(new GridBagLayout());
-
-        constraints = new GridBagConstraints();
-
         verCode.setDocument(new JTextFieldLimit(CARD_NUM_LENGTH));
         addComponent(mainPanel,verCode, 0, 50, 0, 0, 0, 1, 0.5, GridBagConstraints.CENTER);
 

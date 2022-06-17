@@ -9,83 +9,86 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 import static domain.product.ItemManager.MAX_ITEM;
-import static ui.DvmWindow.*;
+
+import static ui.DvmWindow.controller;
+import static ui.DvmWindow.addComponent;
+import static ui.DvmWindow.constraints;
+import static ui.DvmWindow.CARD_PANEL;
+
 
 // Window1
 public class HomeWindow extends DvmPanel {
-    private JButton adminLoginBtn;
-    private JButton verificationBtn;
+    protected int selectedItemId = -1;
 
-    private EmptyBorder eb = new EmptyBorder(new Insets(20, 10, 0, 10));
-    private Border grayLine = BorderFactory.createLineBorder(Color.decode("#cfd0d1"), 1);
+    private final EmptyBorder emptyBorder = new EmptyBorder(new Insets(20, 10, 0, 10));
+    private final Border grayLineBorder = BorderFactory.createLineBorder(Color.decode("#cfd0d1"), 1);
 
-    private static final int btnWidth = 120;
-    private static final int btnHeight = 30;
-    private static final int drinkPanelWidth = 290;
-    private static final int drinkPanelHeight = 400;
+    private static final int BUTTON_WIDTH = 120;
+    private static final int BUTTON_HEIGHT = 30;
+    private static final int DRINK_PANEL_WIDTH = 290;
+    private static final int DRINK_PANEL_HEIGHT = 400;
 
-    protected static int selectedItemId;
-
-    private Item[] items;
+    private Item[] itemArray;
 
     public HomeWindow() {
         super(null);
+        init();
     }
 
-    protected void init() {
-        super.init();
-        adminLoginBtn = new JButton("ADMIN LOGIN");
-        verificationBtn = new JButton("VERIFICATION CODE");
-        JPanel panel = new JPanel(new GridBagLayout());
-        JPanel itemLayout = new JPanel();
+    @Override
+    void init() {
+        initLayout();
+    }
 
-        itemLayout.setPreferredSize(new Dimension(drinkPanelWidth, drinkPanelHeight));
-        itemLayout.setBorder(BorderFactory.createCompoundBorder(grayLine, eb));
+    @Override
+    protected void initLayout() {
+        super.initLayout();
 
-        constraints = new GridBagConstraints();
-        panel.setBackground(Color.decode("#dcebf7"));
-        itemLayout.setBackground(Color.decode("#ebeced"));
+        JPanel itemLayoutPanel = new JPanel();
+        itemLayoutPanel.setPreferredSize(new Dimension(DRINK_PANEL_WIDTH, DRINK_PANEL_HEIGHT));
+        itemLayoutPanel.setBorder(BorderFactory.createCompoundBorder(grayLineBorder, emptyBorder));
+        itemLayoutPanel.setBackground(Color.decode("#ebeced"));
+        itemLayoutPanel.setMinimumSize(new Dimension(280,390));
+        addComponent(mainPanel, itemLayoutPanel, 0, 9, 0, 10, 0, 1,3, 10);
 
-        addJLabel(panel);
-        addComponent(panel, adminLoginBtn, 10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
-        addComponent(panel, verificationBtn, 10, 2, 2, 10, 4, 4, 0.5, GridBagConstraints.LINE_END);
-
+        JButton adminLoginBtn = new JButton("ADMIN LOGIN");
         adminLoginBtn.addActionListener(this);
-        verificationBtn.addActionListener(this);
-
         adminLoginBtn.setFocusable(false);
+        addComponent(mainPanel, adminLoginBtn, 10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
+
+        JButton verificationBtn = new JButton("VERIFICATION CODE");
+        verificationBtn.addActionListener(this);
         verificationBtn.setFocusable(false);
+        addComponent(mainPanel, verificationBtn, 10, 2, 2, 10, 4, 4, 0.5, GridBagConstraints.LINE_END);
 
-        items = controller.getItemManager().getItemList();
+        itemArray = controller.getItemManager().getItemList();
+        initItemButtons(itemArray, itemLayoutPanel);
+    }
+
+    private void initItemButtons(Item[] ItemArray, JPanel itemLayoutPanel) {
+        JButton[] itemBtnArray = new JButton[MAX_ITEM];
         for (int i = 0; i < MAX_ITEM; i++) {
-            JButton[] btn = new JButton[MAX_ITEM];
-            btn[i] = new JButton(items[i].getItemName());
-//            btn[i] = new JButton("TEST");
-            btn[i].setFocusable(false);
-            btn[i].setPreferredSize(new Dimension(btnWidth, btnHeight));
-            itemLayout.add(btn[i]);
-            btn[i].addActionListener(this);
-//            System.out.println("init btn[" + i + "]");
+            itemBtnArray[i] = new JButton(itemArray[i].getItemName());
+            itemBtnArray[i].setFocusable(false);
+            itemBtnArray[i].setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
+            itemBtnArray[i].addActionListener(this);
+            itemLayoutPanel.add(itemBtnArray[i]);
         }
-
-        addComponent(panel, itemLayout, 0, 9, 0, 10, 0, 1,3, 10);
-        itemLayout.setMinimumSize(new Dimension(280,390));
-        CARD.add(panel);
     }
 
     public void actionPerformed(ActionEvent e) {
         resetCard();
         if (e.getActionCommand().equals("ADMIN LOGIN")) {
-            CARD.add(new AdminWindow(this));
+            CARD_PANEL.add(new AdminWindow(this));
         } else if (e.getActionCommand().equals("VERIFICATION CODE")) {
-            CARD.add(new ReadVerificationWindow(this));
+            CARD_PANEL.add(new ReadVerificationWindow(this));
         } else {
             for (int id = 0; id < MAX_ITEM; id++) {
-                if (e.getActionCommand().equals(items[id].getItemName())) {
+                if (e.getActionCommand().equals(itemArray[id].getItemName())) {
                     selectedItemId = id;
-                    Item selectedItem = items[id];
+                    Item selectedItem = itemArray[id];
                     System.out.println("selected " + selectedItem);
-                    CARD.add(new ItemShowWindow(this, selectedItem));
+                    CARD_PANEL.add(new ItemShowWindow(this, selectedItem));
                     break;
                 }
             }
