@@ -3,31 +3,31 @@ package ui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import static ui.DvmWindow.*;
 
-public class Window_3_2 extends DvmPanel {
+// Window3-2
+public class PrepaymentWindow extends DvmPanel {
     private JButton btn1;
     private JButton btn2;
 
-    private static final JLabel totalPrice = new JLabel("<html>Total price:<br><center>" + Window_2.getTotalPrice() + "</center></html>", SwingConstants.CENTER);
-    private static final JLabel loc = new JLabel(String.format("Location: (%d, %d)", Window_2.dvmInfo[1], Window_2.dvmInfo[2]), SwingConstants.CENTER);
-    private static final JLabel distance = new JLabel(String.format("Distance: %.1f", Math.sqrt(Window_2.dvmInfo[3])), SwingConstants.CENTER);
+    private static final JLabel totalPrice = new JLabel("<html>Total price:<br><center>" + ItemShowWindow.getTotalPrice() + "</center></html>", SwingConstants.CENTER);
+    private static final JLabel loc = new JLabel(String.format("Location: (%d, %d)", ItemShowWindow.dvmInfo[1], ItemShowWindow.dvmInfo[2]), SwingConstants.CENTER);
+    private static final JLabel distance = new JLabel(String.format("Distance: %.1f", Math.sqrt(ItemShowWindow.dvmInfo[3])), SwingConstants.CENTER);
 
     private static final int btnWidth = 100;
     private static final int btnHeight = 70;
 
     JPanel panel;
 
-    public Window_3_2(DvmPanel prevPanel) {
+    public PrepaymentWindow(DvmPanel prevPanel) {
         super(prevPanel);
     }
 
     protected void init() {
         super.init();
         panel = new JPanel(new GridBagLayout());
-        c = new GridBagConstraints();
+        constraints = new GridBagConstraints();
         CARD.add(panel);
         panel.setBackground(Color.decode("#dcebf7"));
 
@@ -55,7 +55,7 @@ public class Window_3_2 extends DvmPanel {
     public void actionPerformed(ActionEvent e) {
         resetCard();
         if (e.getActionCommand().equals("PAY")) {
-            CARD.add(new Window_4(this, "prepayment"));
+            CARD.add(new ReadCardWindow(this, "prepayment"));
         } else if (e.getActionCommand().equals("BACK")) {
             prevPanel.init();
             CARD.add(prevPanel);

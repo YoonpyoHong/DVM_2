@@ -9,7 +9,8 @@ import java.awt.event.ActionEvent;
 
 import static ui.DvmWindow.*;
 
-public class Window_2 extends DvmPanel {
+// Window2
+public class ItemShowWindow extends DvmPanel {
     private static final int btnItemQuantityWidth = 100;
     private static final int btnItemQuantityHeight = 50;
     private static final int btnItemNameWidth = 100;
@@ -29,13 +30,13 @@ public class Window_2 extends DvmPanel {
     protected int selectedItemNum = DEFAULT_ITEM_QUANTITY;
     protected static int[] dvmInfo = new int[4];
 
-    public Window_2(DvmPanel prevPanel, Item selectedItem) {
+    public ItemShowWindow(DvmPanel prevPanel, Item selectedItem) {
         super(prevPanel, selectedItem);
     }
 
     protected void init() {
         super.init();
-        c = new GridBagConstraints();
+        constraints = new GridBagConstraints();
         panel = new JPanel(new GridBagLayout());
         panel.setBackground(Color.decode("#dcebf7"));
         addJLabel(panel);
@@ -84,10 +85,10 @@ public class Window_2 extends DvmPanel {
             System.out.println(String.format("%s: dvmInfo: %s", this.getClass().toString() + "actionPerformed", dvmInfo[0] + ", " + dvmInfo[1] + ", " + dvmInfo[1] + ", " + dvmInfo[2] + ", " + dvmInfo[3]));
             if (resMsg.equals("displayPayment")) {
                 resetCard();
-                CARD.add(new Window_3_1(this));
+                CARD.add(new PaymentWindow(this));
             } else if (resMsg.equals("displayPrepayment")) {
                 resetCard();
-                CARD.add(new Window_3_2(this));
+                CARD.add(new PrepaymentWindow(this));
             } else {
                  /* TODO: display err dialog */
             }

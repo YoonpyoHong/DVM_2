@@ -11,7 +11,8 @@ import java.awt.event.ActionEvent;
 import static domain.product.ItemManager.*;
 import static ui.DvmWindow.*;
 
-public class Window_8 extends DvmPanel {
+// Window8
+public class AdminWindow extends DvmPanel {
     //random 7 drink list
     private static final Item[] localItems = new Item[MAX_LOCAL_ITEM];
 
@@ -36,7 +37,7 @@ public class Window_8 extends DvmPanel {
     private static final int drinkPanel3Width = 200;
     private static final int drinkPanel3Height = 250;
 
-    public Window_8(DvmPanel prevPanel) {
+    public AdminWindow(DvmPanel prevPanel) {
         super(prevPanel);
     }
 
@@ -50,7 +51,7 @@ public class Window_8 extends DvmPanel {
         itemLayout3.setPreferredSize(new Dimension(drinkPanel3Width, drinkPanel3Height));
 
         panel = new JPanel(new GridBagLayout());
-        c = new GridBagConstraints();
+        constraints = new GridBagConstraints();
         panel.setBackground(Color.decode("#dcebf7"));
 
         //set border + margin
@@ -110,7 +111,7 @@ public class Window_8 extends DvmPanel {
         if (e.getActionCommand().equals("LOGOUT")) {
             //do nothing
             resetCard();
-            CARD.add(new Window_1());
+            CARD.add(new HomeWindow());
         } else if (e.getActionCommand().equals("UPDATE")) {
             boolean isValidInput = true;
             int[] inputQuantities = new int[MAX_LOCAL_ITEM];

@@ -4,12 +4,11 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import static ui.DvmWindow.*;
 
-
-public class Window_7 extends DvmPanel {
+// Window7
+public class AdminLoginWindow extends DvmPanel {
     private JButton btn1;
     private JButton btn2;
     private static final JTextField pwd = new JTextField(15);
@@ -24,7 +23,7 @@ public class Window_7 extends DvmPanel {
         pwd.setDocument(new JTextFieldLimit(10));
 
         JPanel panel = new JPanel(new GridBagLayout());
-        c = new GridBagConstraints();
+        constraints = new GridBagConstraints();
         CARD.add(panel);
         VM_ID.setBackground(Color.decode("#cfd0d1"));
         notice.setBackground(Color.decode("#cfd0d1"));

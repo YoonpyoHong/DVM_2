@@ -7,14 +7,14 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import static domain.product.ItemManager.MAX_ITEM;
 import static ui.DvmWindow.*;
 
-public class Window_1 extends DvmPanel {
-    private JButton btn1;
-    private JButton btn2;
+// Window1
+public class HomeWindow extends DvmPanel {
+    private JButton adminLoginBtn;
+    private JButton verificationBtn;
 
     private EmptyBorder eb = new EmptyBorder(new Insets(20, 10, 0, 10));
     private Border grayLine = BorderFactory.createLineBorder(Color.decode("#cfd0d1"), 1);
@@ -28,35 +28,34 @@ public class Window_1 extends DvmPanel {
 
     private Item[] items;
 
-    public Window_1() {
+    public HomeWindow() {
         super(null);
     }
 
     protected void init() {
         super.init();
-        btn1 = new JButton("ADMIN LOGIN");
-        btn2 = new JButton("VERIFICATION CODE");
+        adminLoginBtn = new JButton("ADMIN LOGIN");
+        verificationBtn = new JButton("VERIFICATION CODE");
         JPanel panel = new JPanel(new GridBagLayout());
         JPanel itemLayout = new JPanel();
 
         itemLayout.setPreferredSize(new Dimension(drinkPanelWidth, drinkPanelHeight));
         itemLayout.setBorder(BorderFactory.createCompoundBorder(grayLine, eb));
 
-        c = new GridBagConstraints();
+        constraints = new GridBagConstraints();
         panel.setBackground(Color.decode("#dcebf7"));
         itemLayout.setBackground(Color.decode("#ebeced"));
 
         addJLabel(panel);
-        addComponent(panel, btn1, 10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
-        addComponent(panel, btn2, 10, 2, 2, 10, 4, 4, 0.5, GridBagConstraints.LINE_END);
+        addComponent(panel, adminLoginBtn, 10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
+        addComponent(panel, verificationBtn, 10, 2, 2, 10, 4, 4, 0.5, GridBagConstraints.LINE_END);
 
-        btn1.addActionListener(this);
-        btn2.addActionListener(this);
+        adminLoginBtn.addActionListener(this);
+        verificationBtn.addActionListener(this);
 
-        btn1.setFocusable(false);
-        btn2.setFocusable(false);
+        adminLoginBtn.setFocusable(false);
+        verificationBtn.setFocusable(false);
 
-        // hmm.. Window().init() call once..?
         items = controller.getItemManager().getItemList();
         for (int i = 0; i < MAX_ITEM; i++) {
             JButton[] btn = new JButton[MAX_ITEM];
@@ -77,16 +76,16 @@ public class Window_1 extends DvmPanel {
     public void actionPerformed(ActionEvent e) {
         resetCard();
         if (e.getActionCommand().equals("ADMIN LOGIN")) {
-            CARD.add(new Window_8(this));
+            CARD.add(new AdminWindow(this));
         } else if (e.getActionCommand().equals("VERIFICATION CODE")) {
-            CARD.add(new Window_6(this));
+            CARD.add(new ReadVerificationWindow(this));
         } else {
             for (int id = 0; id < MAX_ITEM; id++) {
                 if (e.getActionCommand().equals(items[id].getItemName())) {
                     selectedItemId = id;
                     Item selectedItem = items[id];
                     System.out.println("selected " + selectedItem);
-                    CARD.add(new Window_2(this, selectedItem));
+                    CARD.add(new ItemShowWindow(this, selectedItem));
                     break;
                 }
             }

@@ -18,7 +18,9 @@ public class Controller {
     private final VerificationManager verificationManager;
     private static Item[] items;
 
-    public Controller() {
+    private static final Controller instance = new Controller();
+
+    private Controller() {
         cardReader = new CardReader();
         paymentManager = new PaymentManager();
         itemManager = new ItemManager();
@@ -28,6 +30,10 @@ public class Controller {
         items = itemManager.getItemList();
         messageManager.start();
         System.out.println(this.getClass() + " created.");
+    }
+
+    public static Controller getInstance() {
+        return instance;
     }
 
     public String selectItem(int itemId, int itemQuantity, int[] dvmInfo) {

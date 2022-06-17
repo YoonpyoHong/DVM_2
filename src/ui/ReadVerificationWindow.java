@@ -1,6 +1,5 @@
 package ui;
 
-import domain.payment.Card;
 import domain.payment.Verification;
 
 import javax.swing.*;
@@ -10,14 +9,15 @@ import java.awt.event.ActionEvent;
 import static domain.payment.VerificationManager.CODE_LENGTH;
 import static ui.DvmWindow.*;
 
-public class Window_6 extends DvmPanel {
+// Window6
+public class ReadVerificationWindow extends DvmPanel {
     private JButton btn1;
     private JButton btn2;
     private static final JTextField verCode = new JTextField(15);
     private static final JLabel notice = new JLabel("Please insert verification code:");
     JPanel panel;
 
-    public Window_6(DvmPanel prevPanel) {
+    public ReadVerificationWindow(DvmPanel prevPanel) {
         super(prevPanel);
     }
 
@@ -25,7 +25,7 @@ public class Window_6 extends DvmPanel {
         super.init();
         verCode.setDocument(new JTextFieldLimit(CODE_LENGTH));
         panel = new JPanel(new GridBagLayout());
-        c = new GridBagConstraints();
+        constraints = new GridBagConstraints();
         CARD.add(panel);
 
         notice.setBackground(Color.decode("#cfd0d1"));
@@ -75,7 +75,7 @@ public class Window_6 extends DvmPanel {
                 resMsg = "error: process to cancel prepayment";
                 new DvmDialog(resMsg);
                 resetCard();
-                CARD.add(new Window_4(this, "cancelPrepayment", verification));
+                CARD.add(new ReadCardWindow(this, "cancelPrepayment", verification));
             }
             //show JDialog
             //dispose JDialog and this window after 15 second

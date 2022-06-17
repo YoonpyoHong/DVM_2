@@ -3,11 +3,11 @@ package ui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import static ui.DvmWindow.*;
 
-public class Window_5 extends DvmPanel {
+// Window5
+public class ShowVerificationWindow extends DvmPanel {
 
     private JButton btn1;
     private JButton btn2;
@@ -20,7 +20,7 @@ public class Window_5 extends DvmPanel {
     protected void init() {
         super.init();
         panel = new JPanel(new GridBagLayout());
-        c = new GridBagConstraints();
+        constraints = new GridBagConstraints();
 
         CARD.add(panel);
 
@@ -50,7 +50,7 @@ public class Window_5 extends DvmPanel {
     public void actionPerformed(ActionEvent e) {
         resetCard();
         if (e.getActionCommand().equals("HOME")) {
-            CARD.add(new Window_1());
+            CARD.add(new HomeWindow());
         } else if (e.getActionCommand().equals("BACK")) {
             prevPanel.init();
             CARD.add(prevPanel);

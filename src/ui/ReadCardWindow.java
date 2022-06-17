@@ -1,7 +1,6 @@
 package ui;
 
 import domain.payment.Verification;
-import domain.product.Item;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,9 +10,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static domain.payment.Card.CARD_NUM_LENGTH;
 import static ui.DvmWindow.*;
-import static ui.Window_2.dvmInfo;
+import static ui.ItemShowWindow.dvmInfo;
 
-public class Window_4 extends DvmPanel {
+// Window4
+public class ReadCardWindow extends DvmPanel {
     private String paymentType;
     private Verification verification;
 
@@ -26,15 +26,15 @@ public class Window_4 extends DvmPanel {
     JPanel panel;
     Timer timer;
 
-    public Window_4(DvmPanel prevPanel) {
+    public ReadCardWindow(DvmPanel prevPanel) {
         this(prevPanel, null, null);
     }
 
-    public Window_4(DvmPanel prevPanel, String paymentType) {
+    public ReadCardWindow(DvmPanel prevPanel, String paymentType) {
         this(prevPanel, paymentType, null);
     }
 
-    public Window_4(DvmPanel prevPanel, String paymentType, Verification verification) {
+    public ReadCardWindow(DvmPanel prevPanel, String paymentType, Verification verification) {
         super(prevPanel);
         this.paymentType = paymentType;
         this.verification = verification;
@@ -55,11 +55,11 @@ public class Window_4 extends DvmPanel {
 
         verCode.setDocument(new JTextFieldLimit(CARD_NUM_LENGTH));
         panel = new JPanel(new GridBagLayout());
-        c = new GridBagConstraints();
+        constraints = new GridBagConstraints();
         CARD.add(panel);
         panel.setBackground(Color.decode("#dcebf7"));
 
-        c.anchor = GridBagConstraints.FIRST_LINE_START;
+        constraints.anchor = GridBagConstraints.FIRST_LINE_START;
         addJLabel(panel);
 
         setJLabel(time, 200, 50, Color.decode("#cfd0d1"));
@@ -84,7 +84,7 @@ public class Window_4 extends DvmPanel {
               time.setText("Time run out (sec): " + count);
               if (count.get() == 0) {
                   resetCard();
-                  CARD.add(new Window_1());
+                  CARD.add(new HomeWindow());
                   ((Timer) (e.getSource())).stop();
               }
         });
@@ -111,32 +111,32 @@ public class Window_4 extends DvmPanel {
 
                 resMsg = "prepayment canceled";
                 new DvmDialog(resMsg);
-                CARD.add(new Window_1());
+                CARD.add(new HomeWindow());
 
                 System.out.println("cancel payment: " + this.verification);
                 controller.getVerificationManager().removeVerification(verification.getVerificationCode());
                 return;
             }
-            int selectedItemNum = ((Window_2) (prevPanel.prevPanel)).selectedItemNum;
-            System.out.println("itemId, itemNum = " + Window_1.selectedItemId + ", " + selectedItemNum);
+            int selectedItemNum = ((ItemShowWindow) (prevPanel.prevPanel)).selectedItemNum;
+            System.out.println("itemId, itemNum = " + HomeWindow.selectedItemId + ", " + selectedItemNum);
             if (paymentType.equals("payment")) {
-                resMsg = controller.payment(Window_1.selectedItemId, selectedItemNum, cardNum, 1234);
-                CARD.add(new Window_1());
+                resMsg = controller.payment(HomeWindow.selectedItemId, selectedItemNum, cardNum, 1234);
+                CARD.add(new HomeWindow());
             } else if (paymentType.equals("prepayment")) {
-                resMsg = controller.prepayment(Window_1.selectedItemId, selectedItemNum, cardNum, 1234, dvmInfo[0]);
-                CARD.add(new Window_5());
+                resMsg = controller.prepayment(HomeWindow.selectedItemId, selectedItemNum, cardNum, 1234, dvmInfo[0]);
+                CARD.add(new ShowVerificationWindow());
             }
             if (resMsg.contains("error")) {
                 /* TODO: some err dialog */
                 System.err.println(resMsg);
-                CARD.add(new Window_1());
+                CARD.add(new HomeWindow());
             }
         } else if (e.getActionCommand().equals("BACK")) {
             timer.stop();
             for (ActionListener listener : timer.getActionListeners()) {
                 timer.removeActionListener(listener);
             }
-            CARD.add(new Window_1());
+            CARD.add(new HomeWindow());
         }
     }
 }

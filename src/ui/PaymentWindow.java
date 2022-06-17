@@ -3,27 +3,27 @@ package ui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import static ui.DvmWindow.*;
 
-public class Window_3_1 extends DvmPanel {
+// Window3-1
+public class PaymentWindow extends DvmPanel {
     private JButton btn1;
     private JButton btn2;
-    private JLabel totalPrice = new JLabel("<html>Total price:<br><center>" + Window_2.getTotalPrice() + "</center></html>", SwingConstants.CENTER);
+    private JLabel totalPrice = new JLabel("<html>Total price:<br><center>" + ItemShowWindow.getTotalPrice() + "</center></html>", SwingConstants.CENTER);
     private static final int btnTotalPriceWidth = 100;
     private static final int btnTotalPriceHeight = 70;
 
     JPanel panel;
 
-    public Window_3_1(DvmPanel prevPanel) {
+    public PaymentWindow(DvmPanel prevPanel) {
         super(prevPanel);
     }
 
     protected void init() {
         super.init();
         panel = new JPanel(new GridBagLayout());
-        c = new GridBagConstraints();
+        constraints = new GridBagConstraints();
         CARD.add(panel);
         panel.setBackground(Color.decode("#dcebf7"));
 
@@ -46,7 +46,7 @@ public class Window_3_1 extends DvmPanel {
     public void actionPerformed(ActionEvent e) {
         resetCard();
         if (e.getActionCommand().equals("PAY")) {
-            CARD.add(new Window_4(this, "payment"));
+            CARD.add(new ReadCardWindow(this, "payment"));
         } else if (e.getActionCommand().equals("BACK")) {
             prevPanel.init();
             CARD.add(prevPanel);
