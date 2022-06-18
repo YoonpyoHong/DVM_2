@@ -27,7 +27,6 @@ public abstract class DvmPanel extends JPanel implements ActionListener {
     protected void initLayout() {
         System.out.println(this.getClass() + ".initLayout()");
         initCommonLayout();
-        addVmIdLabel();
     }
 
     private void initCommonLayout() {
@@ -35,6 +34,7 @@ public abstract class DvmPanel extends JPanel implements ActionListener {
         mainPanel.setBackground(Color.decode("#dcebf7"));
         constraints = new GridBagConstraints();
         CARD_PANEL.add(mainPanel);
+        addVmIdLabel();
     }
 
     protected void addVmIdLabel() {
