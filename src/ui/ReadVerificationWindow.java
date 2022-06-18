@@ -76,7 +76,12 @@ public class ReadVerificationWindow extends DvmPanel {
                 resMsg = "error: process to cancel prepayment";
                 new DvmDialog(resMsg);
                 resetCard();
-                CARD_PANEL.add(new ProcessPaymentWindow.Builder().setPrevPanel(prevPanel).setpaymentType("cancelPrepayment").setVerification(verification).build());
+                CARD_PANEL.add(new ReadCardWindow.Builder()
+                        .setPrevPanel(prevPanel)
+                        .setpaymentType("cancelPrepayment")
+                        .setVerification(verification)
+                        .build()
+                );
             }
             //show JDialog
             //dispose JDialog and this window after 15 second

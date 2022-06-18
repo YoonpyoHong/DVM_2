@@ -14,7 +14,7 @@ import static ui.DvmWindow.*;
 import static ui.ItemShowWindow.dvmInfo;
 
 // Window4
-public class ProcessPaymentWindow extends DvmPanel {
+public class ReadCardWindow extends DvmPanel {
     private String paymentType;
     private Verification verification;
 
@@ -28,7 +28,7 @@ public class ProcessPaymentWindow extends DvmPanel {
 
     private Order order;
 
-    private ProcessPaymentWindow(DvmPanel prevPanel, String paymentType, Verification verification, Order order) {
+    private ReadCardWindow(DvmPanel prevPanel, String paymentType, Verification verification, Order order) {
         super(prevPanel);
         System.out.println("Window4() with paymentType: " + paymentType + ", " + verification);
         this.paymentType = paymentType;
@@ -70,8 +70,8 @@ public class ProcessPaymentWindow extends DvmPanel {
             return this;
         }
 
-        public ProcessPaymentWindow build() {
-            return new ProcessPaymentWindow(prevPanel, paymentType, verification, order);
+        public ReadCardWindow build() {
+            return new ReadCardWindow(prevPanel, paymentType, verification, order);
         }
     }
 

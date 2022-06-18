@@ -51,7 +51,12 @@ public class PaymentWindow extends DvmPanel {
     public void actionPerformed(ActionEvent e) {
         resetCard();
         if (e.getActionCommand().equals("PAY")) {
-            CARD_PANEL.add(new ProcessPaymentWindow.Builder().setPrevPanel(prevPanel).setpaymentType("payment").setOrder(order).build());
+            CARD_PANEL.add(new ReadCardWindow.Builder()
+                    .setPrevPanel(prevPanel)
+                    .setpaymentType("payment")
+                    .setOrder(order)
+                    .build()
+            );
         } else if (e.getActionCommand().equals("BACK")) {
             prevPanel.init();
             CARD_PANEL.add(prevPanel);
