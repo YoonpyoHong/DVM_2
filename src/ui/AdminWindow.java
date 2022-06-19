@@ -1,6 +1,7 @@
 package ui;
 
 import domain.product.Item;
+import domain.product.ItemManager;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -15,9 +16,6 @@ import static ui.DvmWindow.*;
 public class AdminWindow extends DvmPanel {
     //random 7 drink list
     private static final Item[] localItems = new Item[MAX_LOCAL_ITEM];
-
-    private JButton logoutBtn;
-    private JButton updateBtn;
 
     private static final JPanel itemLayout = new JPanel();
     private static final JPanel itemLayout2 = new JPanel();
@@ -68,18 +66,18 @@ public class AdminWindow extends DvmPanel {
         addComponent(mainPanel,itemLayout3, 0, 15, 0, 0, 0, 0, 0, 0, GridBagConstraints.LINE_START);
 
 
-        logoutBtn = new JButton("LOGOUT");
+        JButton logoutBtn = new JButton("LOGOUT");
         logoutBtn.setFocusable(false);
         logoutBtn.addActionListener(this);
         addComponent(mainPanel, logoutBtn, 10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
 
-        updateBtn = new JButton("UPDATE");
+        JButton updateBtn = new JButton("UPDATE");
         updateBtn.setFocusable(false);
         updateBtn.addActionListener(this);
         addComponent(mainPanel, updateBtn, 10, 2, 2, 10, 4, 4, 0.5, GridBagConstraints.LINE_END);
 
-        initTextFields(itemLayout3, MAX_LOCAL_ITEM);
-        initButtons(itemLayout2, MAX_LOCAL_ITEM);
+        initTextFields();
+        initButtons();
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -121,24 +119,24 @@ public class AdminWindow extends DvmPanel {
         }
     }
 
-    private void initButtons(JPanel panel, int btnNum) {
-        for (int i = 0; i < btnNum; i++) {
-            JLabel[] btn = new JLabel[btnNum];
+    private void initButtons() {
+        for (int i = 0; i < ItemManager.MAX_LOCAL_ITEM; i++) {
+            JLabel[] btn = new JLabel[ItemManager.MAX_LOCAL_ITEM];
             btn[i] = new JLabel(localItems[i].getItemName(), SwingConstants.CENTER);
             btn[i].setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
             btn[i].setOpaque(true);
             btn[i].setBackground(Color.WHITE);
             btn[i].setBorder(BorderFactory.createLineBorder(Color.decode("#cfd0d1"), 1));
-            panel.add(btn[i], BorderLayout.CENTER);
+            itemLayout2.add(btn[i], BorderLayout.CENTER);
         }
     }
 
-    private void initTextFields(JPanel panel, int fieldNum) {
-        for (int i = 0; i < fieldNum; i++) {
+    private void initTextFields() {
+        for (int i = 0; i < MAX_LOCAL_ITEM; i++) {
             itemQtyTextField[i] = new JTextField();
             itemQtyTextField[i].setPreferredSize(new Dimension(TEXT_FIELD_WIDTH, TEXT_FIELD_HEIGHT));
             itemQtyTextField[i].setDocument(new JTextFieldLimit(2));
-            panel.add(itemQtyTextField[i], BorderLayout.CENTER);
+            itemLayout3.add(itemQtyTextField[i], BorderLayout.CENTER);
         }
     }
 

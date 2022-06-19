@@ -15,13 +15,10 @@ import static ui.ItemShowWindow.dvmInfo;
 
 // Window4
 public class ReadCardWindow extends DvmPanel {
-    private String paymentType;
+    private final String paymentType;
     private Verification verification;
 
-    private JButton enterBtn;
-    private JButton backBtn;
-
-    private JTextField verificationCodeTextField = new JTextField(15);
+    private final JTextField verificationCodeTextField = new JTextField(15);
     private JLabel timeLabel;
 
     private Timer timer;
@@ -96,12 +93,12 @@ public class ReadCardWindow extends DvmPanel {
         setJLabel(notice, 200, 50, Color.decode("#cfd0d1"));
         addComponent(mainPanel,notice, 0, 130, 300, 0, 0, 1, 0.5, GridBagConstraints.CENTER);
 
-        enterBtn = new JButton("ENTER");
+        JButton enterBtn = new JButton("ENTER");
         enterBtn.setFocusable(false);
         enterBtn.addActionListener(this);
         addComponent(mainPanel, enterBtn, 0, 250, 0, 0, 0, 1, 0.5, GridBagConstraints.CENTER);
 
-        backBtn = new JButton("BACK");
+        JButton backBtn = new JButton("BACK");
         backBtn.setFocusable(false);
         backBtn.addActionListener(this);
         addComponent(mainPanel, backBtn, 10, 0, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);

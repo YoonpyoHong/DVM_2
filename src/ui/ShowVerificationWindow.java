@@ -8,13 +8,11 @@ import static ui.DvmWindow.*;
 
 // Window5
 public class ShowVerificationWindow extends DvmPanel {
-    private JButton homeBtn;
-    private JButton backBtn;
 
-    private JLabel verificationCodeLabel = new JLabel("<html><center>Verification code:<br>1234567890</html>", SwingConstants.CENTER);
+    private final JLabel verificationCodeLabel = new JLabel("<html><center>Verification code:<br>1234567890</html>", SwingConstants.CENTER);
 
-    private JLabel locationLabel = new JLabel("Location: (x,y)", SwingConstants.CENTER);
-    private JLabel distanceLabel = new JLabel("Distance: m", SwingConstants.CENTER);
+    private final JLabel locationLabel = new JLabel("Location: (x,y)", SwingConstants.CENTER);
+    private final JLabel distanceLabel = new JLabel("Distance: m", SwingConstants.CENTER);
 
     public ShowVerificationWindow() {
         this(null);
@@ -43,12 +41,12 @@ public class ShowVerificationWindow extends DvmPanel {
         setJLabel(distanceLabel,100, 70, Color.decode("#cfd0d1"));
         addComponent(mainPanel, distanceLabel, 0, 150, 300, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
 
-        homeBtn = new JButton("HOME");
+        JButton homeBtn = new JButton("HOME");
         homeBtn.setFocusable(false);
         homeBtn.addActionListener(this);
         addComponent(mainPanel, homeBtn, 0, 0, 0, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
 
-        backBtn = new JButton("BACK");
+        JButton backBtn = new JButton("BACK");
         backBtn.setFocusable(false);
         backBtn.addActionListener(this);
         addComponent(mainPanel, backBtn, 10, 0, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);

@@ -47,6 +47,6 @@ public abstract class DvmPanel extends JPanel implements ActionListener {
         CARD_PANEL.removeAll();
         CARD_PANEL.revalidate();
         CARD_PANEL.repaint();
-        System.out.println(String.format("%s: resetCard()", "DvmPanel"));
+        System.out.printf("%s: resetCard()%n", "DvmPanel");
     }
 }

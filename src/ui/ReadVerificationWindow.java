@@ -11,10 +11,8 @@ import static ui.DvmWindow.*;
 
 // Window6
 public class ReadVerificationWindow extends DvmPanel {
-    private JButton enterBtn;
-    private JButton backBtn;
-    private JTextField verificationCodeTextField = new JTextField(15);
-    private JLabel noticeLabel = new JLabel("Please insert verification code:");
+    private final JTextField verificationCodeTextField = new JTextField(15);
+    private final JLabel noticeLabel = new JLabel("Please insert verification code:");
 
     public ReadVerificationWindow(DvmPanel prevPanel) {
         super(prevPanel);
@@ -35,12 +33,12 @@ public class ReadVerificationWindow extends DvmPanel {
 
         noticeLabel.setBackground(Color.decode("#cfd0d1"));
 
-        enterBtn = new JButton("ENTER");
+        JButton enterBtn = new JButton("ENTER");
         enterBtn.setFocusable(false);
         enterBtn.addActionListener(this);
         addComponent(mainPanel, enterBtn, 0, 0, 50, 5, 1, 1, 0.5, GridBagConstraints.CENTER);
 
-        backBtn = new JButton("BACK");
+        JButton backBtn = new JButton("BACK");
         backBtn.setFocusable(false);
         backBtn.addActionListener(this);
         addComponent(mainPanel, backBtn, 10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);

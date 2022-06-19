@@ -9,16 +9,10 @@ import static ui.DvmWindow.*;
 
 // Window7
 public class AdminLoginWindow extends DvmPanel {
-    private JButton loginBtn;
-    private JButton backBtn;
-    private JTextField pwdTextField = new JTextField(15);
+    private final JTextField pwdTextField = new JTextField(15);
 
-    private JLabel noticeLabel = new JLabel("<html><center>LOGIN PAGE<br>Please enter password</html>");
-    private EmptyBorder emptyBorder = new EmptyBorder(new Insets(10, 10, 10, 10));
-
-    public AdminLoginWindow() {
-        this(null);
-    }
+    private final JLabel noticeLabel = new JLabel("<html><center>LOGIN PAGE<br>Please enter password</html>");
+    private final EmptyBorder emptyBorder = new EmptyBorder(new Insets(10, 10, 10, 10));
 
     public AdminLoginWindow(DvmPanel prevPanel) {
         super(prevPanel);
@@ -43,12 +37,12 @@ public class AdminLoginWindow extends DvmPanel {
         pwdTextField.setDocument(new JTextFieldLimit(10));
         addComponent(mainPanel, pwdTextField, 0, 20, 130, 20, 1, 1, 0.5, GridBagConstraints.CENTER);
 
-        loginBtn = new JButton("LOGIN");
+        JButton loginBtn = new JButton("LOGIN");
         loginBtn.setFocusable(false);
         loginBtn.addActionListener(this);
         addComponent(mainPanel, loginBtn, 0, 0, 50, 5, 1, 1, 0.5, GridBagConstraints.CENTER);
 
-        backBtn = new JButton("BACK");
+        JButton backBtn = new JButton("BACK");
         backBtn.setFocusable(false);
         backBtn.addActionListener(this);
         addComponent(mainPanel, backBtn, 10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);

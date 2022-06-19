@@ -10,10 +10,8 @@ import static ui.DvmWindow.*;
 
 // Window3-2
 public class PrepaymentWindow extends DvmPanel {
-    private JButton payBtn;
-    private JButton backBtn;
 
-    private Order order;
+    private final Order order;
 
     private static final int BUTTON_WIDTH = 100;
     private static final int BUTTON_HEIGHT = 70;
@@ -45,12 +43,12 @@ public class PrepaymentWindow extends DvmPanel {
         setJLabel(distance, BUTTON_WIDTH, BUTTON_HEIGHT, Color.decode("#cfd0d1"));
         addComponent(mainPanel,distance, 0, 150, 300, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
 
-        payBtn = new JButton("PAY");
+        JButton payBtn = new JButton("PAY");
         payBtn.setFocusable(false);
         payBtn.addActionListener(this);
         addComponent(mainPanel, payBtn, 0, 0, 0, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
 
-        backBtn = new JButton("BACK");
+        JButton backBtn = new JButton("BACK");
         backBtn.setFocusable(false);
         backBtn.addActionListener(this);
         addComponent(mainPanel, backBtn, 10, 0, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);

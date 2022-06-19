@@ -24,7 +24,7 @@ public class ItemShowWindow extends DvmPanel {
     private static JLabel itemPriceLabel;
 
     private int selectedItemNum = DEFAULT_ITEM_QUANTITY;
-    private Item selectedItem;
+    private final Item selectedItem;
 
     protected static int[] dvmInfo = new int[4];
 
@@ -86,8 +86,8 @@ public class ItemShowWindow extends DvmPanel {
         if (e.getActionCommand().equals("NEXT")) {
             /* TODO: prove controller.selectItem() */
             String resMsg = controller.selectItem(selectedItem.getItemId() - 1, selectedItemNum, dvmInfo);
-            System.out.println(String.format("%s(): result message: %s", this.getClass().toString() + " actionPerformed", resMsg));
-            System.out.println(String.format("%s(): dvmInfo: %s", this.getClass().toString() + " actionPerformed", dvmInfo[0] + ", " + dvmInfo[1] + ", " + dvmInfo[1] + ", " + dvmInfo[2] + ", " + dvmInfo[3]));
+            System.out.printf("%s(): result message: %s%n", this.getClass().toString() + " actionPerformed", resMsg);
+            System.out.printf("%s(): dvmInfo: %s%n", this.getClass() + " actionPerformed", dvmInfo[0] + ", " + dvmInfo[1] + ", " + dvmInfo[1] + ", " + dvmInfo[2] + ", " + dvmInfo[3]);
             Order order = new Order(selectedItem, selectedItemNum);
             if (resMsg.equals("displayPayment")) {
                 resetCard();

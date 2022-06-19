@@ -11,7 +11,7 @@ public class DvmWindow extends JFrame {
     protected static Controller controller;
     protected static GridBagConstraints constraints;
 
-    private static final String WINDOW_TITLE = "T2 OOPT DVM";
+    private static final String WINDOW_TITLE = "Team2 OOAD DVM";
     private static final int FRAME_WIDTH = 500;
     private static final int FRAME_HEIGHT = 500;
 

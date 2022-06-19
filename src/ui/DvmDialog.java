@@ -9,12 +9,7 @@ public class DvmDialog implements ActionListener {
     private static final int DIALOG_WIDTH = 300;
     private static final int DIALOG_HEIGHT = 110;
 
-    private JButton btn;
-
-    private JDialog dlg;
-
-    private JPanel panel;
-    private JPanel panel2;
+    private final JDialog dlg;
 
     DvmDialog(String str) {
         this(str, true);
@@ -23,10 +18,10 @@ public class DvmDialog implements ActionListener {
     DvmDialog(String str, Boolean dlgVisible) {
         JPanel outer = new JPanel(new BorderLayout());
 
-        panel = new JPanel(); // FlowLayout
+        JPanel panel = new JPanel(); // FlowLayout
         outer.add(panel, BorderLayout.NORTH);
 
-        panel2 = new JPanel(); // FlowLayout
+        JPanel panel2 = new JPanel(); // FlowLayout
         outer.add(panel2, BorderLayout.CENTER);
 
         addLabel(panel, str);
@@ -36,7 +31,7 @@ public class DvmDialog implements ActionListener {
         dlg.setLocationRelativeTo(null);
         dlg.setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
         dlg.add(outer);
-        addBtn("OK");
+        addBtn(panel2, "OK");
 
         dlg.setVisible(dlgVisible);
     }
@@ -48,18 +43,15 @@ public class DvmDialog implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand() == "OK") {
+        if (e.getActionCommand().equals("OK")) {
             dlg.setVisible(false);
-        }
-        if (e.getActionCommand() == "YES") {
+        } else if (e.getActionCommand().equals("YES")) {
             System.out.print("PROCEED");
             dlg.setVisible(false);
-        }
-        if (e.getActionCommand() == "NO") {
+        } else if (e.getActionCommand().equals("NO")) {
             System.out.print("DO NOT PROCEED");
             dlg.setVisible(false);
         }
-
         /*
          * if (e.getSource()== btn) do something;
          *
@@ -67,10 +59,10 @@ public class DvmDialog implements ActionListener {
          * */
     }
 
-    public void addBtn(String string) {
-        btn = new JButton(string);
+    public void addBtn(JPanel panel, String string) {
+        JButton btn = new JButton(string);
         btn.addActionListener(this);
         btn.setFocusable(false);
-        panel2.add(btn);
+        panel.add(btn);
     }
 }

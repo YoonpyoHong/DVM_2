@@ -12,7 +12,6 @@ import static domain.product.ItemManager.MAX_ITEM;
 
 import static ui.DvmWindow.controller;
 import static ui.DvmWindow.addComponent;
-import static ui.DvmWindow.constraints;
 import static ui.DvmWindow.CARD_PANEL;
 
 // Window1
@@ -31,7 +30,7 @@ public class HomeWindow extends DvmPanel {
     private Item[] itemArray;
 
     public HomeWindow() {
-        super(null);
+        super();
         init();
     }
 
@@ -65,7 +64,7 @@ public class HomeWindow extends DvmPanel {
         initItemButtons(itemArray, itemLayoutPanel);
     }
 
-    private void initItemButtons(Item[] ItemArray, JPanel itemLayoutPanel) {
+    private void initItemButtons(Item[] itemArray, JPanel itemLayoutPanel) {
         JButton[] itemBtnArray = new JButton[MAX_ITEM];
         for (int i = 0; i < MAX_ITEM; i++) {
             itemBtnArray[i] = new JButton(itemArray[i].getItemName());
