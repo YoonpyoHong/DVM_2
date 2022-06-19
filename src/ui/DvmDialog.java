@@ -34,6 +34,7 @@ public class DvmDialog implements ActionListener {
         dlg.setLocationRelativeTo(null);
         dlg.setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
         dlg.add(outer);
+        addBtn("OK");
 
         dlg.setVisible(dlgVisible);
     }

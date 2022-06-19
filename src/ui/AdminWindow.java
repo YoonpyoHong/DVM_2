@@ -134,8 +134,8 @@ public class AdminWindow extends DvmPanel {
                 // show JDialog (successful update)
                 // for 15 second
             } else {
-                /* TODO: put some err dialog */
-                System.out.println("invalid input quantity");
+                String resMsg = "invalid input quantity";
+                new DvmDialog(resMsg);
 //				if there is a non-integer character,
 //				show JDialog (Please input only integer);
             }

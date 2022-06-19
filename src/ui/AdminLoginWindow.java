@@ -61,10 +61,8 @@ public class AdminLoginWindow extends DvmPanel {
                 resetCard();
                 CARD_PANEL.add(new AdminWindow(this));
             } else {
-                /* TODO: put smth error message dialog */
                 String resMsg = "Wrong PassWord";
                 new DvmDialog(resMsg);
-                System.out.println(resMsg);
             }
         } else if (e.getActionCommand().equals("BACK")) {
             resetCard();
