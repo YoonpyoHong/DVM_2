@@ -14,21 +14,21 @@ public class Controller {
     private final CardReader cardReader;
     private final ItemManager itemManager;
     private final AccountManager accountManager;
-    private final MessageManager messageManager;
     private final VerificationManager verificationManager;
-    private static Item[] items;
+    private final MessageManager messageManager;
+    private static Item[] itemArray;
 
     private static final Controller instance = new Controller();
 
     private Controller() {
         cardReader = new CardReader();
-        paymentManager = new PaymentManager();
         itemManager = new ItemManager();
-        accountManager = new AccountManager();
         verificationManager = new VerificationManager();
-        items = itemManager.getItemList();
+        accountManager = new AccountManager();
+        paymentManager = new PaymentManager();
         messageManager = new MessageManager();
-        messageManager.start();
+        messageManager.start(); // for Message receive
+        itemArray = itemManager.getItemList();
         System.out.println(this.getClass() + " created.");
     }
 
@@ -38,20 +38,19 @@ public class Controller {
 
     // itemId: 0-indexed
     public String selectItem(int itemId, int itemQuantity, int[] dvmInfo) {
+        System.out.printf("%s(%d, %d, {})%n", "Controller.selectItem", itemId, itemQuantity);
         if (itemManager.checkStock(itemId, itemQuantity)){
-            System.out.println("Controller.selectItem(): " + items[itemId] + " is in local vm");
+            System.out.println("Controller.selectItem(): " + itemArray[itemId] + " is in local vm");
             return "displayPayment";
         }
-        else {
-            int[] otherDvmInfo = messageManager.checkStockOfOtherVM(itemId, itemQuantity);
-            System.arraycopy(otherDvmInfo, 0, dvmInfo, 0, dvmInfo.length);
-            if (dvmInfo[0] == -1) {
-                System.out.println(items[itemId] + " is not in other vm");
-                return "error: stock not available";
-            }
-            System.out.println(items[itemId] + " is in other vm");
-            return "displayPrepayment";
+        int[] otherDvmInfo = messageManager.checkStockOfOtherVM(itemId, itemQuantity);
+        System.arraycopy(otherDvmInfo, 0, dvmInfo, 0, dvmInfo.length);
+        if (dvmInfo[0] == -1) {
+            System.out.println(itemArray[itemId] + " is not in other vm");
+            return "error: stock not available";
         }
+        System.out.println(itemArray[itemId] + " is in other vm");
+        return "displayPrepayment";
     }
 
     public String payment(int itemId, int itemQuantity, String cardNum, int cardPwd) {
@@ -60,7 +59,7 @@ public class Controller {
         if (!cardValidity) {
             return "error: invalid card";
         }
-        int totalPrice = items[itemId].getItemPrice() * itemQuantity;
+        int totalPrice = itemArray[itemId].getItemPrice() * itemQuantity;
         boolean paymentSuccess = paymentManager.payment(cardReader, totalPrice, cardNum);
         if (!paymentSuccess) {
             return "payment error: insufficient balance.";
@@ -75,7 +74,7 @@ public class Controller {
     }
 
     public String prepayment(int itemId, int itemQuantity, String cardNum, int cardPwd, int destinationId) {
-        boolean cardValidity = cardReader.checkCardValidity(cardNum, 1234);
+        boolean cardValidity = cardReader.checkCardValidity(cardNum, cardPwd);
         if (!cardValidity) {
             return "error: invalid card";
         }
@@ -94,7 +93,6 @@ public class Controller {
     }
 
     public AccountManager getAccountManager() { return accountManager; }
-    public MessageManager getMsgManager() { return messageManager; }
     public ItemManager getItemManager() { return itemManager; }
     public CardReader getCardReader() { return cardReader; }
     public PaymentManager getPaymentManager() { return paymentManager; }

@@ -17,9 +17,6 @@ public class Card {
         this.money = money;
     }
 
-    public String getCardNum() {
-        return cardNum;
-    }
     public int getCardPwd() { return cardPwd; }
     public int getMoney() {
         return money;

@@ -22,7 +22,7 @@ public class ItemManager {
 
     public boolean checkStock(int itemId, int itemQuantity) {
         boolean available = items[itemId].getItemQuantity() >= itemQuantity;
-        System.out.println(String.format("ItemManager.checkStock(%d, %d): %s", itemId, itemQuantity, available));
+        System.out.printf("ItemManager.checkStock(%d, %d): %s%n", itemId, itemQuantity, available);
         return available;
     }
 
