@@ -5,7 +5,7 @@ import DVM_Server.DVMServer;
 import DVM_Server.messageListChangeListner;
 import GsonConverter.Serializer;
 import Model.Message;
-import domain.app.Controller;
+import domain.Controller;
 import domain.product.ItemManager;
 
 import java.util.ArrayDeque;

@@ -1,6 +1,6 @@
 package domain.product;
 
-import domain.app.Controller;
+import domain.Controller;
 import domain.payment.VerificationManager;
 
 import java.io.FileInputStream;
