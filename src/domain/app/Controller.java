@@ -24,10 +24,10 @@ public class Controller {
         cardReader = new CardReader();
         paymentManager = new PaymentManager();
         itemManager = new ItemManager();
-        messageManager = new MessageManager();
         accountManager = new AccountManager();
         verificationManager = new VerificationManager();
         items = itemManager.getItemList();
+        messageManager = new MessageManager();
         messageManager.start();
         System.out.println(this.getClass() + " created.");
     }

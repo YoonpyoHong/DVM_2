@@ -1,5 +1,6 @@
 package domain.product;
 
+import domain.app.Controller;
 import domain.payment.VerificationManager;
 
 import java.io.FileInputStream;
@@ -20,7 +21,9 @@ public class ItemManager {
     }
 
     public boolean checkStock(int itemId, int itemQuantity) {
-        return items[itemId].getItemQuantity() >= itemQuantity;
+        boolean available = items[itemId].getItemQuantity() >= itemQuantity;
+        System.out.println(String.format("ItemManager.checkStock(%d, %d): %s", itemId, itemQuantity, available));
+        return available;
     }
 
     public void updateStockInfo(int itemId, int itemQuantity) {
@@ -38,13 +41,12 @@ public class ItemManager {
     }
 
     public void synchronize(int itemId, int itemQuantity, String verificationCode) {
-        assert 0 <= itemId && itemId < MAX_ITEM;
         boolean verificationValidity = false;
-        VerificationManager v = new VerificationManager();
         if (items[itemId].getItemQuantity() >= itemQuantity) {
             items[itemId].setItemQuantity(items[itemId].getItemQuantity() - itemQuantity);
             verificationValidity = true;
         }
+        VerificationManager v = Controller.getInstance().getVerificationManager();
         v.saveVerification(itemId, itemQuantity, verificationCode, verificationValidity);
     }
 
@@ -52,10 +54,16 @@ public class ItemManager {
         return items;
     }
 
+    public void showItemList() {
+        for (int i = 0; i < MAX_ITEM; i++) {
+            System.out.println(items[i]);
+        }
+    }
+
     private void loadItemList() {
         InputStream inputStream = null;
         try {
-             inputStream = new FileInputStream("src/domain/product/itemList.txt");
+            inputStream = new FileInputStream("src/domain/product/itemList.txt");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -68,12 +76,6 @@ public class ItemManager {
             items[i] = new Item(i + 1, argv[0], Integer.parseInt(argv[1]), Integer.parseInt(argv[2]), Boolean.parseBoolean(argv[3]));
             System.out.println("ItemManager.loadItemList(): " + items[i] + " has been added.");
             i += 1;
-        }
-    }
-
-    public void showItemList() {
-        for (int i = 0; i < MAX_ITEM; i++) {
-            System.out.println(items[i]);
         }
     }
 }
