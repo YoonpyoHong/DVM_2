@@ -88,10 +88,6 @@ public class Controller {
         return "prepayment complete";
     }
 
-    public Verification confirmVerification(String authenticationCode) {
-        return verificationManager.checkVerification(authenticationCode);
-    }
-
     public AccountManager getAccountManager() { return accountManager; }
     public ItemManager getItemManager() { return itemManager; }
     public CardReader getCardReader() { return cardReader; }
