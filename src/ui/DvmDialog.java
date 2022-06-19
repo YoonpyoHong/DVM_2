@@ -6,44 +6,41 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class DvmDialog implements ActionListener {
+    private static final int DIALOG_WIDTH = 300;
+    private static final int DIALOG_HEIGHT = 110;
+
     private JButton btn;
     private JDialog dlg;
     private JPanel panel;
     private JPanel panel2;
-    private static final int width = 300;
-    private static final int height = 110;
 
     DvmDialog(String str) {
         this(str, true);
     }
 
-    DvmDialog(String str, Boolean flag) {
-        panel = new JPanel(); // FlowLayout
-        panel2 = new JPanel(); // FlowLayout
-
+    DvmDialog(String str, Boolean dlgVisible) {
         JPanel outer = new JPanel(new BorderLayout());
+
+        panel = new JPanel(); // FlowLayout
         outer.add(panel, BorderLayout.NORTH);
+
+        panel2 = new JPanel(); // FlowLayout
         outer.add(panel2, BorderLayout.CENTER);
+
+        addLabel(panel, str);
 
         dlg = new JDialog();
         dlg.setLayout(new FlowLayout());
         dlg.setLocationRelativeTo(null);
-        dlg.setSize(width, height);
+        dlg.setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
         dlg.add(outer);
-        setDlg(str);
-        setVisDlg(flag);
 
+        dlg.setVisible(dlgVisible);
     }
 
-    public void setDlg(String str) {
+    public void addLabel(JPanel panel, String str) {
         //set message to be displayed on JDialog
         panel.add(new JLabel(str), SwingConstants.CENTER);
-    }
-
-    public void setVisDlg(Boolean flag) {
-        //set JDialog visibility
-        if (flag) dlg.setVisible(true);
-        else dlg.setVisible(false);
     }
 
     @Override
@@ -72,29 +69,5 @@ public class DvmDialog implements ActionListener {
         btn.addActionListener(this);
         btn.setFocusable(false);
         panel2.add(btn);
-    }
-
-    public String getErrMsg() {
-        return "ERROR";
-    }
-
-    public String getErrInPaymentMsg() {
-        return "ERROR IN PAYMENT";
-    }
-
-    public String getErrInCardMsg() {
-        return "ERROR IN CARD";
-    }
-
-    public String getSuccessMsg() {
-        return "SUCCESS";
-    }
-
-    public String getSuccessfulTransactionMsg() {
-        return "SUCCESSFUL TRANSACTION";
-    }
-
-    public String getDispenseMsg() {
-        return "ITEM IS DISPENSED";
     }
 }

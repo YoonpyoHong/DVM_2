@@ -25,6 +25,7 @@ public class HomeWindow extends DvmPanel {
 
     private static final int BUTTON_WIDTH = 120;
     private static final int BUTTON_HEIGHT = 30;
+
     private static final int DRINK_PANEL_WIDTH = 290;
     private static final int DRINK_PANEL_HEIGHT = 400;
 
