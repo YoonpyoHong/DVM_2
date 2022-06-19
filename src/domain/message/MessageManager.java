@@ -118,30 +118,7 @@ public class MessageManager extends Thread {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if (msgQueue.isEmpty()) {
-            return new int[]{-1, -1, -1, -1};
-        }
-        Message msg = msgQueue.pollLast();
-        int[] msgInfo = decodeMsg(msg);
-        int dstId = msgInfo[0];
-        int dstX = msgInfo[3];
-        int dstY = msgInfo[4];
-        int dstDist = (DVM_X - dstX) * (DVM_X - dstX) + (DVM_Y - dstY) * (DVM_Y - dstY);
-        while (!msgQueue.isEmpty()) {
-            msg = msgQueue.pollLast();
-            msgInfo = decodeMsg(msg);
-            int otherId = msgInfo[0];
-            int otherX = msgInfo[3];
-            int otherY = msgInfo[4];
-            int otherDist = (DVM_X - otherX) * (DVM_X - otherX) + (DVM_Y - otherY) * (DVM_Y - otherY);
-            if (otherDist < dstDist || (otherDist == dstDist && otherId < dstId)) {
-                dstDist = otherDist;
-                dstId = otherId;
-                dstX = otherX;
-                dstY = otherY;
-            }
-        }
-        return new int[]{dstId, dstX, dstY, dstDist};
+        return getNearestDvm();
     }
 
     public static void sendMsg(int dstId, Message msg) {
@@ -215,5 +192,32 @@ public class MessageManager extends Thread {
         int srcX = msgDes.getDvmXCoord();
         int srcY = msgDes.getDvmYCoord();
         return new int[]{srcId, itemId, itemQuantity, srcX, srcY};
+    }
+
+    private static int[] getNearestDvm() {
+        if (msgQueue.isEmpty()) {
+            return new int[]{-1, -1, -1, -1};
+        }
+        Message msg = msgQueue.pollLast();
+        int[] msgInfo = decodeMsg(msg);
+        int dstId = msgInfo[0];
+        int dstX = msgInfo[3];
+        int dstY = msgInfo[4];
+        int dstDist = (DVM_X - dstX) * (DVM_X - dstX) + (DVM_Y - dstY) * (DVM_Y - dstY);
+        while (!msgQueue.isEmpty()) {
+            msg = msgQueue.pollLast();
+            msgInfo = decodeMsg(msg);
+            int otherId = msgInfo[0];
+            int otherX = msgInfo[3];
+            int otherY = msgInfo[4];
+            int otherDist = (DVM_X - otherX) * (DVM_X - otherX) + (DVM_Y - otherY) * (DVM_Y - otherY);
+            if (otherDist < dstDist || (otherDist == dstDist && otherId < dstId)) {
+                dstDist = otherDist;
+                dstId = otherId;
+                dstX = otherX;
+                dstY = otherY;
+            }
+        }
+        return new int[]{dstId, dstX, dstY, dstDist};
     }
 }
