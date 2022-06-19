@@ -32,8 +32,6 @@ public class DvmWindow extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.pack();
         this.setVisible(true);
-
-        System.out.println(this.getClass() + " created.");
     }
 
     protected static void setJLabel(JLabel label, int width, int height, Color color) {

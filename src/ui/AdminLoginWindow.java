@@ -13,7 +13,7 @@ public class AdminLoginWindow extends DvmPanel {
     private JButton btn2;
     private JTextField pwd = new JTextField(15);
 
-    private JLabel notice = new JLabel("<html><center>LOGIN PAGE<br>Please enter password<br>in the textfield below:</html>");
+    private JLabel notice = new JLabel("<html><center>LOGIN PAGE<br>Please enter password</html>");
     private EmptyBorder eb = new EmptyBorder(new Insets(10, 10, 10, 10));
 
     public AdminLoginWindow() {
@@ -55,15 +55,21 @@ public class AdminLoginWindow extends DvmPanel {
     }
 
     public void actionPerformed(ActionEvent e) {
-        resetCard();
         if (e.getActionCommand().equals("LOGIN")) {
             boolean authorized = controller.getAccountManager().verifyLoginInfo(pwd.getText());
             if (authorized) {
+                resetCard();
+                CARD_PANEL.add(new AdminWindow(this));
             } else {
                 /* TODO: put smth error message dialog */
-                System.out.println("Wrong PassWord");
+                String resMsg = "Wrong PassWord";
+                new DvmDialog(resMsg);
+                System.out.println(resMsg);
             }
         } else if (e.getActionCommand().equals("BACK")) {
+            resetCard();
+            prevPanel.init();
+            CARD_PANEL.add(prevPanel);
         }
     }
 }

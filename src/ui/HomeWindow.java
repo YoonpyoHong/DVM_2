@@ -80,7 +80,7 @@ public class HomeWindow extends DvmPanel {
     public void actionPerformed(ActionEvent e) {
         resetCard();
         if (e.getActionCommand().equals("ADMIN LOGIN")) {
-            CARD_PANEL.add(new AdminWindow(this));
+            CARD_PANEL.add(new AdminLoginWindow(this));
         } else if (e.getActionCommand().equals("VERIFICATION CODE")) {
             CARD_PANEL.add(new ReadVerificationWindow(this));
         } else {
@@ -88,7 +88,7 @@ public class HomeWindow extends DvmPanel {
                 if (e.getActionCommand().equals(itemArray[id].getItemName())) {
                     selectedItemId = id;
                     Item selectedItem = itemArray[id];
-                    System.out.println("selected " + selectedItem);
+                    System.out.println("HomeWindow: selected " + selectedItem);
                     CARD_PANEL.add(new ItemShowWindow(this, selectedItem));
                     break;
                 }

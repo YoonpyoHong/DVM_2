@@ -85,9 +85,9 @@ public class ItemShowWindow extends DvmPanel {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("NEXT")) {
             /* TODO: prove controller.selectItem() */
-            String resMsg = controller.selectItem(selectedItem.getItemId(), selectedItemNum, dvmInfo);
-            System.out.println(String.format("%s: result message: %s", this.getClass().toString() + "actionPerformed", resMsg));
-            System.out.println(String.format("%s: dvmInfo: %s", this.getClass().toString() + "actionPerformed", dvmInfo[0] + ", " + dvmInfo[1] + ", " + dvmInfo[1] + ", " + dvmInfo[2] + ", " + dvmInfo[3]));
+            String resMsg = controller.selectItem(selectedItem.getItemId() - 1, selectedItemNum, dvmInfo);
+            System.out.println(String.format("%s: result message: %s", this.getClass().toString() + " actionPerformed", resMsg));
+            System.out.println(String.format("%s: dvmInfo: %s", this.getClass().toString() + " actionPerformed", dvmInfo[0] + ", " + dvmInfo[1] + ", " + dvmInfo[1] + ", " + dvmInfo[2] + ", " + dvmInfo[3]));
             Order order = new Order(selectedItem, selectedItemNum);
             if (resMsg.equals("displayPayment")) {
                 resetCard();

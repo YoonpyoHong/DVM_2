@@ -105,7 +105,6 @@ public class AdminWindow extends DvmPanel {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("LOGOUT")) {
-            //do nothing
             resetCard();
             CARD_PANEL.add(new HomeWindow());
         } else if (e.getActionCommand().equals("UPDATE")) {
