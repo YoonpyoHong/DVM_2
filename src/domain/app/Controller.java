@@ -88,7 +88,7 @@ public class Controller {
         return "prepayment complete";
     }
 
-    public Verification comfirmVerification(String authenticationCode) {
+    public Verification confirmVerification(String authenticationCode) {
         return verificationManager.checkVerification(authenticationCode);
     }
 

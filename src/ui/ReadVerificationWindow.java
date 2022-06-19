@@ -52,7 +52,7 @@ public class ReadVerificationWindow extends DvmPanel {
         if (e.getActionCommand().equals("ENTER")) {
             String inputAuthCode = verificationCodeTextField.getText();
             System.out.println("inputAuthCode = " + inputAuthCode);
-            Verification verification = controller.comfirmVerification(inputAuthCode);
+            Verification verification = controller.confirmVerification(inputAuthCode);
             String resMsg;
             if (verification == null) {
                 resMsg = "error: invalid verificationCode";

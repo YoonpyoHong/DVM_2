@@ -5,9 +5,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static domain.product.ItemManager.MAX_ITEM;
 
 public class Item {
-    private int itemId; // 1-indexed
-    private String itemName;
-    private int itemPrice;
+    private final int itemId; // 1-indexed
+    private final String itemName;
+    private final int itemPrice;
     private final AtomicInteger itemQuantity = new AtomicInteger();
     private final boolean onSale;
 
@@ -23,7 +23,7 @@ public class Item {
     public int getItemId() {
         return itemId;
     }
-    public void setItemId(int itemId) { this.itemId = itemId; }
+
     public int getItemQuantity(){
         return itemQuantity.get();
     }
@@ -31,15 +31,11 @@ public class Item {
         this.itemQuantity.set(itemQuantity);
     }
     public String getItemName(){ return itemName; }
-    public void setItemName(String itemName){
-        this.itemName = itemName;
-    }
+
     public int getItemPrice(){
         return itemPrice;
     }
-    public void setItemPrice(int itemPrice){
-        this.itemPrice = itemPrice;
-    }
+
     public boolean getOnSale() { return onSale; }
 
     @Override
