@@ -6,9 +6,9 @@ public class PaymentManager {
         System.out.println(this.getClass() + " created.");
     }
 
-    public boolean payment(CardReader cardReader, int totalPrice, String cardNum) {
+    public boolean payment(CardManager cardManager, int totalPrice, String cardNum) {
         System.out.println("totalPrice = " + totalPrice);
-        Card card = cardReader.getCardInfo(cardNum);
+        Card card = cardManager.getCardInfo(cardNum);
         System.out.println("payment(): before " + card);
         if (card.getMoney() < totalPrice) {
             return false;
@@ -18,8 +18,8 @@ public class PaymentManager {
         return true;
     }
 
-    public void cancelPayment(CardReader cardReader, int totalPrice, String cardNum) {
-        Card card = cardReader.getCardInfo(cardNum);
+    public void cancelPayment(CardManager cardManager, int totalPrice, String cardNum) {
+        Card card = cardManager.getCardInfo(cardNum);
         System.out.println("cancelPayment(): before " + card);
         card.setMoney(card.getMoney() + totalPrice);
         System.out.println("cancelPayment(): after " + card);

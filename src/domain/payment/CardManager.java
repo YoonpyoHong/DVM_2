@@ -9,10 +9,10 @@ import java.util.Scanner;
 
 import static domain.payment.Card.CARD_NUM_LENGTH;
 
-public class CardReader {
+public class CardManager {
     private static Map<String, Card> cards;
 
-    public CardReader() {
+    public CardManager() {
         loadCardList();
         System.out.println(this.getClass() + " created.");
     }

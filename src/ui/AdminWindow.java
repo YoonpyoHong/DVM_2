@@ -118,7 +118,7 @@ public class AdminWindow extends DvmPanel {
     }
 
     private void initButtons(JPanel panel) {
-        for (int i = 0; i < ItemManager.MAX_LOCAL_ITEM; i++) {
+        for (int i = 0; i < MAX_LOCAL_ITEM; i++) {
             JLabel[] btn = new JLabel[ItemManager.MAX_LOCAL_ITEM];
             btn[i] = new JLabel(localItems[i].getItemName(), SwingConstants.CENTER);
             btn[i].setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));

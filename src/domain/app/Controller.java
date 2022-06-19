@@ -2,16 +2,15 @@ package domain.app;
 
 import domain.admin.AccountManager;
 import domain.message.MessageManager;
-import domain.payment.CardReader;
+import domain.payment.CardManager;
 import domain.payment.PaymentManager;
-import domain.payment.Verification;
 import domain.payment.VerificationManager;
 import domain.product.Item;
 import domain.product.ItemManager;
 
 public class Controller {
     private final PaymentManager paymentManager;
-    private final CardReader cardReader;
+    private final CardManager cardManager;
     private final ItemManager itemManager;
     private final AccountManager accountManager;
     private final VerificationManager verificationManager;
@@ -21,7 +20,7 @@ public class Controller {
     private static final Controller instance = new Controller();
 
     private Controller() {
-        cardReader = new CardReader();
+        cardManager = new CardManager();
         itemManager = new ItemManager();
         verificationManager = new VerificationManager();
         accountManager = new AccountManager();
@@ -55,18 +54,18 @@ public class Controller {
 
     public String payment(int itemId, int itemQuantity, String cardNum, int cardPwd) {
         System.out.printf("payment(%d, %d, %s, %d)%n", itemId, itemQuantity, cardNum, cardPwd);
-        boolean cardValidity = cardReader.checkCardValidity(cardNum, 1234);
+        boolean cardValidity = cardManager.checkCardValidity(cardNum, 1234);
         if (!cardValidity) {
             return "error: invalid card";
         }
         int totalPrice = itemArray[itemId].getItemPrice() * itemQuantity;
-        boolean paymentSuccess = paymentManager.payment(cardReader, totalPrice, cardNum);
+        boolean paymentSuccess = paymentManager.payment(cardManager, totalPrice, cardNum);
         if (!paymentSuccess) {
             return "payment error: insufficient balance.";
         }
         boolean stockAvailable = itemManager.checkStock(itemId, itemQuantity);
         if (!stockAvailable) {
-            paymentManager.cancelPayment(cardReader, totalPrice, cardNum);
+            paymentManager.cancelPayment(cardManager, totalPrice, cardNum);
             return "error: no item stock. cancel payment";
         }
         itemManager.updateStockInfo(itemId, itemQuantity);
@@ -74,12 +73,12 @@ public class Controller {
     }
 
     public String prepayment(int itemId, int itemQuantity, String cardNum, int cardPwd, int destinationId) {
-        boolean cardValidity = cardReader.checkCardValidity(cardNum, cardPwd);
+        boolean cardValidity = cardManager.checkCardValidity(cardNum, cardPwd);
         if (!cardValidity) {
             return "error: invalid card";
         }
         int totalPrice = itemId * itemQuantity;
-        boolean paymentSuccess = paymentManager.payment(cardReader, totalPrice, cardNum);
+        boolean paymentSuccess = paymentManager.payment(cardManager, totalPrice, cardNum);
         if (!paymentSuccess) {
             return "payment error in prepayment";
         }
@@ -90,7 +89,7 @@ public class Controller {
 
     public AccountManager getAccountManager() { return accountManager; }
     public ItemManager getItemManager() { return itemManager; }
-    public CardReader getCardReader() { return cardReader; }
+    public CardManager getCardReader() { return cardManager; }
     public PaymentManager getPaymentManager() { return paymentManager; }
     public VerificationManager getVerificationManager() { return verificationManager; }
 }

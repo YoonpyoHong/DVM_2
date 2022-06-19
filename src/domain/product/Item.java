@@ -23,7 +23,6 @@ public class Item {
     public int getItemId() {
         return itemId;
     }
-
     public int getItemQuantity(){
         return itemQuantity.get();
     }
