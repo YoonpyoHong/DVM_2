@@ -24,7 +24,7 @@ public class Controller {
         cardReader = new CardReader();
         paymentManager = new PaymentManager();
         itemManager = new ItemManager();
-        messageManager = new MessageManager(itemManager);
+        messageManager = new MessageManager();
         accountManager = new AccountManager();
         verificationManager = new VerificationManager();
         items = itemManager.getItemList();
@@ -36,9 +36,10 @@ public class Controller {
         return instance;
     }
 
+    // itemId: 0-indexed
     public String selectItem(int itemId, int itemQuantity, int[] dvmInfo) {
         if (itemManager.checkStock(itemId, itemQuantity)){
-            System.out.println(items[itemId] + " is in local vm");
+            System.out.println("Controller.selectItem(): " + items[itemId] + " is in local vm");
             return "displayPayment";
         }
         else {

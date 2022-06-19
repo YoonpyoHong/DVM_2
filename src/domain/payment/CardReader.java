@@ -56,7 +56,7 @@ public class CardReader {
             String[] cardList = cardDataInput.nextLine().split(" ", 3);
             Card card = new Card(cardList[0], Integer.parseInt(cardList[1]), Integer.parseInt(cardList[2]));
             cards.put(cardList[0], card);
-            System.out.println(card + " has been added.");
+            System.out.println("CardReader.loadCardList(): " + card + " has been added.");
         }
     }
 }

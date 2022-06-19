@@ -36,7 +36,7 @@ public class VerificationManager {
 
     public void saveVerification(int itemId, int itemQuantity, String verificationCode, boolean verificationValidity) {
         Verification verification = new Verification(itemId, itemQuantity, verificationCode, verificationValidity);
-        System.out.println(verification + " has been added.");
+        System.out.println("VerificationManager.saveVerification(): " + verification + " has been added.");
         verifications.put(verificationCode, verification);
     }
 
@@ -55,6 +55,6 @@ public class VerificationManager {
     }
 
     public void removeVerification(String verificationCode) {
-        System.out.println(verifications.remove(verificationCode) + " has been removed.");
+        System.out.println("VerificationManager.removeVerification(): " + verifications.remove(verificationCode) + " has been removed.");
     }
 }

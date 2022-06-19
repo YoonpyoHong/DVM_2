@@ -20,7 +20,6 @@ public class ItemManager {
     }
 
     public boolean checkStock(int itemId, int itemQuantity) {
-        assert 0 <= itemId && itemId < MAX_ITEM;
         return items[itemId].getItemQuantity() >= itemQuantity;
     }
 
@@ -67,7 +66,7 @@ public class ItemManager {
         while (in.hasNext()) {
             String[] argv = in.nextLine().split(" ", 4);
             items[i] = new Item(i + 1, argv[0], Integer.parseInt(argv[1]), Integer.parseInt(argv[2]), Boolean.parseBoolean(argv[3]));
-            System.out.println(items[i] + " has been added.");
+            System.out.println("ItemManager.loadItemList(): " + items[i] + " has been added.");
             i += 1;
         }
     }
