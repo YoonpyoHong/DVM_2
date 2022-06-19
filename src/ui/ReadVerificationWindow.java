@@ -28,7 +28,7 @@ public class ReadVerificationWindow extends DvmPanel {
     protected void initLayout() {
         super.initLayout();
 
-        verificationCodeTextField.setDocument(new JTextFieldLimit(CODE_LENGTH));
+        verificationCodeTextField.setDocument(new DvmJTextFieldLimit(CODE_LENGTH));
         addComponent(mainPanel, verificationCodeTextField, 0, 20, 130, 20, 1, 1, 0.5, GridBagConstraints.CENTER);
 
         noticeLabel.setBackground(Color.decode("#cfd0d1"));

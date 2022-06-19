@@ -34,7 +34,7 @@ public class AdminLoginWindow extends DvmPanel {
         noticeLabel.setOpaque(true);
         addComponent(mainPanel, noticeLabel, 0, 0, 260, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
 
-        pwdTextField.setDocument(new JTextFieldLimit(10));
+        pwdTextField.setDocument(new DvmJTextFieldLimit(10));
         addComponent(mainPanel, pwdTextField, 0, 20, 130, 20, 1, 1, 0.5, GridBagConstraints.CENTER);
 
         JButton loginBtn = new JButton("LOGIN");

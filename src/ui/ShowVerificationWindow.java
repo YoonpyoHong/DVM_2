@@ -8,7 +8,6 @@ import static ui.DvmWindow.*;
 
 // Window5
 public class ShowVerificationWindow extends DvmPanel {
-
     private final JLabel verificationCodeLabel = new JLabel("<html><center>Verification code:<br>1234567890</html>", SwingConstants.CENTER);
 
     private final JLabel locationLabel = new JLabel("Location: (x,y)", SwingConstants.CENTER);

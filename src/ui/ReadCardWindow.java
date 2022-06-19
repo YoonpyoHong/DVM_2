@@ -82,7 +82,7 @@ public class ReadCardWindow extends DvmPanel {
     protected void initLayout() {
         super.initLayout();
 
-        verificationCodeTextField.setDocument(new JTextFieldLimit(CARD_NUM_LENGTH));
+        verificationCodeTextField.setDocument(new DvmJTextFieldLimit(CARD_NUM_LENGTH));
         addComponent(mainPanel, verificationCodeTextField, 0, 50, 0, 0, 0, 1, 0.5, GridBagConstraints.CENTER);
 
         timeLabel = new JLabel("<html>Time runout display<br><center>(60 sec)</center></html>", SwingConstants.CENTER);

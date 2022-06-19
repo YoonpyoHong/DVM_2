@@ -14,17 +14,6 @@ import static ui.DvmWindow.*;
 
 // Window8
 public class AdminWindow extends DvmPanel {
-    //random 7 drink list
-    private static final Item[] localItems = new Item[MAX_LOCAL_ITEM];
-
-    private static final JPanel itemLayout = new JPanel();
-    private static final JPanel itemLayout2 = new JPanel();
-    private static final JPanel itemLayout3 = new JPanel();
-
-    private static final JTextField[] itemQtyTextField = new JTextField[MAX_LOCAL_ITEM];
-    private static final EmptyBorder emptyBorder = new EmptyBorder(new Insets(20, 10, 0, 10));
-    private static final Border grayLineBorder = BorderFactory.createLineBorder(Color.decode("#cfd0d1"), 1);
-
     private static final int BUTTON_WIDTH = 120;
     private static final int BUTTON_HEIGHT = 30;
     private static final int TEXT_FIELD_WIDTH = BUTTON_WIDTH + 50;
@@ -39,6 +28,12 @@ public class AdminWindow extends DvmPanel {
 
     private static final int DRINK_PANEL3_WIDTH = 200;
     private static final int DRINK_PANEL3_HEIGHT = 250;
+
+    private static final Item[] localItems = new Item[MAX_LOCAL_ITEM];
+
+    private final JTextField[] itemQtyTextField = new JTextField[MAX_LOCAL_ITEM];
+    private final EmptyBorder emptyBorder = new EmptyBorder(new Insets(20, 10, 0, 10));
+    private final Border grayLineBorder = BorderFactory.createLineBorder(Color.decode("#cfd0d1"), 1);
 
     public AdminWindow(DvmPanel prevPanel) {
         super(prevPanel);
@@ -55,13 +50,16 @@ public class AdminWindow extends DvmPanel {
     protected void initLayout() {
         super.initLayout();
 
+        JPanel itemLayout = new JPanel();
         itemLayout.setPreferredSize(new Dimension(DRINK_PANEL_WIDTH, DRINK_PANEL_HEIGHT));
         itemLayout.setBorder(BorderFactory.createCompoundBorder(grayLineBorder, emptyBorder));
         addComponent(mainPanel,itemLayout, 0, 6, 0, 10, 0, 1, 3, 10, GridBagConstraints.LINE_START);
 
+        JPanel itemLayout2 = new JPanel();
         itemLayout2.setPreferredSize(new Dimension(DRINK_PANEL2_WIDTH, DRINK_PANEL2_HEIGHT));
         addComponent(mainPanel,itemLayout2, 0, 0, 0, 125, 0, 0, 0, 0, GridBagConstraints.LINE_START);
 
+        JPanel itemLayout3 = new JPanel();
         itemLayout3.setPreferredSize(new Dimension(DRINK_PANEL3_WIDTH, DRINK_PANEL3_HEIGHT));
         addComponent(mainPanel,itemLayout3, 0, 15, 0, 0, 0, 0, 0, 0, GridBagConstraints.LINE_START);
 
@@ -76,8 +74,8 @@ public class AdminWindow extends DvmPanel {
         updateBtn.addActionListener(this);
         addComponent(mainPanel, updateBtn, 10, 2, 2, 10, 4, 4, 0.5, GridBagConstraints.LINE_END);
 
-        initTextFields();
-        initButtons();
+        initButtons(itemLayout2);
+        initTextFields(itemLayout3);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -119,7 +117,7 @@ public class AdminWindow extends DvmPanel {
         }
     }
 
-    private void initButtons() {
+    private void initButtons(JPanel panel) {
         for (int i = 0; i < ItemManager.MAX_LOCAL_ITEM; i++) {
             JLabel[] btn = new JLabel[ItemManager.MAX_LOCAL_ITEM];
             btn[i] = new JLabel(localItems[i].getItemName(), SwingConstants.CENTER);
@@ -127,16 +125,16 @@ public class AdminWindow extends DvmPanel {
             btn[i].setOpaque(true);
             btn[i].setBackground(Color.WHITE);
             btn[i].setBorder(BorderFactory.createLineBorder(Color.decode("#cfd0d1"), 1));
-            itemLayout2.add(btn[i], BorderLayout.CENTER);
+            panel.add(btn[i], BorderLayout.CENTER);
         }
     }
 
-    private void initTextFields() {
+    private void initTextFields(JPanel panel) {
         for (int i = 0; i < MAX_LOCAL_ITEM; i++) {
             itemQtyTextField[i] = new JTextField();
             itemQtyTextField[i].setPreferredSize(new Dimension(TEXT_FIELD_WIDTH, TEXT_FIELD_HEIGHT));
-            itemQtyTextField[i].setDocument(new JTextFieldLimit(2));
-            itemLayout3.add(itemQtyTextField[i], BorderLayout.CENTER);
+            itemQtyTextField[i].setDocument(new DvmJTextFieldLimit(2));
+            panel.add(itemQtyTextField[i], BorderLayout.CENTER);
         }
     }
 
