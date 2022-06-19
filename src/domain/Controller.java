@@ -9,11 +9,11 @@ import domain.product.Item;
 import domain.product.ItemManager;
 
 public class Controller {
-    private final PaymentManager paymentManager;
     private final CardManager cardManager;
     private final ItemManager itemManager;
-    private final AccountManager accountManager;
     private final VerificationManager verificationManager;
+    private final AccountManager accountManager;
+    private final PaymentManager paymentManager;
     private final MessageManager messageManager;
     private static Item[] itemArray;
 
@@ -87,9 +87,9 @@ public class Controller {
         return "prepayment complete";
     }
 
-    public AccountManager getAccountManager() { return accountManager; }
-    public ItemManager getItemManager() { return itemManager; }
     public CardManager getCardReader() { return cardManager; }
-    public PaymentManager getPaymentManager() { return paymentManager; }
+    public ItemManager getItemManager() { return itemManager; }
     public VerificationManager getVerificationManager() { return verificationManager; }
+    public AccountManager getAccountManager() { return accountManager; }
+    public PaymentManager getPaymentManager() { return paymentManager; }
 }

@@ -1,7 +1,6 @@
 package domain.payment;
 
 public class PaymentManager {
-
     public PaymentManager() {
         System.out.println(this.getClass() + " created.");
     }

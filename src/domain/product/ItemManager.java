@@ -13,7 +13,7 @@ public class ItemManager {
     public static final int MAX_ITEM = 20;
     public static final int MAX_LOCAL_ITEM = 7;
 
-    private static Item[] items;
+    private static Item[] itemArray;
 
     public ItemManager() {
         loadItemList();
@@ -21,7 +21,7 @@ public class ItemManager {
     }
 
     public boolean checkStock(int itemId, int itemQuantity) {
-        boolean available = items[itemId].getItemQuantity() >= itemQuantity;
+        boolean available = itemArray[itemId].getItemQuantity() >= itemQuantity;
         System.out.printf("ItemManager.checkStock(%d, %d): %s%n", itemId, itemQuantity, available);
         return available;
     }
@@ -32,18 +32,18 @@ public class ItemManager {
 
     public void updateQuantity(int itemId, int itemQuantity) {
         assert 0 <= itemId && itemId < MAX_ITEM;
-        items[itemId].setItemQuantity(items[itemId].getItemQuantity() + itemQuantity);
+        itemArray[itemId].setItemQuantity(itemArray[itemId].getItemQuantity() + itemQuantity);
     }
 
     public boolean checkProduct(int itemId) {
         assert 0 <= itemId && itemId < MAX_ITEM;
-        return items[itemId].getOnSale();
+        return itemArray[itemId].getOnSale();
     }
 
     public void synchronize(int itemId, int itemQuantity, String verificationCode) {
         boolean verificationValidity = false;
-        if (items[itemId].getItemQuantity() >= itemQuantity) {
-            items[itemId].setItemQuantity(items[itemId].getItemQuantity() - itemQuantity);
+        if (itemArray[itemId].getItemQuantity() >= itemQuantity) {
+            itemArray[itemId].setItemQuantity(itemArray[itemId].getItemQuantity() - itemQuantity);
             verificationValidity = true;
         }
         VerificationManager v = Controller.getInstance().getVerificationManager();
@@ -51,12 +51,12 @@ public class ItemManager {
     }
 
     public Item[] getItemList() {
-        return items;
+        return itemArray;
     }
 
     public void showItemList() {
         for (int i = 0; i < MAX_ITEM; i++) {
-            System.out.println(items[i]);
+            System.out.println(itemArray[i]);
         }
     }
 
@@ -70,11 +70,11 @@ public class ItemManager {
         assert inputStream != null;
         Scanner in = new Scanner(inputStream);
         int i = 0;
-        items = new Item[MAX_ITEM];
+        itemArray = new Item[MAX_ITEM];
         while (in.hasNext()) {
             String[] argv = in.nextLine().split(" ", 4);
-            items[i] = new Item(i + 1, argv[0], Integer.parseInt(argv[1]), Integer.parseInt(argv[2]), Boolean.parseBoolean(argv[3]));
-            System.out.println("ItemManager.loadItemList(): " + items[i] + " has been added.");
+            itemArray[i] = new Item(i + 1, argv[0], Integer.parseInt(argv[1]), Integer.parseInt(argv[2]), Boolean.parseBoolean(argv[3]));
+            System.out.println("ItemManager.loadItemList(): " + itemArray[i] + " has been added.");
             i += 1;
         }
     }

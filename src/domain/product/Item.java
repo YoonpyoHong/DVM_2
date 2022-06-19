@@ -23,18 +23,16 @@ public class Item {
     public int getItemId() {
         return itemId;
     }
+    public String getItemName(){ return itemName; }
+    public int getItemPrice(){
+        return itemPrice;
+    }
     public int getItemQuantity(){
         return itemQuantity.get();
     }
     public void setItemQuantity(int itemQuantity){
         this.itemQuantity.set(itemQuantity);
     }
-    public String getItemName(){ return itemName; }
-
-    public int getItemPrice(){
-        return itemPrice;
-    }
-
     public boolean getOnSale() { return onSale; }
 
     @Override
