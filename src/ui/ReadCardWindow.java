@@ -142,12 +142,12 @@ public class ReadCardWindow extends DvmPanel {
                 int quantity = this.verification.getItemQuantity();
                 controller.getPaymentManager().cancelPayment(controller.getCardReader(), price * quantity, cardNum);
 
+                System.out.println("cancel payment: " + this.verification);
+                controller.getVerificationManager().removeVerification(verification.getVerificationCode());
+
                 resMsg = "prepayment canceled";
                 new DvmDialog(resMsg);
                 CARD_PANEL.add(new HomeWindow());
-
-                System.out.println("cancel payment: " + this.verification);
-                controller.getVerificationManager().removeVerification(verification.getVerificationCode());
                 return;
             }
             int selectedItemNum = order.getQuantity();
@@ -161,9 +161,7 @@ public class ReadCardWindow extends DvmPanel {
                 CARD_PANEL.add(new ShowVerificationWindow());
             }
             if (resMsg.contains("error")) {
-                /* TODO: some err dialog */
                 new DvmDialog(resMsg);
-                System.err.println(resMsg);
                 CARD_PANEL.add(new HomeWindow());
             }
         } else if (e.getActionCommand().equals("BACK")) {

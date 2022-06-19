@@ -55,12 +55,10 @@ public class ReadVerificationWindow extends DvmPanel {
             Verification verification = controller.comfirmVerification(inputAuthCode);
             String resMsg;
             if (verification == null) {
-                /* TODO: some error dialog */
                 resMsg = "error: invalid verificationCode";
                 System.out.println(resMsg);
                 new DvmDialog(resMsg);
             } else if (verification.getVerificationValidity()) {
-                /* TODO: some normal get drink dialog */
                 controller.getVerificationManager().removeVerification(inputAuthCode);
                 resMsg = "prepayment success";
                 System.out.println(resMsg);
@@ -69,7 +67,6 @@ public class ReadVerificationWindow extends DvmPanel {
                 prevPanel.init();
                 CARD_PANEL.add(prevPanel);
             } else {
-                /* TODO: some cancel prepayment dialog */
                 System.out.println("before cancel prepayment, " + verification);
                 resMsg = "error: process to cancel prepayment";
                 new DvmDialog(resMsg);

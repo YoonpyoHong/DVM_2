@@ -96,7 +96,6 @@ public class ItemShowWindow extends DvmPanel {
                 resetCard();
                 CARD_PANEL.add(new PrepaymentWindow(this, order));
             } else {
-                 /* TODO: display err dialog */
                 new DvmDialog(resMsg);
             }
         } else if (e.getActionCommand().equals("BACK")) {

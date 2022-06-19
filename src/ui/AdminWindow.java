@@ -141,14 +141,13 @@ public class AdminWindow extends DvmPanel {
     }
 
     private void initLocalItems() {
-        int cnt = 0;
+        int localItemCnt = 0;
         Item[] items = controller.getItemManager().getItemList();
         for (int i = 0; i < MAX_ITEM; i++) {
             if (items[i].getOnSale()) {
-                localItems[cnt] = items[i];
-                cnt += 1;
+                localItems[localItemCnt] = items[i];
+                localItemCnt += 1;
             }
         }
-        assert cnt == MAX_LOCAL_ITEM;
     }
 }
