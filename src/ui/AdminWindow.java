@@ -106,10 +106,12 @@ public class AdminWindow extends DvmPanel {
             }
             if (isValidInput) {
                 for (int i = 0; i < MAX_LOCAL_ITEM; i++) {
-                    controller.getItemManager().updateQuantity(localItems[i].getItemId(), inputQuantities[i]);
+                    localItems[i].setItemQuantity(inputQuantities[i]);
                     itemQtyTextField[i].setText("");
                 }
                 controller.getItemManager().showItemList();
+                String resMsg = "update success!";
+                new DvmDialog(resMsg);
                 // show JDialog (successful update)
                 // for 15 second
             } else {
