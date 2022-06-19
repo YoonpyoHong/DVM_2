@@ -2,107 +2,70 @@ package domain.message;
 
 import DVM_Client.DVMClient;
 import DVM_Server.DVMServer;
+import DVM_Server.messageListChangeListner;
 import GsonConverter.Serializer;
 import Model.Message;
+import domain.app.Controller;
 import domain.product.ItemManager;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
 public class MessageManager extends Thread {
-    private static final int LOOP_TIME = 500; // ms
     private static final int WAIT_TIME = 500; // ms
     private static final String DVM_ID = "Team2";
     private static final int DVM_X = 22;
     private static final int DVM_Y = 22;
-    private static final int TOTAL_DVM_COUNT = 2;
+    private static final int TOTAL_DVM_COUNT = 6;
     // we use 1-indexed array. so we need array length = TOTAL_DVM_COUNT + 1
     private static final String[] IP_ADDR = {"localhost", "localhost", "localhost", "", "", "", ""};
     private static final String NULL_AUTH_CODE = "0000000000";
 
     private static Deque<Message> msgQueue;
-    private final OtherVM oVM;
-    private final MsgReceiver msgReceiver;
 
-    private static class OtherVM extends Thread {
-        private static DVMServer server;
-
-        public OtherVM() {
-            server = new DVMServer();
-            System.out.println(this.getClass() + " created.");
-        }
+    private class MessageReceiver implements messageListChangeListner {
+        private final ItemManager itemManager = Controller.getInstance().getItemManager();
 
         @Override
-        public void run() {
-            try {
-                System.out.println("DVMServer.run()");
-                server.run();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private class MsgReceiver extends Thread {
-        private final ItemManager itemManager;
-
-        MsgReceiver(ItemManager itemManager) {
-            this.itemManager = itemManager;
-            System.out.println(this.getClass() + " created.");
-        }
-
-        @Override
-        public void run() {
-            try {
-                System.out.println("MsgReceiver.run()");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            receiveMsg();
-        }
-
-        private void receiveMsg() {
-            while (true) {
-                try {
-                    Thread.sleep(LOOP_TIME * 1);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        public void onChanged(Change<? extends Message> change) {
+            while (change.next()) {
+                if (change.wasAdded()) {
+                    receiveMessage(change);
                 }
-                //System.out.println("msgList.size() = " + DVMServer.msgList.size());
-                if (!DVMServer.msgList.isEmpty()) {
-                    Message msg = DVMServer.msgList.remove(DVMServer.msgList.size() - 1);
-                    System.out.println(String.format("%s(): received msg = %s", "receiveMsg", MessageManager.toString(msg)));
-                    String msgType = msg.getMsgType();
-                    String authCode= msg.getMsgDescription().getAuthCode();
-                    int[] msgInfo = decodeMsg(msg);
-                    int otherId = msgInfo[0];
-                    int itemId = msgInfo[1];
-                    int itemQuantity = msgInfo[2];
-                    System.out.println(String.format("%s(): otherId = %d, itemId = %d, itemQuantity = %d, msgType = %s", "MsgReceiver.run", otherId, itemId, itemQuantity, msgType));
-                    if (msgType.equals("StockCheckRequest")) {
-                        boolean stockAvailable = itemManager.checkStock(itemId, itemQuantity);
-                        if (stockAvailable) {
-                            MessageManager.this.sendStockMsg(itemId, itemQuantity, otherId);
-                        }
-                    } else if (msgType.equals("StockCheckResponse")) {
-                        msgQueue.addLast(msg);
-                    } else if (msgType.equals("PrepaymentCheck")) {
-                        itemManager.synchronize(itemId, itemQuantity, authCode);
-                    } else if (msgType.equals("SalesCheckRequest")) {
-                        boolean productAvailable = itemManager.checkProduct(itemId);
-                        if (productAvailable) {
-                            MessageManager.this.sendProductMsg(itemId, 1, otherId);
-                        }
-                    }
+            }
+        }
+
+        private void receiveMessage(Change<? extends Message> change) {
+            int listSize = change.getList().size();
+            Message msg = change.getList().remove(listSize - 1);
+            System.out.println(String.format("%s(): received msg = %s", "MessageReceiver.receiveMessage", MessageManager.toString(msg)));
+            String msgType = msg.getMsgType();
+            String authCode = msg.getMsgDescription().getAuthCode();
+            int[] msgInfo = decodeMsg(msg);
+            int otherId = msgInfo[0];
+            int itemId = msgInfo[1];
+            int itemQuantity = msgInfo[2];
+            System.out.println(String.format("%s(): otherId = %d, itemId = %d, itemQuantity = %d, msgType = %s", "MessageReceiver.receiveMessage", otherId, itemId, itemQuantity, msgType));
+            if (msgType.equals("StockCheckRequest")) {
+                boolean stockAvailable = itemManager.checkStock(itemId, itemQuantity);
+                if (stockAvailable) {
+                    MessageManager.this.sendStockMsg(itemId, itemQuantity, otherId);
+                }
+            } else if (msgType.equals("StockCheckResponse")) {
+                msgQueue.addLast(msg);
+            } else if (msgType.equals("PrepaymentCheck")) {
+                itemManager.synchronize(itemId, itemQuantity, authCode);
+            } else if (msgType.equals("SalesCheckRequest")) {
+                boolean productAvailable = itemManager.checkProduct(itemId);
+                if (productAvailable) {
+                    MessageManager.this.sendProductMsg(itemId, 1, otherId);
                 }
             }
         }
     }
 
-    public MessageManager(ItemManager itemManager) {
+    public MessageManager() {
         msgQueue = new ArrayDeque<>();
-        oVM = new OtherVM();
-        msgReceiver = new MsgReceiver(itemManager);
         System.out.println(this.getClass() + " created.");
     }
 
@@ -110,16 +73,20 @@ public class MessageManager extends Thread {
     public void run() {
         try {
             System.out.println("MessageManager.run()");
-//            oVM.start();
-//            msgReceiver.start();
+            DVMServer server = new DVMServer();
+            server.setMessageListner(new MessageReceiver());
+            System.out.println("MessageManager.run(): call server.run()");
+            server.run();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    // itemId: 0-indexed
     public int[] checkStockOfOtherVM(int itemId, int itemQuantity) {
-        System.out.println(String.format("%s(): itemId = %d, itemQuantity = %d", "checkStockOfOtherVM", itemId, itemQuantity));
-        for (int i = 1; i <= TOTAL_DVM_COUNT; i++) {
+        System.out.println(String.format("%s(): itemId = %d, itemQuantity = %d", "MessageManager.checkStockOfOtherVM", itemId, itemQuantity));
+//        for (int i = 1; i <= TOTAL_DVM_COUNT; i++) { // for release with Team1~6
+        for (int i = 0; i < 1; i++) { // for debug with Team0
             String dstId = "Team" + i;
             if (!dstId.equals(DVM_ID)) {
                 Message msg = setMsg(dstId, itemId, itemQuantity, "StockCheckRequest", NULL_AUTH_CODE);
@@ -159,13 +126,9 @@ public class MessageManager extends Thread {
 
     public void sendMsg(int dstId, Message msg) {
         String jsonMsg = new Serializer().message2Json(msg);
-        System.out.println(String.format("%s(): %s, ip: %s, json: %s", "sendMsg", msg, IP_ADDR[dstId], jsonMsg));
+        System.out.println(String.format("%s(): %s, ip: %s, json: %s", "MessageManager.sendMsg", msg, IP_ADDR[dstId], jsonMsg));
         DVMClient client = new DVMClient(IP_ADDR[dstId], jsonMsg);
-        try {
-            client.run();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        client.run();
     }
 
     public void sendPrepaymentInfo(int itemId, int itemQuantity, int dstId, String verificationCode) {
@@ -197,8 +160,9 @@ public class MessageManager extends Thread {
         return String.format("Message(%s, %s, %s, %s", msg.getSrcId(), msg.getDstID(), msg.getMsgType(), toString(msg.getMsgDescription()));
     }
 
+    // itemId: 0-indexed
     private Message setMsg(String dstId, int itemId, int itemQuantity, String msgType, String authCode) {
-        System.out.println("dstId, itemId, itemQuantity, msgType, authCode = " + dstId + ", " + itemId + ", " + itemQuantity + ", " + msgType + ", " + authCode);
+        System.out.println("MessageManager.setMsg(): dstId, itemId, itemQuantity, msgType, authCode = " + dstId + ", " + itemId + ", " + itemQuantity + ", " + msgType + ", " + authCode);
         Message msg = new Message();
         Message.MessageDescription msgDes = new Message.MessageDescription();
         setMsgDes(msgDes, itemId, itemQuantity, authCode);
@@ -209,12 +173,13 @@ public class MessageManager extends Thread {
         return msg;
     }
 
+    // itemId: 0-indexed
     private void setMsgDes(Message.MessageDescription msgDes, int itemId, int itemQuantity, String authCode) {
-        String itemName = Integer.toString(itemId + 1);
-        if (itemName.length() == 1) {
-            itemName = "0" + itemName;
+        String itemCode = Integer.toString(itemId + 1);
+        if (itemCode.length() == 1) {
+            itemCode = "0" + itemCode;
         }
-        msgDes.setItemCode(itemName);
+        msgDes.setItemCode(itemCode);
         msgDes.setItemNum(itemQuantity);
         msgDes.setDvmXCoord(MessageManager.DVM_X);
         msgDes.setDvmYCoord(MessageManager.DVM_Y);
@@ -224,8 +189,8 @@ public class MessageManager extends Thread {
     private int[] decodeMsg(Message msg) {
         String srcName = msg.getSrcId();
         Message.MessageDescription msgDes = msg.getMsgDescription();
-        int srcId = srcName.charAt(srcName.length() - 1) - '0'; // 0-indexed
-        int itemId = Integer.parseInt(msgDes.getItemCode());
+        int srcId = srcName.charAt(srcName.length() - 1) - '0'; // from 1-indexed to 0-indexed
+        int itemId = Integer.parseInt(msgDes.getItemCode()) - 1; // from 1-indexed to 0-indexed
         int itemQuantity = msgDes.getItemNum();
         int srcX = msgDes.getDvmXCoord();
         int srcY = msgDes.getDvmYCoord();
