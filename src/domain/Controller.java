@@ -1,4 +1,4 @@
-package domain.app;
+package domain;
 
 import domain.admin.AccountManager;
 import domain.message.MessageManager;
