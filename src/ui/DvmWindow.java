@@ -12,7 +12,6 @@ public class DvmWindow extends JFrame {
     protected static GridBagConstraints constraints;
 
     private static final String WINDOW_TITLE = "T2 OOPT DVM";
-    //    Container frame = this.getContentPane();
     private static final int FRAME_WIDTH = 500;
     private static final int FRAME_HEIGHT = 500;
 

@@ -10,8 +10,8 @@ import static ui.DvmWindow.*;
 
 // Window3-2
 public class PrepaymentWindow extends DvmPanel {
-    private JButton btn1;
-    private JButton btn2;
+    private JButton payBtn;
+    private JButton backBtn;
 
     private Order order;
 
@@ -45,15 +45,15 @@ public class PrepaymentWindow extends DvmPanel {
         setJLabel(distance, BUTTON_WIDTH, BUTTON_HEIGHT, Color.decode("#cfd0d1"));
         addComponent(mainPanel,distance, 0, 150, 300, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
 
-        btn1 = new JButton("PAY");
-        btn1.setFocusable(false);
-        btn1.addActionListener(this);
-        addComponent(mainPanel,btn1, 0, 0, 0, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
+        payBtn = new JButton("PAY");
+        payBtn.setFocusable(false);
+        payBtn.addActionListener(this);
+        addComponent(mainPanel, payBtn, 0, 0, 0, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
 
-        btn2 = new JButton("BACK");
-        btn2.setFocusable(false);
-        btn2.addActionListener(this);
-        addComponent(mainPanel,btn2, 10, 0, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
+        backBtn = new JButton("BACK");
+        backBtn.setFocusable(false);
+        backBtn.addActionListener(this);
+        addComponent(mainPanel, backBtn, 10, 0, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
     }
 
     public void actionPerformed(ActionEvent e) {

@@ -11,10 +11,10 @@ import static ui.DvmWindow.*;
 
 // Window6
 public class ReadVerificationWindow extends DvmPanel {
-    private JButton btn1;
-    private JButton btn2;
-    private JTextField verCode = new JTextField(15);
-    private JLabel notice = new JLabel("Please insert verification code:");
+    private JButton enterBtn;
+    private JButton backBtn;
+    private JTextField verificationCodeTextField = new JTextField(15);
+    private JLabel noticeLabel = new JLabel("Please insert verification code:");
 
     public ReadVerificationWindow(DvmPanel prevPanel) {
         super(prevPanel);
@@ -30,29 +30,29 @@ public class ReadVerificationWindow extends DvmPanel {
     protected void initLayout() {
         super.initLayout();
 
-        verCode.setDocument(new JTextFieldLimit(CODE_LENGTH));
-        addComponent(mainPanel,verCode, 0, 20, 130, 20, 1, 1, 0.5, GridBagConstraints.CENTER);
+        verificationCodeTextField.setDocument(new JTextFieldLimit(CODE_LENGTH));
+        addComponent(mainPanel, verificationCodeTextField, 0, 20, 130, 20, 1, 1, 0.5, GridBagConstraints.CENTER);
 
-        notice.setBackground(Color.decode("#cfd0d1"));
+        noticeLabel.setBackground(Color.decode("#cfd0d1"));
 
-        btn1 = new JButton("ENTER");
-        btn1.setFocusable(false);
-        btn1.addActionListener(this);
-        addComponent(mainPanel,btn1, 0, 0, 50, 5, 1, 1, 0.5, GridBagConstraints.CENTER);
+        enterBtn = new JButton("ENTER");
+        enterBtn.setFocusable(false);
+        enterBtn.addActionListener(this);
+        addComponent(mainPanel, enterBtn, 0, 0, 50, 5, 1, 1, 0.5, GridBagConstraints.CENTER);
 
-        btn2 = new JButton("BACK");
-        btn2.setFocusable(false);
-        btn2.addActionListener(this);
-        addComponent(mainPanel,btn2, 10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
+        backBtn = new JButton("BACK");
+        backBtn.setFocusable(false);
+        backBtn.addActionListener(this);
+        addComponent(mainPanel, backBtn, 10, 2, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
 
-        notice.setOpaque(true);
-        addComponent(mainPanel,notice, 0, 0, 200, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
+        noticeLabel.setOpaque(true);
+        addComponent(mainPanel, noticeLabel, 0, 0, 200, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("ENTER")) {
-            String inputAuthCode = verCode.getText();
+            String inputAuthCode = verificationCodeTextField.getText();
             System.out.println("inputAuthCode = " + inputAuthCode);
             Verification verification = controller.comfirmVerification(inputAuthCode);
             String resMsg;

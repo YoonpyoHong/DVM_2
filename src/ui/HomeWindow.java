@@ -15,7 +15,6 @@ import static ui.DvmWindow.addComponent;
 import static ui.DvmWindow.constraints;
 import static ui.DvmWindow.CARD_PANEL;
 
-
 // Window1
 public class HomeWindow extends DvmPanel {
     protected int selectedItemId = -1;

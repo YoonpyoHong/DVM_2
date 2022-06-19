@@ -20,8 +20,8 @@ public class ItemShowWindow extends DvmPanel {
     private static final int ITEM_PRICE_BUTTON_HEIGHT = 50;
     private static final int DEFAULT_ITEM_QUANTITY = 1;
 
-    private static JLabel itemQuantity;
-    private static JLabel itemPrice;
+    private static JLabel itemQuantityLabel;
+    private static JLabel itemPriceLabel;
 
     private int selectedItemNum = DEFAULT_ITEM_QUANTITY;
     private Item selectedItem;
@@ -44,17 +44,17 @@ public class ItemShowWindow extends DvmPanel {
     protected void initLayout() {
         super.initLayout();
 
-        itemQuantity = new JLabel(Integer.toString(selectedItemNum), SwingConstants.CENTER);
-        setJLabel(itemQuantity, ITEM_QUANTITY_BUTTON_WIDTH, ITEM_QUANTITY_BUTTON_HEIGHT, Color.decode("#cfd0d1"));
-        addComponent(mainPanel,itemQuantity, 0, 0, 0, 20, 1, 1, 0.5, GridBagConstraints.CENTER);
+        itemQuantityLabel = new JLabel(Integer.toString(selectedItemNum), SwingConstants.CENTER);
+        setJLabel(itemQuantityLabel, ITEM_QUANTITY_BUTTON_WIDTH, ITEM_QUANTITY_BUTTON_HEIGHT, Color.decode("#cfd0d1"));
+        addComponent(mainPanel, itemQuantityLabel, 0, 0, 0, 20, 1, 1, 0.5, GridBagConstraints.CENTER);
 
         JLabel itemName = new JLabel(selectedItem.getItemName(), SwingConstants.CENTER);
         setJLabel(itemName, ITEM_NAME_BUTTON_WIDTH, ITEM_NAME_BUTTON_HEIGHT, Color.decode("#cfd0d1"));
         addComponent(mainPanel,itemName, 0, 0, 120, 150, 1, 1, 0.5, GridBagConstraints.CENTER);
 
-        itemPrice = new JLabel(Integer.toString(selectedItem.getItemPrice()), SwingConstants.CENTER);
-        setJLabel(itemPrice, ITEM_PRICE_BUTTON_WIDTH, ITEM_PRICE_BUTTON_HEIGHT, Color.decode("#cfd0d1"));
-        addComponent(mainPanel,itemPrice, 0, 120, 120, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
+        itemPriceLabel = new JLabel(Integer.toString(selectedItem.getItemPrice()), SwingConstants.CENTER);
+        setJLabel(itemPriceLabel, ITEM_PRICE_BUTTON_WIDTH, ITEM_PRICE_BUTTON_HEIGHT, Color.decode("#cfd0d1"));
+        addComponent(mainPanel, itemPriceLabel, 0, 120, 120, 0, 1, 1, 0.5, GridBagConstraints.CENTER);
 
 //        current item's quantity based on dvm
         JLabel currentItemQty = new JLabel(String.format("<html><center>%s: %s 개", selectedItem.getItemName(), selectedItem.getItemQuantity()));
@@ -106,16 +106,16 @@ public class ItemShowWindow extends DvmPanel {
         } else if (e.getActionCommand().equals("+")) {
             selectedItemNum = Math.min(selectedItemNum + 1, ItemManager.MAX_ITEM_QUANTITY);
             System.out.println("selectedItemNum = " + selectedItemNum);
-            itemQuantity.setText(Integer.toString(selectedItemNum));
+            itemQuantityLabel.setText(Integer.toString(selectedItemNum));
         } else if (e.getActionCommand().equals("-")) {
             selectedItemNum = Math.max(selectedItemNum - 1, 1);
             System.out.println("selectedItemNum = " + selectedItemNum);
-            itemQuantity.setText(Integer.toString(selectedItemNum));
+            itemQuantityLabel.setText(Integer.toString(selectedItemNum));
         }
     }
 
     protected static String getTotalPrice() {
-        int totalPrice = Integer.parseInt(itemQuantity.getText()) * Integer.parseInt(itemPrice.getText());
+        int totalPrice = Integer.parseInt(itemQuantityLabel.getText()) * Integer.parseInt(itemPriceLabel.getText());
         return Integer.toString(totalPrice);
     }
 }

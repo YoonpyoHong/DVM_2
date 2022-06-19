@@ -14,6 +14,7 @@ public class PaymentWindow extends DvmPanel {
     private static final int TOTAL_PRICE_BUTTON_HEIGHT = 70;
 
     private JLabel totalPriceLabel;
+
     private JButton payBtn;
     private JButton backBtn;
 

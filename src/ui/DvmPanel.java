@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import static ui.DvmWindow.CARD_PANEL;
 import static ui.DvmWindow.constraints;
 
-
 public abstract class DvmPanel extends JPanel implements ActionListener {
     protected DvmPanel prevPanel;
     protected JPanel mainPanel;

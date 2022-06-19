@@ -18,11 +18,11 @@ public class ReadCardWindow extends DvmPanel {
     private String paymentType;
     private Verification verification;
 
-    private JButton btn1;
-    private JButton btn2;
+    private JButton enterBtn;
+    private JButton backBtn;
 
-    private JTextField verCode = new JTextField(15);
-    private JLabel time;
+    private JTextField verificationCodeTextField = new JTextField(15);
+    private JLabel timeLabel;
 
     private Timer timer;
 
@@ -85,26 +85,26 @@ public class ReadCardWindow extends DvmPanel {
     protected void initLayout() {
         super.initLayout();
 
-        verCode.setDocument(new JTextFieldLimit(CARD_NUM_LENGTH));
-        addComponent(mainPanel,verCode, 0, 50, 0, 0, 0, 1, 0.5, GridBagConstraints.CENTER);
+        verificationCodeTextField.setDocument(new JTextFieldLimit(CARD_NUM_LENGTH));
+        addComponent(mainPanel, verificationCodeTextField, 0, 50, 0, 0, 0, 1, 0.5, GridBagConstraints.CENTER);
 
-        time = new JLabel("<html>Time runout display<br><center>(60 sec)</center></html>", SwingConstants.CENTER);
-        setJLabel(time, 200, 50, Color.decode("#cfd0d1"));
-        addComponent(mainPanel,time, 0, 130, 150, 0, 0, 1, 0.5, GridBagConstraints.CENTER);
+        timeLabel = new JLabel("<html>Time runout display<br><center>(60 sec)</center></html>", SwingConstants.CENTER);
+        setJLabel(timeLabel, 200, 50, Color.decode("#cfd0d1"));
+        addComponent(mainPanel, timeLabel, 0, 130, 150, 0, 0, 1, 0.5, GridBagConstraints.CENTER);
 
         JLabel notice = new JLabel("Please insert card's info", SwingConstants.CENTER);
         setJLabel(notice, 200, 50, Color.decode("#cfd0d1"));
         addComponent(mainPanel,notice, 0, 130, 300, 0, 0, 1, 0.5, GridBagConstraints.CENTER);
 
-        btn1 = new JButton("ENTER");
-        btn1.setFocusable(false);
-        btn1.addActionListener(this);
-        addComponent(mainPanel,btn1, 0, 250, 0, 0, 0, 1, 0.5, GridBagConstraints.CENTER);
+        enterBtn = new JButton("ENTER");
+        enterBtn.setFocusable(false);
+        enterBtn.addActionListener(this);
+        addComponent(mainPanel, enterBtn, 0, 250, 0, 0, 0, 1, 0.5, GridBagConstraints.CENTER);
 
-        btn2 = new JButton("BACK");
-        btn2.setFocusable(false);
-        btn2.addActionListener(this);
-        addComponent(mainPanel,btn2, 10, 0, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
+        backBtn = new JButton("BACK");
+        backBtn.setFocusable(false);
+        backBtn.addActionListener(this);
+        addComponent(mainPanel, backBtn, 10, 0, 2, 10, 4, 0, 0.5, GridBagConstraints.FIRST_LINE_END);
     }
 
     private void initTimer() {
@@ -117,7 +117,7 @@ public class ReadCardWindow extends DvmPanel {
         }
         timer = new Timer(1000, e -> {
             count.getAndDecrement();
-            time.setText("Time run out (sec): " + count);
+            timeLabel.setText("Time run out (sec): " + count);
             if (count.get() == 0) {
                 resetCard();
                 CARD_PANEL.add(new HomeWindow());
@@ -137,7 +137,7 @@ public class ReadCardWindow extends DvmPanel {
             }
             /* TODO: also input card password */
 //			show JDialog (successful transaction, drink in dispensed)
-            String inputCardNum = verCode.getText();
+            String inputCardNum = verificationCodeTextField.getText();
             String cardNum = controller.getCardReader().encodeCardNum(inputCardNum);
             String resMsg = "";
             if (paymentType.equals("cancelPrepayment")) {
@@ -165,6 +165,7 @@ public class ReadCardWindow extends DvmPanel {
             }
             if (resMsg.contains("error")) {
                 /* TODO: some err dialog */
+                new DvmDialog(resMsg);
                 System.err.println(resMsg);
                 CARD_PANEL.add(new HomeWindow());
             }

@@ -10,7 +10,9 @@ public class DvmDialog implements ActionListener {
     private static final int DIALOG_HEIGHT = 110;
 
     private JButton btn;
+
     private JDialog dlg;
+
     private JPanel panel;
     private JPanel panel2;
 
