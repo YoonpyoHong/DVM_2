@@ -1,0 +1,40 @@
+@startuml
+class domain.message.MessageManager {
+- {static} int CHECK_STOCK_WAIT_TIME
+- {static} String DVM_ID
+- {static} int DVM_X
+- {static} int DVM_Y
+- {static} int TOTAL_DVM_COUNT
+- {static} String[] DVM_IP_ADDRESS
+- {static} String NULL_AUTH_CODE
+- {static} Deque<Message> msgQueue
+- {static} ListenThread listenThread
++ void run()
++ int[] checkStockOfOtherVM(int,int)
++ {static} void sendMsg(int,Message)
++ void sendPrepaymentInfo(int,int,int,String)
++ {static} void sendStockMsg(int,int,int)
++ {static} void sendProductMsg(int,int,int)
++ {static} String toString(Message.MessageDescription)
++ {static} String toString(Message)
+- {static} Message setMsg(String,int,int,String,String)
+- {static} void setMsgDes(Message.MessageDescription,int,int,String)
+- {static} int[] decodeMsg(Message)
+- {static} int[] getNearestDvm()
+}
+class domain.message.MessageManager.ListenThread {
++ void run()
+}
+class domain.message.MessageManager.MessageReceiver {
+- ItemManager itemManager
++ void onChanged(Change<? extends Message>)
+- void receiveMessage(Change<? extends Message>)
+}
+
+
+domain.message.Thread <|-- domain.message.MessageManager
+domain.message.MessageManager +.. domain.message.MessageManager.ListenThread
+domain.message.Thread <|-- domain.message.MessageManager.ListenThread
+domain.message.MessageManager +.. domain.message.MessageManager.MessageReceiver
+domain.message.messageListChangeListner <|.. domain.message.MessageManager.MessageReceiver
+@enduml

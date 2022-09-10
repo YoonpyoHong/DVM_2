@@ -1,0 +1,21 @@
+@startuml
+class domain.Controller {
+- PaymentManager paymentManager
+- CardManager cardManager
+- ItemManager itemManager
+- AccountManager accountManager
+- VerificationManager verificationManager
+- MessageManager messageManager
+- {static} Item[] itemArray
+- {static} Controller instance
++ {static} Controller getInstance()
++ String selectItem(int,int,int[])
++ String payment(int,int,String,int)
++ String prepayment(int,int,String,int,int)
++ AccountManager getAccountManager()
++ ItemManager getItemManager()
++ CardManager getCardReader()
++ PaymentManager getPaymentManager()
++ VerificationManager getVerificationManager()
+}
+@enduml

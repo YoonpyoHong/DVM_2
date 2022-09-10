@@ -1,153 +1,170 @@
 @startuml
-class ui.JTextFieldLimit {
+class ui.ReadCardWindow {
+- String paymentType
+- Verification verification
+- JTextField verificationCodeTextField
+- JLabel timeLabel
+- Timer timer
+- Order order
+~ void init()
+# void initLayout()
+- void initTimer()
++ void actionPerformed(ActionEvent)
+# void addVmIdLabel()
+}
+class ui.ReadCardWindow.Builder {
+- DvmPanel prevPanel
+- String paymentType
+- Verification verification
+- Order order
++ Builder setPrevPanel(DvmPanel)
++ Builder setpaymentType(String)
++ Builder setVerification(Verification)
++ Builder setOrder(Order)
++ ReadCardWindow build()
+}
+class ui.DvmJTextFieldLimit {
 - int limit
 + void insertString(int,String,AttributeSet)
 }
-class ui.Window_8 {
-- {static} Item[] localItems
-- {static} JButton btn1
-- {static} JButton btn2
-- {static} JPanel itemLayout
-- {static} JPanel itemLayout2
-- {static} JPanel itemLayout3
-- {static} JTextField[] itemQty
-- {static} EmptyBorder eb
-- {static} Border grayLine
-- {static} int btnWidth
-- {static} int btnHeight
-- {static} int drinkPanelWidth
-- {static} int drinkPanelHeight
-- {static} int drinkPanel2Width
-- {static} int drinkPanel2Height
-- {static} int drinkPanel3Width
-- {static} int drinkPanel3Height
-# void init()
-- void initLocalItems()
+class ui.ReadVerificationWindow {
+- JTextField verificationCodeTextField
+- JLabel noticeLabel
+~ void init()
+# void initLayout()
 + void actionPerformed(ActionEvent)
 }
-class ui.Window_3_2 {
-- {static} JButton btn1
-- {static} JButton btn2
-- {static} JLabel totalPrice
-- {static} JLabel loc
-- {static} JLabel distance
-- {static} int btnWidth
-- {static} int btnHeight
-# void init()
+class ui.HomeWindow {
+# int selectedItemId
+- EmptyBorder emptyBorder
+- Border grayLineBorder
+- {static} int BUTTON_WIDTH
+- {static} int BUTTON_HEIGHT
+- {static} int DRINK_PANEL_WIDTH
+- {static} int DRINK_PANEL_HEIGHT
+- Item[] itemArray
+~ void init()
+# void initLayout()
+- void initItemButtons(Item[],JPanel)
 + void actionPerformed(ActionEvent)
 }
-class ui.Window_5 {
-- {static} JButton btn1
-- {static} JButton btn2
-- {static} JLabel verCode
-- {static} JLabel loc
-- {static} JLabel distance
-# void init()
-+ void actionPerformed(ActionEvent)
-}
-class ui.Window_3_1 {
-- {static} JButton btn1
-- {static} JButton btn2
-- {static} JLabel totalPrice
-- {static} int btnTotalPriceWidth
-- {static} int btnTotalPriceHeight
-# void init()
-+ void actionPerformed(ActionEvent)
-}
-class ui.Window_1 {
-+ {static} int selectedItemId
-- {static} JPanel itemLayout
-- {static} JButton btn1
-- {static} JButton btn2
-- {static} EmptyBorder eb
-- {static} Border grayLine
-- {static} int btnWidth
-- {static} int btnHeight
-- {static} int drinkPanelWidth
-- {static} int drinkPanelHeight
-# void init()
-+ void actionPerformed(ActionEvent)
-}
-abstract class ui.DvmWindow {
+class ui.DvmWindow {
+# {static} JPanel CARD_PANEL
+# {static} JLabel VM_ID_LABEL
 # {static} Controller controller
-# {static} Item[] items
-# Container frame
-# JLabel vmID
-# JPanel panel
-# GridBagConstraints c
+# {static} GridBagConstraints constraints
 - {static} String WINDOW_TITLE
-- {static} int frameWidth
-- {static} int frameHeight
-+ {abstract}void actionPerformed(ActionEvent)
-# {abstract}void init()
-# void addJLable(JLabel,int,int,int,int,boolean)
-# void setJLable(JLabel,int,int,boolean,Color,int)
-# void addComponent(Component,int,int,int,int,int,int,double,int)
-# void addComponent(Component,int,int,int,int,int,int,int,int,int)
+- {static} int FRAME_WIDTH
+- {static} int FRAME_HEIGHT
+# {static} void setJLabel(JLabel,int,int,Color)
+- {static} void setConstraints(int,int,int,int,int,int,int)
+# {static} void addComponent(JPanel,Component,int,int,int,int,int,int,double,int)
+# {static} void addComponent(JPanel,Component,int,int,int,int,int,int,int,int,int)
 }
-class ui.Window_4 {
-- String paymentType
-- Verification verification
-- {static} JButton btn1
-- {static} JButton btn2
-- {static} JTextField verCode
-- {static} JLabel time
-- {static} JLabel notice
-- Timer timer
-~ int count
-# void init()
+class ui.ShowVerificationWindow {
+- JLabel verificationCodeLabel
+- JLabel locationLabel
+- JLabel distanceLabel
+~ void init()
+# void initLayout()
 + void actionPerformed(ActionEvent)
 }
-class ui.Window_7 {
-- {static} JButton btn1
-- {static} JButton btn2
-- {static} JTextField pwd
-- {static} JLabel notice
-- {static} EmptyBorder eb
-# void init()
+class ui.AdminWindow {
+- {static} int BUTTON_WIDTH
+- {static} int BUTTON_HEIGHT
+- {static} int TEXT_FIELD_WIDTH
+- {static} int TEXT_FIELD_HEIGHT
+- {static} int DRINK_PANEL_WIDTH
+- {static} int DRINK_PANEL_HEIGHT
+- {static} int DRINK_PANEL2_WIDTH
+- {static} int DRINK_PANEL2_HEIGHT
+- {static} int DRINK_PANEL3_WIDTH
+- {static} int DRINK_PANEL3_HEIGHT
+- {static} Item[] localItems
+- JTextField[] itemQtyTextField
+- EmptyBorder emptyBorder
+- Border grayLineBorder
+~ void init()
+# void initLayout()
++ void actionPerformed(ActionEvent)
+- void initButtons(JPanel)
+- void initTextFields(JPanel)
+- void initLocalItems()
+}
+class ui.PrepaymentWindow {
+- Order order
+- {static} int BUTTON_WIDTH
+- {static} int BUTTON_HEIGHT
+~ void init()
+# void initLayout()
 + void actionPerformed(ActionEvent)
 }
-class ui.Window_2 {
-- {static} int MAX_ITEM_QUANTITY
-- {static} int btnItemQuantityWidth
-- {static} int btnItemQuantityHeight
-- {static} int btnItemNameWidth
-- {static} int btnItemNameHeight
-- {static} int btnItemPriceWidth
-- {static} int btnItemPriceHeight
-# {static} int selectedItemNum
+class ui.AdminLoginWindow {
+- JTextField pwdTextField
+- JLabel noticeLabel
+- EmptyBorder emptyBorder
+~ void init()
+# void initLayout()
++ void actionPerformed(ActionEvent)
+}
+abstract class ui.DvmPanel {
+# DvmPanel prevPanel
+# JPanel mainPanel
+~ {abstract}void init()
+# void initLayout()
+- void initCommonLayout()
+# void addVmIdLabel()
+# {static} void resetCard()
+}
+class ui.PaymentWindow {
+- {static} int TOTAL_PRICE_BUTTON_WIDTH
+- {static} int TOTAL_PRICE_BUTTON_HEIGHT
+- Order order
+~ void init()
+# void initLayout()
++ void actionPerformed(ActionEvent)
+}
+class ui.ItemShowWindow {
+- {static} int ITEM_QUANTITY_BUTTON_WIDTH
+- {static} int ITEM_QUANTITY_BUTTON_HEIGHT
+- {static} int ITEM_NAME_BUTTON_WIDTH
+- {static} int ITEM_NAME_BUTTON_HEIGHT
+- {static} int ITEM_PRICE_BUTTON_WIDTH
+- {static} int ITEM_PRICE_BUTTON_HEIGHT
+- {static} int DEFAULT_ITEM_QUANTITY
+- {static} JLabel itemQuantityLabel
+- {static} JLabel itemPriceLabel
+- int selectedItemNum
+- Item selectedItem
 # {static} int[] dvmInfo
-- {static} JButton btn1
-- {static} JButton btn2
-- {static} JButton add
-- {static} JButton minus
-- {static} JLabel itemQuantity
-- {static} JLabel itemPrice
-- {static} JLabel itemName
-# void init()
+~ void init()
+# void initLayout()
 + void actionPerformed(ActionEvent)
 # {static} String getTotalPrice()
 }
-class ui.Window_6 {
-- {static} JButton btn1
-- {static} JButton btn2
-- {static} JTextField verCode
-- {static} JLabel notice
-# void init()
+class ui.DvmDialog {
+- {static} int DIALOG_WIDTH
+- {static} int DIALOG_HEIGHT
+- JDialog dlg
++ void addLabel(JPanel,String)
 + void actionPerformed(ActionEvent)
++ void addBtn(JPanel,String)
 }
 
 
-javax.swing.text.PlainDocument <|-- ui.JTextFieldLimit
-ui.DvmWindow <|-- ui.Window_8
-ui.DvmWindow <|-- ui.Window_3_2
-ui.DvmWindow <|-- ui.Window_5
-ui.DvmWindow <|-- ui.Window_3_1
-ui.DvmWindow <|-- ui.Window_1
-java.awt.event.ActionListener <|.. ui.DvmWindow
+ui.DvmPanel <|-- ui.ReadCardWindow
+ui.ReadCardWindow +.. ui.ReadCardWindow.Builder
+javax.swing.text.PlainDocument <|-- ui.DvmJTextFieldLimit
+ui.DvmPanel <|-- ui.ReadVerificationWindow
+ui.DvmPanel <|-- ui.HomeWindow
 ui.JFrame <|-- ui.DvmWindow
-ui.DvmWindow <|-- ui.Window_4
-ui.DvmWindow <|-- ui.Window_7
-ui.DvmWindow <|-- ui.Window_2
-ui.DvmWindow <|-- ui.Window_6
+ui.DvmPanel <|-- ui.ShowVerificationWindow
+ui.DvmPanel <|-- ui.AdminWindow
+ui.DvmPanel <|-- ui.PrepaymentWindow
+ui.DvmPanel <|-- ui.AdminLoginWindow
+java.awt.event.ActionListener <|.. ui.DvmPanel
+ui.JPanel <|-- ui.DvmPanel
+ui.DvmPanel <|-- ui.PaymentWindow
+ui.DvmPanel <|-- ui.ItemShowWindow
+java.awt.event.ActionListener <|.. ui.DvmDialog
 @enduml

@@ -1,0 +1,6 @@
+@startuml
+class domain.app.Main {
++ {static} void main(String[])
+- {static} void run()
+}
+@enduml

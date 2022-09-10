@@ -1,0 +1,30 @@
+@startuml
+class domain.product.ItemManager {
++ {static} int MAX_ITEM_QUANTITY
++ {static} int MAX_ITEM
++ {static} int MAX_LOCAL_ITEM
+- {static} Item[] items
++ boolean checkStock(int,int)
++ void updateStockInfo(int,int)
++ void updateQuantity(int,int)
++ boolean checkProduct(int)
++ void synchronize(int,int,String)
++ Item[] getItemList()
++ void showItemList()
+- void loadItemList()
+}
+class domain.product.Item {
+- int itemId
+- String itemName
+- int itemPrice
+- AtomicInteger itemQuantity
+- boolean onSale
++ int getItemId()
++ int getItemQuantity()
++ void setItemQuantity(int)
++ String getItemName()
++ int getItemPrice()
++ boolean getOnSale()
++ String toString()
+}
+@enduml

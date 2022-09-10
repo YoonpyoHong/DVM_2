@@ -1,0 +1,6 @@
+@startuml
+class domain.admin.AccountManager {
+- {static} String PASSWORD
++ boolean verifyLoginInfo(String)
+}
+@enduml

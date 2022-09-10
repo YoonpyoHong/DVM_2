@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="DVM:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/DVM_jar</output-path>
-    <root id="archive" name="DVM.jar">
-      <element id="module-output" name="DVM" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/network/dvm_network_v1.2.0_jdk17.jar" path-in-jar="/" />
-    </root>
-  </artifact>
-</component>
