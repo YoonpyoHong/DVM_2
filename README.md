@@ -58,7 +58,10 @@
 <제출할 것들>
 1. code.zip
 2. 발표 PPT
+   1. 2nd(Final) Development Demonstration.pptx
 3. 변경된 PPTs
+   1. Design(v3).pptx
+   2. Analyze(v3).pptx
 
 <할 일>
 - [ ] UseCase
